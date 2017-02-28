@@ -1,6 +1,6 @@
 ## Pixiv每日排行榜Top50小部件
 
-![Pixiv每日排行榜Top50小部件效果图](https://moepic.org/images/2016/12/21/c11a58e36ac4b304611b6af309fdcdb3.png)
+![Pixiv每日排行榜Top50小部件效果图](http://ww1.sinaimg.cn/large/647b8589gy1fd6meqio1vj20720cbdma)
 
 ### 简介
 骚年，你是`ACG`或绘画爱好者吗？你希望在你的博客或网站中添加一个 **`Pixiv`每日排行榜Top50** 的展示功能吗？现在，无需在茫茫互联网中寻找适合自己站点的插件了，只需要几个文件或是一行代码即可实现！
@@ -48,59 +48,36 @@
 ## 如何部署
 
 ### 方案一：使用[超能小紫](https://www.mokeyjay.com)提供的服务
-
 该方案适用于动手能力较差或较懒或没有特殊需求的用户。且已配置好国内CDN，访问速度较快
-
 服务地址：[https://cloud.mokeyjay.com/pixiv](https://cloud.mokeyjay.com/pixiv)
-
 以`Wordpress`为例，首先进入 后台 -> 外观 -> 小工具
-
 向右边适当的位置添加一个 **文本** 小工具，标题随意，内容为
-
 ```html
 <iframe src="https://cloud.mokeyjay.com/pixiv" frameborder="0"  style="width:240px; height:380px;"></iframe>
 ```
-
 点击保存按钮即可回到博客首页预览效果咯~
-
 如果你了解`CSS`的话，还可以随意修改`iframe`的`style`属性
-
 推荐宽度`240px`、高度`380px` （因为P站缩略图最大就是这个尺寸）
-
 默认的背景颜色是`#fff`（纯白色），如果你的页面背景颜色与之不符，你可以传参来改变它
-
 例如将上面`iframe`的`src`属性的值改为`https://cloud.mokeyjay.com/pixiv/?color=f00`试试看？
-
 正常情况下背景颜色会变成**红色**，即`#f00`。如果颜色没有改变，可能是缓存问题，`Ctrl+F5`刷新一下即可
-
 `color`的值就是CSS内使用的颜色值，可为3或6位16进制字符。无需 **#** 号
-
 你还可以通过`limit`参数限制图片数量
-
 例如`https://cloud.mokeyjay.com/pixiv/?color=f00&limit=10`
-
 则可以得到背景为红色的Top10画册
-
 **请注意：** `limit`参数的范围为`1-50`
 
 ### 方案二：自行架设服务
-
 适用于动手能力较强或需要自定义的用户
-
 使用此方案你可以更深层次地自定义，并且可以配置图片缓存到你的服务器，缓解某些地区访问P站较慢或打不开等问题
-
-首先[下载源代码](https://git.oschina.net/mokeyjay/Pixiv-daily-top50-widget/repository/archive/master)，解压
-
+首先[下载源代码](https://github.com/mokeyjay/Pixiv-daily-top50-widget/archive/master.zip)，解压
 使用专业编辑器（例如`Sublime`、`Notepad++`等，切忌使用记事本）编辑`Conf.php`，修改相应配置。每个配置项的说明都以注释的形式标注在文件内。如果你看不懂，那就说明你比较适合**方案一**
-
 **请注意：** 数据缓存和图片缓存功能需要当前目录的写入权限。如果你的主机不支持写入（例如SAE或BAE等应用环境），关掉图片缓存的话也不影响使用，但每次访问都会重新获取每日排行榜，比较浪费资源。这种情况下推荐使用方案一，当然如果你有钱的话当我没说
 
 ## 注意事项
-
 - 推荐使用方案一，由我本人维护，如有问题第一时间更新
 - 本项目免费开源，仅供学习交流。请勿用于任何商业用途，作者不承担任何责任
 - 方案二需要PHP版本 >= 5.3
 
 ## 关于作者
-
 [超能小紫](https://www.mokeyjay.com)，常用ID`mokeyjay`。热爱IT与ACG的学渣
