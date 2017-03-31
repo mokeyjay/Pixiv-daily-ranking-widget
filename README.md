@@ -19,16 +19,16 @@
 
 ## 如何部署
 ### 方案一：使用[超能小紫](https://www.mokeyjay.com)提供的服务
-该方案适用于动手能力较差或较懒或没有特殊需求的用户。且已配置好国内CDN，访问速度较快
-服务地址：[https://cloud.mokeyjay.com/pixiv](https://cloud.mokeyjay.com/pixiv)
-以`Wordpress`为例，首先进入 后台 -> 外观 -> 小工具
-向右边适当的位置添加一个 **文本** 小工具，标题随意，内容为
+该方案适用于动手能力较差或较懒或没有特殊需求的用户。且已配置好国内CDN，访问速度较快  
+服务地址：[https://cloud.mokeyjay.com/pixiv](https://cloud.mokeyjay.com/pixiv)  
+以`Wordpress`为例，首先进入 后台 -> 外观 -> 小工具  
+向右边适当的位置添加一个 **文本** 小工具，标题随意，内容为  
 ```html
 <iframe src="https://cloud.mokeyjay.com/pixiv" frameborder="0"  style="width:240px; height:380px;"></iframe>
 ```
-点击保存按钮即可回到博客首页预览效果咯~
-如果你了解`CSS`的话，还可以随意修改`iframe`的`style`属性
-推荐宽度`240px`、高度`380px` （因为P站缩略图最大就是这个尺寸）
+点击保存按钮即可回到博客首页预览效果咯~  
+如果你了解`CSS`的话，还可以随意修改`iframe`的`style`属性  
+推荐宽度`240px`、高度`380px` （因为P站缩略图最大就是这个尺寸）  
 
 #### 自定义背景颜色
 默认的背景颜色是`#fff`（纯白色），如果你的页面背景颜色与之不符，你可以传参来改变它
