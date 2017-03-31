@@ -1,10 +1,10 @@
 <?php
 /**
  * 项目：Pixiv每日排行榜Top50小部件
- * 版本：2.4
+ * 版本：2.5
  * 作者：超能小紫(mokeyjay)
  * 博客：https://www.mokeyjay.com
- * 源码：https://git.oschina.net/mokeyjay/Pixiv-daily-top50-widget
+ * 源码：https://github.com/mokeyjay/Pixiv-daily-top50-widget
  *
  * 可随意修改、二次发布。但请保留上方版权声明及注明出处
  */

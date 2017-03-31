@@ -2,8 +2,8 @@
 /**
  * 项目：Pixiv每日排行榜Top50小部件
  * 作者：超能小紫(mokeyjay)
- * 博客：http://www.mokeyjay.com
- * 源码：http://git.oschina.net/mokeyjay/Pixiv-daily-top50-widget
+ * 博客：https://www.mokeyjay.com
+ * 源码：https://github.com/mokeyjay/Pixiv-daily-top50-widget
  *
  * 可随意修改、二次发布。但请保留上方版权声明及注明出处
  */

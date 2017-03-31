@@ -2,8 +2,9 @@
 /**
  * 项目：Pixiv每日排行榜Top50小部件
  * 作者：超能小紫(mokeyjay)
- * 博客：http://www.mokeyjay.com
- * 源码：http://git.oschina.net/mokeyjay/Pixiv-daily-top50-widget
+ * 博客：https://www.mokeyjay.com
+ * 源码：https://github.com/mokeyjay/Pixiv-daily-top50-widget
+ *
  * 可随意修改、二次发布。但请保留上方版权声明及注明出处
  */
 
@@ -55,6 +56,8 @@ class Func
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array());
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
         $data = curl_exec($ch);
         curl_close($ch);
         return $data;
@@ -83,7 +86,7 @@ class Func
         $html = self::curlGet('http://www.pixiv.net/ranking.php?mode=daily&content=illust');
 
         // 匹配缩略图url
-        preg_match_all('|http://i\d\.pixiv\.net/c/240x480/img-master/img/\d{4}/\d{2}/\d{2}/\d{2}/\d{2}/\d{2}/(.*?\.\w{3})|', $html, $image);
+        preg_match_all('|https://i\.pximg\.net/c/240x480/img-master/img/\d{4}/\d{2}/\d{2}/\d{2}/\d{2}/\d{2}/(.*?\.\w{3})|', $html, $image);
         // 匹配链接
         preg_match_all('|member_illust.php\?mode=medium&amp;illust_id=\d+&amp;ref=rn-b-\d+-title-\d&amp;uarea=daily|', $html, $url);
 
