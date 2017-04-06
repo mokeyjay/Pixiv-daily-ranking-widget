@@ -5,7 +5,6 @@
  * 作者：超能小紫(mokeyjay)
  * 博客：https://www.mokeyjay.com
  * 源码：https://github.com/mokeyjay/Pixiv-daily-top50-widget
- *
  * 可随意修改、二次发布。但请保留上方版权声明及注明出处
  */
 
@@ -14,26 +13,26 @@ define('PX_PATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 set_time_limit(0);
 error_reporting(0);
 
-require PX_PATH.'Conf.php';
+require PX_PATH . 'Conf.php';
 Conf::init();
-require PX_PATH.'Func.php';
+require PX_PATH . 'Func.php';
 
 // 获取缓存文件内容
 $json = Func::get('pixiv.json');
 // 缓存是否有效。无效则刷新
-if(!empty($json['date']) && $json['date'] == date('Y-m-d') && !empty($json['image']) && !empty($json['url'])){
+if ( !empty($json['date']) && $json['date'] == date('Y-m-d') && !empty($json['image']) && !empty($json['url'])){
     $image = $json['image'];
     $url = $json['url'];
 } else {
-    if(Func::getPixivImages($image, $url) === FALSE){
-        header('Location: '.Conf::$url);
+    if (Func::getPixivImages($image, $url) === FALSE){
+        header('Location: ' . Conf::$url);
         exit;
     }
 
     $image = $image[0];
     $url = $url[0];
     // 启动下载线程
-    if(Conf::$download) Func::downloadThread();
+    if (Conf::$download) Func::downloadThread();
 }
 ?>
 
@@ -50,22 +49,35 @@ if(!empty($json['date']) && $json['date'] == date('Y-m-d') && !empty($json['imag
 
     <link rel="stylesheet" href="//cdn.staticfile.org/todc-bootstrap/3.3.7-3.3.7/css/bootstrap.min.css">
     <style>
-        html,body,#carousel-example-generic,.carousel-inner,.item,.item div{ height :100%;}
-        .item{background-color: #<?=Conf::$background_color?>;}
-        .item div{background-position: center; background-repeat: no-repeat; background-attachment: fixed;}
-        .carousel-caption{position: static}
-        .carousel-control.left,.carousel-control.right{background: none;}
+        html, body, #carousel-example-generic, .carousel-inner, .item, .item div { height : 100%; }
+
+        .item { background-color : #<?=Conf::$background_color?>; }
+
+        .item div { background-position : center; background-repeat : no-repeat; background-attachment : fixed; }
+
+        .carousel-caption { position : static }
+
+        .carousel-control.left, .carousel-control.right { background : none; }
     </style>
+    <script>
+        var _hmt = _hmt || [];
+        (function(){
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?65a9f8c5bfa2055dbb44f895cb5ea399";
+            var s  = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </head>
 <body>
 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 
     <div class="carousel-inner" role="listbox">
-        <?php foreach ($image as $k=>$v): ?>
-            <?php if($k >= Conf::$limit) break; ?>
-            <div class="item <?php if($k==0) echo 'active'; ?>">
+        <?php foreach ($image as $k => $v): ?>
+            <?php if ($k >= Conf::$limit) break; ?>
+            <div class="item <?php if ($k == 0) echo 'active'; ?>">
                 <a href="http://www.pixiv.net/<?= $url[$k] ?>" target="_blank">
-                    <div class="carousel-caption" style="background-image: url(<?=str_replace('http://i','//i',$v)?>)"> </div>
+                    <div class="carousel-caption" style="background-image: url(<?= str_replace('http://i', '//i', $v) ?>)"></div>
                 </a>
             </div>
         <?php endforeach; ?>
