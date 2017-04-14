@@ -42,7 +42,7 @@
 **请注意：** `limit`参数的范围为`1-50`  
 #### API服务
 [Pixiv原始缩略图URL+详情页URL](https://cloud.mokeyjay.com/pixiv/source.json)  
-[超能小紫国内CDN缩略图URL+详情页URL](https://cloud.mokeyjay.com/pixiv/pixiv.json)  
+[图床缩略图URL+详情页URL](https://cloud.mokeyjay.com/pixiv/pixiv.json)（推荐）  
 内容很简单，相信大家看了就知道可以怎么用了，不再赘述  
 
 ---
