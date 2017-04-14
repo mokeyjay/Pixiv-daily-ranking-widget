@@ -40,7 +40,7 @@ class Conf
      * 是否对外提供服务
      * 为true时，任何人都可通过url的get参数来临时修改
      * $background_color 和 $limit 的值。但不会对本配置文件造成永久性修改
-     * 如果 $download 也为true，将强制缓存50张缩略图。不受 $limit 限制
+     * 如果下面的 $download 也为true，将强制缓存50张缩略图。不受 $limit 限制
      * 避免出现你设定的limit小于他人请求的limit的情况
      * @var bool
      */
@@ -72,6 +72,16 @@ class Conf
      * @var string
      */
     public static $image_url = 'http://localhost/cloud/pixiv/image/';
+
+    /**
+     * 使用sm.ms图床来存放缩略图，降低服务器带宽压力
+     * 上面的 $download 为true时此项才会生效
+     * 此项为true时，上面的 $image_url 将失效
+     * @var bool
+     */
+    public static $enable_smms = FALSE;
+
+
 
     /**
      * 初始化

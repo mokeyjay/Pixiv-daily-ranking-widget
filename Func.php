@@ -127,27 +127,26 @@ class Func
 
     /**
      * 检查是否所有缓存缩略图都有效
+     * @return bool
      */
     public static function checkImage()
     {
-        $i = 0;
         if(Conf::$download && Conf::$limit){
             if($dh = opendir(Conf::$image_path)){
                 while(($file = readdir($dh)) !== FALSE){
                     if($file == '.' || $file == '..') continue;
 
                     $file = Conf::$image_path.$file;
-                    if(@getimagesize($file)){
-                        $i++;
-                    } else {
+                    if(@getimagesize($file) === FALSE){
                         @unlink($file);
+                        return FALSE;
                     }
                 }
+            } else {
+                return FALSE;
             }
         }
-        // 因为缩略图是先下载、再执行本函数的，所以会出现实际缓存数量大于limit的情况
-        // 如果设置了不清除缓存，也会出现这种情况，所以要用 >=
-        return $i >= Conf::$limit;
+        return TRUE;
     }
 
     /**
@@ -168,15 +167,22 @@ class Func
                 /**
                  * 每日排行榜中可能会出现昨天的作品
                  * 因此如果文件已存在并且为有效图片则修改一下“文件修改时间”
-                 * 免得一会儿被clearOverdue干掉
+                 * 免得一会儿被clearOverdue()干掉
                  * 文件不存在则下载
+                 * 并根据配置判断是否使用sm.ms图床
                  */
                 $file = Conf::$image_path.$images[1][$k];
                 if(file_exists($file) && @getimagesize($file) !== FALSE){
                     touch($file);
                 } else {
                     $data = self::curlGet($v);
-                    @file_put_contents($file, $data);
+                    if(@file_put_contents($file, $data) !== FALSE && Conf::$enable_smms){
+                        $file = self::smmsUpload($file);
+                        if($file !== FALSE){
+                            $images[0][$k] = $file;
+                            continue;
+                        }
+                    }
                 }
 
                 $images[0][$k] = Conf::$image_url . $images[1][$k];
@@ -192,11 +198,36 @@ class Func
     {
         $ch = curl_init(Conf::$url.'download.php');
         curl_setopt($ch, CURLOPT_TIMEOUT, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
         curl_exec($ch);
         curl_close($ch);
+    }
+
+    /**
+     * 上传到sm.ms图床
+     * @param string $file
+     * @return string 返回图床图片url。失败返回false
+     */
+    public static function smmsUpload($file)
+    {
+        $ch = curl_init('https://sm.ms/api/upload');
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_POST, TRUE);
+        if (class_exists('CURLFile')){
+            curl_setopt($ch, CURLOPT_POSTFIELDS, ['smfile' => new CURLFile(realpath($file))]);
+        } else {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, ['smfile' => '@' . realpath($file)]);
+        }
+        $json = json_decode(curl_exec($ch), TRUE);
+        curl_close($ch);
+
+        return (isset($json['code']) && $json['code'] == 'success') ? $json['data']['url'] : FALSE;
     }
 }
