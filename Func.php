@@ -177,9 +177,18 @@ class Func
                 } else {
                     $data = self::curlGet($v);
                     if(@file_put_contents($file, $data) !== FALSE && Conf::$enable_smms){
-                        $file = self::smmsUpload($file);
-                        if($file !== FALSE){
-                            $images[0][$k] = $file;
+                        // 上传到sm.ms图床
+                        $i = 0;
+                        do{
+                            // 最多尝试3次
+                            $i++;
+                            if($i >= 3) break;
+
+                            $sm = self::smmsUpload($file);
+                        } while ($sm === FALSE);
+
+                        if($sm !== FALSE){
+                            $images[0][$k] = $sm;
                             continue;
                         }
                     }
