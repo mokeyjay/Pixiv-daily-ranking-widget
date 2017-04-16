@@ -4,7 +4,6 @@
  * 作者：超能小紫(mokeyjay)
  * 博客：https://www.mokeyjay.com
  * 源码：https://github.com/mokeyjay/Pixiv-daily-top50-widget
- *
  * 可随意修改、二次发布。但请保留上方版权声明及注明出处
  */
 
@@ -82,7 +81,6 @@ class Conf
     public static $enable_smms = FALSE;
 
 
-
     /**
      * 初始化
      */
@@ -112,6 +110,6 @@ class Conf
             }
         }
 
-        if(self::$limit < 1) exit('Conf::$limit can not less than 1');
+        if (self::$limit < 1) exit('Conf::$limit can not less than 1');
     }
 }

@@ -4,7 +4,6 @@
  * 作者：超能小紫(mokeyjay)
  * 博客：https://www.mokeyjay.com
  * 源码：https://github.com/mokeyjay/Pixiv-daily-top50-widget
- *
  * 可随意修改、二次发布。但请保留上方版权声明及注明出处
  */
 
@@ -74,9 +73,9 @@ class Func
         /**
          * 从缓存文件获取。这样就不必总是去P站获取排行榜了
          */
-        if(Conf::$download){
+        if (Conf::$download){
             $source = self::get('source.json');
-            if(!empty($source['date']) && $source['date'] == date('Y-m-d') && !empty($source['image']) && !empty($source['url'])){
+            if ( !empty($source['date']) && $source['date'] == date('Y-m-d') && !empty($source['image']) && !empty($source['url'])){
                 $image = $source['image'];
                 $url = $source['url'];
                 return TRUE;
@@ -96,7 +95,7 @@ class Func
         /**
          * 缓存起来。这样就不必总是去P站获取排行榜了
          */
-        if(Conf::$download){
+        if (Conf::$download){
             $data = array(
                 'date'  => date('Y-m-d'),
                 'image' => $image,
@@ -113,13 +112,13 @@ class Func
      */
     public static function clearOverdue()
     {
-        if(Conf::$download && Conf::$clear_overdue){
+        if (Conf::$download && Conf::$clear_overdue){
             $time = strtotime(date('Ymd')); // 获取今日0点的时间戳，早于此时间戳的文件都得死
-            if($dh = opendir(Conf::$image_path)){
-                while(($file = readdir($dh)) !== FALSE){
-                    if($file == '.' || $file == '..') continue;
-                    $file = Conf::$image_path.$file;
-                    if(filemtime($file) < $time) @unlink($file);
+            if ($dh = opendir(Conf::$image_path)){
+                while (($file = readdir($dh)) !== FALSE){
+                    if ($file == '.' || $file == '..') continue;
+                    $file = Conf::$image_path . $file;
+                    if (filemtime($file) < $time) @unlink($file);
                 }
             }
         }
@@ -131,13 +130,13 @@ class Func
      */
     public static function checkImage()
     {
-        if(Conf::$download && Conf::$limit){
-            if($dh = opendir(Conf::$image_path)){
-                while(($file = readdir($dh)) !== FALSE){
-                    if($file == '.' || $file == '..') continue;
+        if (Conf::$download && Conf::$limit){
+            if ($dh = opendir(Conf::$image_path)){
+                while (($file = readdir($dh)) !== FALSE){
+                    if ($file == '.' || $file == '..') continue;
 
-                    $file = Conf::$image_path.$file;
-                    if(@getimagesize($file) === FALSE){
+                    $file = Conf::$image_path . $file;
+                    if (@getimagesize($file) === FALSE){
                         @unlink($file);
                         return FALSE;
                     }
@@ -158,28 +157,28 @@ class Func
     {
         // 如果设置了对外服务并且图片缓存的话，则强制缓存50张
         // 避免服务方设置了limit=10而用户请求limit=50时的问题
-        if(Conf::$service && Conf::$download) Conf::$limit = 50;
+        if (Conf::$service && Conf::$download) Conf::$limit = 50;
 
-        if(Conf::$download && Conf::$limit){
-            foreach ($images[0] as $k=>$v){
-                if(Conf::$service == FALSE && $k >= Conf::$limit) break;
+        if (Conf::$download && Conf::$limit){
+            foreach ($images[0] as $k => $v){
+                if (Conf::$service == FALSE && $k >= Conf::$limit) break;
 
                 /**
                  * 下载P站缩略图
                  * 并根据配置判断是否使用sm.ms图床
                  */
-                $file = Conf::$image_path.$images[1][$k];
+                $file = Conf::$image_path . $images[1][$k];
                 $data = self::curlGet($v);
-                if(@file_put_contents($file, $data) !== FALSE && Conf::$enable_smms){
+                if (@file_put_contents($file, $data) !== FALSE && Conf::$enable_smms){
                     // 上传到sm.ms图床
-                    for ($i=0; $i<3; $i++){ // 最多尝试3次
-                        if($i > 0) sleep(3); // 等待3秒重试
+                    for ($i = 0; $i < 3; $i++){ // 最多尝试3次
+                        if ($i > 0) sleep(3); // 等待3秒重试
 
                         $sm = self::smmsUpload($file);
-                        if($sm !== FALSE) break;
+                        if ($sm !== FALSE) break;
                     }
 
-                    if($sm !== FALSE){
+                    if ($sm !== FALSE){
                         $images[0][$k] = $sm;
                         continue;
                     }
@@ -196,7 +195,7 @@ class Func
      */
     public static function downloadThread()
     {
-        $ch = curl_init(Conf::$url.'download.php');
+        $ch = curl_init(Conf::$url . 'download.php');
         curl_setopt($ch, CURLOPT_TIMEOUT, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
