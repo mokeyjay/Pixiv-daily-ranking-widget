@@ -165,32 +165,23 @@ class Func
                 if(Conf::$service == FALSE && $k >= Conf::$limit) break;
 
                 /**
-                 * 每日排行榜中可能会出现昨天的作品
-                 * 因此如果文件已存在并且为有效图片则修改一下“文件修改时间”
-                 * 免得一会儿被clearOverdue()干掉
-                 * 文件不存在则下载
+                 * 下载P站缩略图
                  * 并根据配置判断是否使用sm.ms图床
                  */
                 $file = Conf::$image_path.$images[1][$k];
-                if(file_exists($file) && @getimagesize($file) !== FALSE){
-                    touch($file);
-                } else {
-                    $data = self::curlGet($v);
-                    if(@file_put_contents($file, $data) !== FALSE && Conf::$enable_smms){
-                        // 上传到sm.ms图床
-                        $i = 0;
-                        do{
-                            // 最多尝试3次
-                            $i++;
-                            if($i >= 3) break;
+                $data = self::curlGet($v);
+                if(@file_put_contents($file, $data) !== FALSE && Conf::$enable_smms){
+                    // 上传到sm.ms图床
+                    for ($i=0; $i<3; $i++){ // 最多尝试3次
+                        if($i > 0) sleep(3); // 等待3秒重试
 
-                            $sm = self::smmsUpload($file);
-                        } while ($sm === FALSE);
+                        $sm = self::smmsUpload($file);
+                        if($sm !== FALSE) break;
+                    }
 
-                        if($sm !== FALSE){
-                            $images[0][$k] = $sm;
-                            continue;
-                        }
+                    if($sm !== FALSE){
+                        $images[0][$k] = $sm;
+                        continue;
                     }
                 }
 
