@@ -19,7 +19,7 @@
 
 ## 如何部署
 ### 方案一：使用[超能小紫](https://www.mokeyjay.com)提供的服务
-该方案适用于动手能力较差或较懒或没有特殊需求的用户  
+该方案适用于动手能力较差或较懒或没有特殊需求的用户。且已配置好国内CDN，访问速度较快  
 服务地址：[https://cloud.mokeyjay.com/pixiv](https://cloud.mokeyjay.com/pixiv)  
 以`Wordpress`为例，首先进入 后台 -> 外观 -> 小工具  
 向右边适当的位置添加一个 **文本** 小工具，标题随意，内容为  
@@ -42,7 +42,7 @@
 **请注意：** `limit`参数的范围为`1-50`  
 #### API服务
 [Pixiv原始缩略图URL+详情页URL](https://cloud.mokeyjay.com/pixiv/source.json)  
-[图床缩略图URL+详情页URL](https://cloud.mokeyjay.com/pixiv/pixiv.json)（推荐）  
+[超能小紫国内CDN缩略图URL+详情页URL](https://cloud.mokeyjay.com/pixiv/pixiv.json)（推荐）  
 内容很简单，相信大家看了就知道可以怎么用了，不再赘述  
 
 ---
