@@ -176,8 +176,18 @@ class Func
                 } else {
                     $data = self::curlGet($v);
                 }
+                $data = @file_put_contents($file, $data);
 
-                if (@file_put_contents($file, $data) !== FALSE && Conf::$enable_smms){
+                // 压缩图片
+                if(Conf::$enable_comporess){
+                    $image = @imagecreatefromjpeg($file);
+                    if($image){
+                        imagejpeg($image, $file, 95);
+                        imagedestroy($image);
+                    }
+                }
+
+                if ($data !== FALSE && Conf::$enable_smms){
                     // 上传到sm.ms图床
                     for ($i = 0; $i < 3; $i++){ // 最多尝试3次
                         if ($i > 0) sleep(3); // 等待3秒重试

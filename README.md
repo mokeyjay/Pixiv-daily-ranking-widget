@@ -42,7 +42,7 @@
 **请注意：** `limit`参数的范围为`1-50`  
 #### API服务
 [Pixiv原始缩略图URL+详情页URL](https://cloud.mokeyjay.com/pixiv/source.json)  
-[超能小紫国内CDN缩略图URL+详情页URL](https://cloud.mokeyjay.com/pixiv/pixiv.json)（推荐）  
+[国内CDN缩略图URL+详情页URL](https://cloud.mokeyjay.com/pixiv/pixiv.json)（推荐）  
 内容很简单，相信大家看了就知道可以怎么用了，不再赘述  
 
 ---
@@ -61,9 +61,16 @@
 - 方案二需要PHP版本 >= 5.3
 
 ## 更新日志
+### 2.7
+- 添加图片压缩功能，降低服务器带宽压力（需要GD库）
+- 修复sm.ms图床支持，降低失败概率
+- 添加sm.ms图床上传日志
+> 如果开启`$enable_smms`出现问题，反馈时请带上日志文件
+
 ### 2.6
-- 添加sm.ms图床支持。一键启用即可大幅降低服务器带宽压力、节省流量。感谢[@Showfom](https://www.v2ex.com/member/Showfom)提供图床  
+- 添加sm.ms图床支持。一键启用即可大幅降低服务器带宽压力、节省流量。感谢[@Showfom](https://sb.sb/)提供图床  
 > 我才不告诉你是因为方案一每天跑掉我几G流量，心疼不已才加的这个功能呢
+> 如果连续3次上传失败，则从服务器本地读取图片，确保访问正常
 
 ### 2.5
 - 修复因Pixiv改版导致挂掉的问题

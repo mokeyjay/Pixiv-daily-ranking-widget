@@ -75,11 +75,19 @@ class Conf
     /**
      * 使用sm.ms图床来存放缩略图，降低服务器带宽压力
      * 上面的 $download 为true时此项才会生效
-     * 此项为true时，将在当前目录下创建log上传日志文件（会自动清空的，放心吧
+     * 此项为true时，将在当前目录下创建 log 上传日志文件（会自动清空的，放心吧
      * 如果连续3次上传失败，则从服务器本地读取图片，确保访问正常
      * @var bool
      */
-    public static $enable_smms = FALSE;
+    public static $enable_smms = TRUE;
+
+    /**
+     * 压缩缩略图，在几乎不损失画质的前提下压缩50%左右，降低服务器带宽压力
+     * 上面的 $download 为true时此项才会生效
+     * 需要 GD 库
+     * @var bool
+     */
+    public static $enable_comporess = TRUE;
 
 
     /**
