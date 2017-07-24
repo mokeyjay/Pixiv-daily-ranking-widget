@@ -79,7 +79,7 @@ class Conf
      * 如果连续3次上传失败，则从服务器本地读取图片，确保访问正常
      * @var bool
      */
-    public static $enable_smms = TRUE;
+    public static $enable_smms = FALSE;
 
     /**
      * 压缩缩略图，在几乎不损失画质的前提下压缩50%左右，降低服务器带宽压力
@@ -87,7 +87,7 @@ class Conf
      * 需要 GD 库
      * @var bool
      */
-    public static $enable_comporess = TRUE;
+    public static $enable_comporess = FALSE;
 
 
     /**
