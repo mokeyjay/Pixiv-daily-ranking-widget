@@ -160,6 +160,9 @@ class Func
         if (Conf::$service && Conf::$download) Conf::$limit = 50;
 
         if (Conf::$download && Conf::$limit){
+            // 创建/清空图床上传日志文件
+            if(Conf::$enable_smms) @file_put_contents('log', '');
+
             foreach ($images[0] as $k => $v){
                 if (Conf::$service == FALSE && $k >= Conf::$limit) break;
 
@@ -168,7 +171,12 @@ class Func
                  * 并根据配置判断是否使用sm.ms图床
                  */
                 $file = Conf::$image_path . $images[1][$k];
-                $data = self::curlGet($v);
+                if(file_exists($file)){ // 已存在的图片不再下载
+                    $data = file_get_contents($file);
+                } else {
+                    $data = self::curlGet($v);
+                }
+
                 if (@file_put_contents($file, $data) !== FALSE && Conf::$enable_smms){
                     // 上传到sm.ms图床
                     for ($i = 0; $i < 3; $i++){ // 最多尝试3次
@@ -214,6 +222,7 @@ class Func
     {
         $ch = curl_init('https://sm.ms/api/upload');
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
@@ -224,9 +233,28 @@ class Func
         } else {
             curl_setopt($ch, CURLOPT_POSTFIELDS, ['smfile' => '@' . realpath($file)]);
         }
-        $json = json_decode(curl_exec($ch), TRUE);
+        $result = curl_exec($ch);
+        self::writeLog($result);
+        $result = json_decode($result, TRUE);
         curl_close($ch);
 
-        return (isset($json['code']) && $json['code'] == 'success') ? $json['data']['url'] : FALSE;
+        return (isset($result['code']) && $result['code'] == 'success') ? $result['data']['url'] : FALSE;
+    }
+
+    /**
+     * 写日志
+     * @param string $data
+     * @return bool|int
+     */
+    public static function writeLog($data)
+    {
+        $handle = fopen('log', 'a');
+        if($handle){
+            $result = fwrite($handle, date('H:i:s') . ' --> ' . $data . "\n");
+            fclose($handle);
+            return $result;
+        }
+
+        return FALSE;
     }
 }

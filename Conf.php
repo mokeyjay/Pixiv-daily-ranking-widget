@@ -75,7 +75,8 @@ class Conf
     /**
      * 使用sm.ms图床来存放缩略图，降低服务器带宽压力
      * 上面的 $download 为true时此项才会生效
-     * 此项为true时，上面的 $image_url 将失效
+     * 此项为true时，将在当前目录下创建log上传日志文件（会自动清空的，放心吧
+     * 如果连续3次上传失败，则从服务器本地读取图片，确保访问正常
      * @var bool
      */
     public static $enable_smms = FALSE;
