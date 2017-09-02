@@ -89,6 +89,22 @@ class Conf
      */
     public static $enable_comporess = FALSE;
 
+    /**
+     * 使用贴图库来存放缩略图，降低服务器带宽压力
+     * 此选项和 $enable_smms 同时开启时优先使用sm.ms图床
+     * 此项为true时，将在当前目录下创建 log 上传日志文件（会自动清空的，放心吧
+     * 如果连续3次上传失败，则从服务器本地读取图片，确保访问正常
+     * 贴图库免费版并不是很好用且不支持https，建议优先使用sm.ms，贴图库仅作为备用
+     * @var bool
+     */
+    public static $enable_tietuku = FALSE;
+    /**
+     * 上面的选项为true时需要在此处填写你的Token
+     * 需要注册登录贴图库。详见：http://www.tietuku.com/manager/createtoken
+     * @var string
+     */
+    public static $tietuku_token = '';
+
 
     /**
      * 初始化

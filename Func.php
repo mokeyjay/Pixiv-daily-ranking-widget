@@ -187,17 +187,21 @@ class Func
                     }
                 }
 
-                if ($data !== FALSE && Conf::$enable_smms){
-                    // 上传到sm.ms图床
+                if ($data !== FALSE && (Conf::$enable_smms || Conf::$enable_tietuku)){
+                    // 上传到图床
                     for ($i = 0; $i < 3; $i++){ // 最多尝试3次
                         if ($i > 0) sleep(3); // 等待3秒重试
 
-                        $sm = self::smmsUpload($file);
-                        if ($sm !== FALSE) break;
+                        if(Conf::$enable_smms){
+                            $url = self::smmsUpload($file);
+                        } else {
+                            $url = self::tietukuUpload($v);
+                        }
+                        if ($url !== FALSE) break;
                     }
 
-                    if ($sm !== FALSE){
-                        $images[0][$k] = $sm;
+                    if ($url !== FALSE){
+                        $images[0][$k] = $url;
                         continue;
                     }
                 }
@@ -249,6 +253,33 @@ class Func
         curl_close($ch);
 
         return (isset($result['code']) && $result['code'] == 'success') ? $result['data']['url'] : FALSE;
+    }
+
+    /**
+     * 上传到贴图库图床
+     * @param string $fileurl
+     * @return string 返回图床图片url。失败返回false
+     */
+    public static function tietukuUpload($fileurl)
+    {
+        $ch = curl_init('http://up.imgapi.com/');
+        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_POST, TRUE);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, [
+            'Token' => Conf::$tietuku_token,
+            'fileurl' => $fileurl
+        ]);
+        $result = curl_exec($ch);
+        self::writeLog($result);
+        $result = json_decode($result, TRUE);
+        curl_close($ch);
+
+        return !empty($result['linkurl']) ? $result['linkurl'] : FALSE;
     }
 
     /**
