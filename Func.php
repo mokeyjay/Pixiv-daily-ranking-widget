@@ -161,7 +161,7 @@ class Func
 
         if (Conf::$download && Conf::$limit){
             // 创建/清空图床上传日志文件
-            if(Conf::$enable_smms) @file_put_contents('log', '');
+            if(Conf::$enable_smms || Conf::$enable_tietuku) @file_put_contents('log', '');
 
             foreach ($images[0] as $k => $v){
                 if (Conf::$service == FALSE && $k >= Conf::$limit) break;
@@ -291,11 +291,43 @@ class Func
     {
         $handle = fopen('log', 'a');
         if($handle){
-            $result = fwrite($handle, date('H:i:s') . ' --> ' . $data . "\n");
+            $result = fwrite($handle, date('H:i:s') . '-' . microtime(TRUE) . ' --> ' . $data . "\n");
             fclose($handle);
             return $result;
         }
 
+        return FALSE;
+    }
+
+    /**
+     * 锁是否有效。有效表示下载进行中
+     * @return bool
+     */
+    public static function checkLock()
+    {
+        self::writeLog('判断锁');
+        $lock_file = PX_PATH . '.updatelock';
+        if (file_exists($lock_file)){
+            // 如果是半小时前的锁，可能是下载线程挂了，判定为下载失败，锁无效
+            // 如果是半小时内的锁，则判定下载进行中，锁有效
+            $mtime = filemtime($lock_file);
+            if ($mtime !== FALSE && time() - $mtime < 1800) return TRUE;
+        }
+        return FALSE;
+    }
+
+    /**
+     * 创建锁，返回是否成功
+     * @return bool
+     */
+    public static function createLock()
+    {
+        if(self::checkLock() == FALSE){
+            self::writeLog('创建锁');
+            // 创建锁
+            $lock_file = PX_PATH . '.updatelock';
+            return (bool)file_put_contents($lock_file, time());
+        }
         return FALSE;
     }
 }
