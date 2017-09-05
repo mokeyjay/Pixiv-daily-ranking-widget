@@ -291,7 +291,7 @@ class Func
     {
         $handle = fopen('log', 'a');
         if($handle){
-            $result = fwrite($handle, date('H:i:s') . '-' . microtime(TRUE) . ' --> ' . $data . "\n");
+            $result = fwrite($handle, date('H:i:s') . ' --> ' . $data . "\n");
             fclose($handle);
             return $result;
         }
@@ -305,7 +305,6 @@ class Func
      */
     public static function checkLock()
     {
-        self::writeLog('判断锁');
         $lock_file = PX_PATH . '.updatelock';
         if (file_exists($lock_file)){
             // 如果是半小时前的锁，可能是下载线程挂了，判定为下载失败，锁无效
@@ -323,8 +322,6 @@ class Func
     public static function createLock()
     {
         if(self::checkLock() == FALSE){
-            self::writeLog('创建锁');
-            // 创建锁
             $lock_file = PX_PATH . '.updatelock';
             return (bool)file_put_contents($lock_file, time());
         }
