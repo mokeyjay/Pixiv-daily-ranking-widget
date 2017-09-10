@@ -42,7 +42,7 @@
 **请注意：** `limit`参数的范围为`1-50`  
 #### API服务
 [Pixiv原始缩略图URL+详情页URL](https://cloud.mokeyjay.com/pixiv/source.json)  
-[国内CDN缩略图URL+详情页URL](https://cloud.mokeyjay.com/pixiv/pixiv.json)（推荐）  
+[Pixiv原始缩略图URL+详情页URL](https://cloud.mokeyjay.com/pixiv/pixiv.json)（推荐）  
 内容很简单，相信大家看了就知道可以怎么用了，不再赘述  
 
 ---
@@ -62,8 +62,11 @@
 
 ## 更新日志
 ### 2.8
+- 尝试优化更新锁，防止高并发下重复更新
+- 从 Conf::$download 中独立出配置项 Conf::$url_cache，现在可以仅缓存图片url而不缓存缩略图了
 - 添加贴图库图床支持
 > 贴图库免费版并不是很好用且不支持https，建议优先使用sm.ms，贴图库仅作为备用
+> 由于之前更新锁在高并发下有些问题无法很好的发挥作用，导致我的服务器IP因重复上传被sm.ms图床封了。而我个人也无力支撑高昂的CDN费用。因此即日起**方案一**不再提供CDN加速，改为直接从P站获取图片
 
 ### 2.7
 - 添加图片压缩功能，降低服务器带宽压力（需要GD库）
