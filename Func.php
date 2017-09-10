@@ -73,7 +73,7 @@ class Func
         /**
          * 从缓存文件获取。这样就不必总是去P站获取排行榜了
          */
-        if (Conf::$download){
+        if (Conf::$url_cache){
             $source = self::get('source.json');
             if ( !empty($source['date']) && $source['date'] == date('Y-m-d') && !empty($source['image']) && !empty($source['url'])){
                 $image = $source['image'];
@@ -95,7 +95,7 @@ class Func
         /**
          * 缓存起来。这样就不必总是去P站获取排行榜了
          */
-        if (Conf::$download){
+        if (Conf::$url_cache){
             $data = array(
                 'date'  => date('Y-m-d'),
                 'image' => $image,
@@ -130,6 +130,9 @@ class Func
      */
     public static function checkImage()
     {
+        // 只缓存url不缓存缩略图
+        if(Conf::$url_cache && Conf::$download === FALSE) return TRUE;
+
         if (Conf::$download && Conf::$limit){
             if ($dh = opendir(Conf::$image_path)){
                 while (($file = readdir($dh)) !== FALSE){
@@ -155,6 +158,8 @@ class Func
      */
     public static function download(&$images)
     {
+        // 只缓存url不缓存缩略图
+        if(Conf::$url_cache && Conf::$download === FALSE) return TRUE;
         // 如果设置了对外服务并且图片缓存的话，则强制缓存50张
         // 避免服务方设置了limit=10而用户请求limit=50时的问题
         if (Conf::$service && Conf::$download) Conf::$limit = 50;

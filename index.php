@@ -32,7 +32,7 @@ if ( !empty($json['date']) && $json['date'] == date('Y-m-d') && !empty($json['im
     $image = $image[0];
     $url = $url[0];
     // 启动下载线程
-    if (Conf::$download && Func::checkLock() == FALSE){
+    if ((Conf::$download || Conf::$url_cache) && Func::checkLock() == FALSE){
         Func::downloadThread();
     }
 }

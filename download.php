@@ -17,7 +17,7 @@ Conf::init();
 require PX_PATH . 'Func.php';
 
 // 开始下载缓存缩略图
-if (Conf::$download && Func::createLock()){
+if ((Conf::$download || Conf::$url_cache) && Func::createLock()){
     if (Func::getPixivImages($image, $url) && Func::download($image) && Func::checkImage()){
         // 更新成功，保存pixiv.json
         $data = array(

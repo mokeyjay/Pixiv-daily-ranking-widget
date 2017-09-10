@@ -46,12 +46,20 @@ class Conf
     public static $service = TRUE;
 
     /**
+     * 将图片url地址缓存在本地，而不必每次都去分析页面源码
+     * 此值为 false 时，$download 强制为 false
+     * @var bool
+     */
+    public static $url_cache = TRUE;
+
+    /**
      * 将缩略图缓存至服务器本地，加快(?)缩略图的加载速度
-     * 此值为false时无需继续填写下面的配置项
+     * 此值和 $url_cache 都为 false 时无需继续填写下面的配置项
+     * 此值为 true 时，$url_cache 强制为 true
      * 如果本项目所在路径没有写入权限的话，则此项强制为 false
      * @var bool
      */
-    public static $download = TRUE;
+    public static $download = FALSE;
 
     /**
      * 删除过期的（即今天之前的）缓存缩略图
@@ -87,7 +95,7 @@ class Conf
      * 需要 GD 库
      * @var bool
      */
-    public static $enable_comporess = FALSE;
+    public static $enable_comporess = TRUE;
 
     /**
      * 使用贴图库来存放缩略图，降低服务器带宽压力
@@ -105,7 +113,6 @@ class Conf
      */
     public static $tietuku_token = '';
 
-
     /**
      * 初始化
      */
@@ -120,6 +127,8 @@ class Conf
         // 本项目路径是否可写。不可写则禁止缓存
         if ( !is_writable(PX_PATH)) self::$download = FALSE;
 
+        if (self::$url_cache === FALSE) self::$download = FALSE;
+
         if (self::$download){
             // 确保图片缓存路径有效
             if (is_writable(self::$image_path)){
@@ -133,6 +142,7 @@ class Conf
                 self::$image_path .= DIRECTORY_SEPARATOR;
                 if ( !is_writable(self::$image_path)) exit('Conf::$image_path not exists or can\'t write');
             }
+            self::$url_cache = TRUE;
         }
 
         if (self::$limit < 1) exit('Conf::$limit can not less than 1');
