@@ -54,8 +54,8 @@ class Conf
 
     /**
      * 将缩略图缓存至服务器本地，加快(?)缩略图的加载速度
-     * 此值和 $url_cache 都为 false 时无需继续填写下面的配置项
-     * 此值为 true 时，$url_cache 强制为 true
+     * 此值为 false 时无需继续填写下面的配置项
+     * 此值为 true 时 $url_cache 强制为 true
      * 如果本项目所在路径没有写入权限的话，则此项强制为 false
      * @var bool
      */
