@@ -53,7 +53,9 @@ class Func
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array());
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'referer: https://www.pixiv.net/ranking.php?mode=daily&content=illust'
+        ));
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
@@ -82,7 +84,7 @@ class Func
             }
         }
 
-        $html = self::curlGet('http://www.pixiv.net/ranking.php?mode=daily&content=illust');
+        $html = self::curlGet('https://www.pixiv.net/ranking.php?mode=daily&content=illust');
 
         // 匹配缩略图url
         preg_match_all('|https://i\.pximg\.net/c/240x480/img-master/img/\d{4}/\d{2}/\d{2}/\d{2}/\d{2}/\d{2}/(.*?\.\w{3})|', $html, $image);
