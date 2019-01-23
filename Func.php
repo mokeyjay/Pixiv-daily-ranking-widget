@@ -51,14 +51,17 @@ class Func
     protected static function curlGet($url)
     {
         $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'referer: https://www.pixiv.net/ranking.php?mode=daily&content=illust'
         ));
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        if(Conf::$download_proxy){
+            curl_setopt($ch, CURLOPT_PROXY, Conf::$download_proxy);
+        }
         $data = curl_exec($ch);
         curl_close($ch);
         return $data;
@@ -197,7 +200,7 @@ class Func
                 if ($data !== FALSE && (Conf::$enable_smms || Conf::$enable_tietuku)){
                     // 上传到图床
                     for ($i = 0; $i < 3; $i++){ // 最多尝试3次
-                        if ($i > 0) sleep(3); // 等待3秒重试
+                        if ($i > 0) sleep(1);
 
                         if(Conf::$enable_smms){
                             $url = self::smmsUpload($file);

@@ -62,6 +62,13 @@ class Conf
     public static $download = FALSE;
 
     /**
+     * 访问Pixiv的代理服务器配置。例如 127.0.0.1:1080
+     * 留空为不使用代理
+     * @var string
+     */
+    public static $download_proxy = '';
+
+    /**
      * 删除过期的（即今天之前的）缓存缩略图
      * @var bool
      */
