@@ -59,7 +59,7 @@ class Conf
      * 如果本项目所在路径没有写入权限的话，则此项强制为 false
      * @var bool
      */
-    public static $download = FALSE;
+    public static $download = TRUE;
 
     /**
      * 访问Pixiv的代理服务器配置。例如 127.0.0.1:1080
