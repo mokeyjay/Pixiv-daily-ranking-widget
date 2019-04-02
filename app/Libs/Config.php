@@ -1,0 +1,71 @@
+<?php
+
+namespace app\Libs;
+
+/**
+ * 配置类
+ * Class Config
+ * @package app\Libs
+ */
+class Config
+{
+    // 此处属性对应 config.php 内的配置项
+    public static $url = '';
+    public static $background_color = 'ffffff';
+    public static $limit = 50;
+    public static $service = true;
+    public static $log_level = [];
+    public static $proxy = '';
+    public static $clear_overdue = true;
+    public static $compress = true;
+    public static $image_hosting = ['jd', 'smms', 'local'];
+    public static $image_hosting_extend = [];
+
+    /**
+     * 初始化配置
+     */
+    public static function init()
+    {
+        // 读取配置项
+        $config = require BASE_PATH . 'config.php';
+        foreach ($config as $key => $value) {
+            self::$$key = $value;
+        }
+
+        // 获取本项目url
+        if (self::$url == '') {
+            $urlInfo = pathinfo(Tools::getCurrentURL());
+            self::$url = $urlInfo['dirname'] . '/';
+            if (!isset($urlInfo['extension'])) {
+                self::$url .= $urlInfo['basename'] . '/';
+            }
+        }
+
+        // 是否对外提供服务，是则获取url参数
+        if (self::$service) {
+            if (isset($_GET['color'])) {
+                self::$background_color = (string)$_GET['color'];
+            }
+            if (isset($_GET['limit'])) {
+                self::$limit = (int)$_GET['limit'];
+            }
+        }
+
+        Config::$image_hosting = (array)Config::$image_hosting;
+
+        try {
+            if (!is_writable(STORAGE_PATH)) {
+                throw new \Exception(STORAGE_PATH . ' 目录无法写入');
+            }
+
+            if (self::$limit < 1) {
+                throw new \Exception('limit 配置项不得小于1');
+            }
+
+        } catch (\Exception $e) {
+            Tools::log($e->getMessage(), 'ERROR');
+            echo '错误：' . $e->getMessage() . "\n";
+            die;
+        }
+    }
+}
