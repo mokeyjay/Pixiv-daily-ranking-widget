@@ -22,6 +22,9 @@ class Tools
             $file = STORAGE_PATH . 'logs/' . date('Ymd') . '.log';
             $message = is_array($message) ? json_encode($message) : $message;
             $content = "[{$level}] " . date('Y-m-d H:i:s') . " --> {$message}\n";
+            if (IS_CLI) {
+                echo "{$content}\n";
+            }
             return file_put_contents($file, $content, FILE_APPEND) !== false;
         }
         return true;

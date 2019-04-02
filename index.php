@@ -13,5 +13,6 @@ require './app/autoload.php';
 define('BASE_PATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 define('APP_PATH', BASE_PATH . 'app' . DIRECTORY_SEPARATOR);
 define('STORAGE_PATH', BASE_PATH . 'storage' . DIRECTORY_SEPARATOR);
+define('IS_CLI', PHP_SAPI === 'cli');
 
 app\App::run();

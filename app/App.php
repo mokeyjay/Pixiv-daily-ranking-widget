@@ -29,7 +29,8 @@ class App
     {
         self::init();
 
-        if (!empty($_GET['job'])) {
+        $opt = getopt('j:');
+        if (!empty($_GET['job']) || isset($opt['j'])) {
             self::job();
         }
 
@@ -51,11 +52,14 @@ class App
      */
     protected static function job()
     {
-        $jobName = ucfirst(strtolower($_GET['job']));
+        $opt = getopt('j:');
+        $jobName = isset($_GET['job']) ? $_GET['job'] : $opt['j'];
+        $jobName = ucfirst(strtolower($jobName));
         $job = Job::make($jobName);
         if (!$job) {
             throw new \Exception("任务 {$jobName} 加载失败");
         }
+        set_time_limit(0);
         $reuslt = $job->run();
         if ($reuslt) {
             Tools::log("任务 {$jobName} 执行完毕");
