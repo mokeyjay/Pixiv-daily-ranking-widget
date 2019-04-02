@@ -84,7 +84,6 @@ class Refresh extends Job
                         Storage::deleteFile($tmpfile);
                         break;
                     }
-                    sleep(3);
                 }
 
                 $pixivJson['image'][] = $url ?: $sourceJson['image'][$i]; // 如上传失败则使用原图url（虽然原图url也显示不出来）

@@ -14,7 +14,7 @@ use app\Libs\Config;
 
   <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
   <style>
-    html, body { height : 100% }
+    html, body { height : 100%; background-color : #<?=Config::$background_color?>; }
 
     body { display : flex; align-items : center; justify-content : center; }
 
