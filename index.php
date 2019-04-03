@@ -8,11 +8,10 @@
  * 可随意修改、二次发布。但请保留上方版权声明及注明出处
  */
 
-require './app/autoload.php';
-
 define('BASE_PATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 define('APP_PATH', BASE_PATH . 'app' . DIRECTORY_SEPARATOR);
 define('STORAGE_PATH', BASE_PATH . 'storage' . DIRECTORY_SEPARATOR);
 define('IS_CLI', PHP_SAPI === 'cli');
 
+require APP_PATH . 'autoload.php';
 app\App::run();
