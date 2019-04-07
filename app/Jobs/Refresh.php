@@ -56,12 +56,12 @@ class Refresh extends Job
                     break;
                 }
                 // 最多尝试下载3次
-                for ($i = 0; $i < 3; $i++) {
+                for ($ii = 0; $ii < 3; $ii++) {
                     $tmpfile = Pixiv::downloadImage($imageUrl);
                     if ($tmpfile) {
                         break;
                     } else {
-                        Tools::log("图片 {$imageUrl} 下载失败，重试第{$i}次");
+                        Tools::log("图片 {$imageUrl} 下载失败，重试第{$ii}次");
                         sleep(3);
                     }
                 }
