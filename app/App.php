@@ -6,6 +6,7 @@ use app\Jobs\Job;
 use app\Libs\Config;
 use app\Libs\Lock;
 use app\Libs\Pixiv;
+use app\Libs\Storage;
 use app\Libs\Tools;
 
 class App
@@ -34,12 +35,13 @@ class App
             self::job();
         }
 
-        // 加载首页或loading页
-        $pixivJson = Pixiv::getJson('pixiv');
-        if ($pixivJson === false) {
+        $pixivJson = Storage::getJson('pixiv');
+        if ($pixivJson === false || $pixivJson['date'] != date('Y-m-d')) {
             if (!Lock::check('refresh')) {
                 Pixiv::runRefreshThread();
             }
+        }
+        if ($pixivJson === false) {
             include APP_PATH . 'Views/loading.php';
         } else {
             include APP_PATH . 'Views/index.php';
@@ -60,9 +62,10 @@ class App
             throw new \Exception("任务 {$jobName} 加载失败");
         }
         set_time_limit(0);
-        $reuslt = $job->run();
-        if ($reuslt) {
+        $result = $job->run();
+        if ($result) {
             Tools::log("任务 {$jobName} 执行完毕");
+            echo "任务 {$jobName} 执行完毕";
         } else {
             throw new \Exception("任务 {$jobName} 执行失败：{$job->getErrorMsg()}");
         }

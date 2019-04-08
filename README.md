@@ -37,28 +37,25 @@
 你还可以通过`limit`参数限制图片数量  
 例如`https://cloud.mokeyjay.com/pixiv/?color=f00&limit=10`  
 则可以得到背景为红色的Top10画册  
-**请注意：** `limit`参数的范围为`1-50`  
+> `limit`参数的范围必须在`1-50` 之间
+  
 #### API服务
 [图床缩略图URL+详情页URL](https://cloud.mokeyjay.com/pixiv/storage/app/pixiv.json)（推荐）  
 [Pixiv原始缩略图URL+详情页URL](https://cloud.mokeyjay.com/pixiv/storage/app/source.json)  
 内容很简单，相信大家看了就知道可以怎么用了，不再赘述  
 
----
+
 ### 方案二：自行架设服务
 适用于动手能力较强或需要深度自定义的用户  
 > 需要PHP版本 >= 5.4
 
-首先[下载源代码](https://github.com/mokeyjay/Pixiv-daily-top50-widget/archive/master.zip)，解压  
+首先[下载源代码](https://github.com/mokeyjay/Pixiv-daily-top50-widget/releases/latest)，解压  
 使用专业编辑器（例如`Sublime`、`Notepad++`等，切忌使用记事本）编辑`config.php`，根据实际情况修改相应配置  
 > 由于Pixiv已经被墙，如果你想要将此项目部署在国内，请务必配置 `proxy` 配置项   
 
 > 每个配置项的说明都以注释的形式标注在文件内。如果你看不懂，那就说明你比较适合**方案一**    
 
 最后一步，给予`storage`目录读写权限
-
-> 为了更好的用户体验，你还可以设定一个如下的定时任务来主动触发刷新任务  
-> `1 0 * * * php [本项目路径]/index.php -j refresh`  
-> 如果你这么做了，而且还使用了 `local` 图床，则务必设置 `url` 配置项。因为 cli 模式下无法获得当前url，如果 url 配置项依旧留空，则生成的图片url地址可能会有问题
 
 ### 注意事项
 - 推荐使用方案一，由我本人维护，如有问题第一时间更新

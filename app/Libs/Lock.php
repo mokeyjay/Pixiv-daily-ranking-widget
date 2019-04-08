@@ -16,18 +16,12 @@ class Lock
      */
     public static function check($name)
     {
-        $lock = Storage::get(".{$name}lock");
-        if (!$lock) {
+        $lock = Storage::get("app/{$name}.lock");
+        if ($lock === false) {
             return false;
         }
 
-        if (!isset($lock['time'])) {
-            return false;
-        }
-        if ($lock['time'] > time() || $lock['time'] == 0) {
-            return true;
-        }
-        return false;
+        return ($lock > time() || $lock == 0);
     }
 
     /**
@@ -38,8 +32,8 @@ class Lock
      */
     public static function create($name, $expire = 0)
     {
-        if (self::check($name) == false) {
-            return Storage::save(".{$name}lock", ['time' => $expire ? (time() + $expire) : 0]);
+        if (self::check($name) === false) {
+            return Storage::save("app/{$name}.lock", ($expire ? (time() + $expire) : 0));
         }
         return false;
     }
@@ -51,6 +45,6 @@ class Lock
      */
     public static function remove($name)
     {
-        return Storage::remove(".{$name}lock");
+        return Storage::remove("app/{$name}.lock");
     }
 }
