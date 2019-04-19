@@ -10,28 +10,13 @@ namespace app\Libs;
 class Pixiv
 {
     /**
-     * 获取缓存文件。成功返回数组
-     * @param string $name
-     * @return array|false
-     */
-    public static function getJson($name)
-    {
-        $json = Storage::get($name . '.json');
-        if ($json === false || !isset($json['date'])) {
-            return false;
-        }
-
-        return $json['date'] == date('Y-m-d') ? $json : false;
-    }
-
-    /**
      * 获取Pixiv图片url列表
      * @return array|false
      */
     public static function getImageList()
     {
-        $imageList = self::getJson('source');
-        if ($imageList) {
+        $imageList = Storage::getJson('source', true);
+        if (is_array($imageList)) {
             return $imageList;
         }
 
@@ -44,11 +29,10 @@ class Pixiv
             return false;
 
         $json = [
-            'date'  => date('Y-m-d'),
             'image' => $image[0],
             'url'   => $url[0],
         ];
-        Storage::save('source.json', $json);
+        Storage::saveJson('source', $json);
 
         return $json;
     }

@@ -33,7 +33,7 @@ class Config
         }
 
         // 获取本项目url
-        if (self::$url == '') {
+        if (self::$url == '' && !IS_CLI) {
             $urlInfo = pathinfo(Tools::getCurrentURL());
             self::$url = $urlInfo['dirname'] . '/';
             if (!isset($urlInfo['extension'])) {
@@ -62,9 +62,15 @@ class Config
                 throw new \Exception('limit 配置项不得小于1');
             }
 
+            if (IS_CLI && self::$url == '' && in_array('local', self::$image_hosting)) {
+                throw new \Exception('在cli模式下使用local本地图床时，必须配置url项，否则可能会生成错误的缩略图url');
+            }
+
         } catch (\Exception $e) {
             Tools::log($e->getMessage(), 'ERROR');
-            echo '错误：' . $e->getMessage() . "\n";
+            if (!IS_CLI) {
+                echo '错误：' . $e->getMessage();
+            }
             die;
         }
     }

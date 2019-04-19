@@ -19,11 +19,11 @@ class Tools
     {
         $level = strtoupper($level);
         if (is_array(Config::$log_level) && in_array($level, Config::$log_level)) {
-            $file = STORAGE_PATH . 'logs/' . date('Ymd') . '.log';
+            $file = STORAGE_PATH . 'logs/' . date('Ymd') . (IS_CLI ? '-cli' : '') . '.log';
             $message = is_array($message) ? json_encode($message) : $message;
             $content = "[{$level}] " . date('Y-m-d H:i:s') . " --> {$message}\n";
             if (IS_CLI) {
-                echo "{$content}";
+                echo $content;
             }
             return file_put_contents($file, $content, FILE_APPEND) !== false;
         }

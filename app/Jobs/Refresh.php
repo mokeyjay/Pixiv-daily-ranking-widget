@@ -27,7 +27,7 @@ class Refresh extends Job
         try {
             $sourceJson = Pixiv::getImageList();
             if (!$sourceJson) {
-                throw new \Exception('无法获取Pixiv排行榜图片列表');
+                throw new \Exception('【致命错误】无法获取Pixiv排行榜图片列表');
             }
 
             if (Config::$service) {
@@ -37,7 +37,6 @@ class Refresh extends Job
             }
 
             $pixivJson = [
-                'date'  => date('Y-m-d'),
                 'image' => [],
                 'url'   => [],
             ];
@@ -45,14 +44,14 @@ class Refresh extends Job
             $enableCompress = Config::$compress && function_exists('imagecreatefromjpeg');
 
             $imageHostingInstances = [];
-            foreach (Config::$image_hosting as $ihName){
+            foreach (Config::$image_hosting as $ihName) {
                 $imageHostingInstances[] = ImageHosting::make($ihName);
             }
 
             // 开始获取图片
             foreach ($sourceJson['image'] as $i => $imageUrl) {
                 // 缓存数量限制
-                if(Config::$service === false && Config::$limit <= $i){
+                if (Config::$service === false && Config::$limit <= $i) {
                     break;
                 }
                 // 最多尝试下载3次
@@ -78,9 +77,9 @@ class Refresh extends Job
                     }
                 }
                 // 上传到图床
-                foreach ($imageHostingInstances as $imageHosting){
+                foreach ($imageHostingInstances as $imageHosting) {
                     $url = $imageHosting->upload($tmpfile);
-                    if($url != false){
+                    if ($url != false) {
                         Storage::deleteFile($tmpfile);
                         break;
                     }
@@ -89,7 +88,7 @@ class Refresh extends Job
                 $pixivJson['image'][] = $url ?: $sourceJson['image'][$i]; // 如上传失败则使用原图url（虽然原图url也显示不出来）
                 $pixivJson['url'][] = $sourceJson['url'][$i];
             }
-            Storage::save('pixiv.json', $pixivJson);
+            Storage::saveJson('pixiv', $pixivJson);
             Lock::remove('refresh');
 
             Config::$clear_overdue && Storage::clearOverdueImages();
@@ -97,7 +96,9 @@ class Refresh extends Job
 
         } catch (\Exception $e) {
             Lock::remove('refresh');
-            throw new \Exception($e->getMessage());
+            Tools::log($e->getMessage(), 'ERROR');
+            $this->errorMsg = $e->getMessage();
+            return false;
         }
     }
 }

@@ -10,35 +10,35 @@ namespace app\Libs;
 class Storage
 {
     /**
-     * 保存文件内容
+     * 保存到文件
      * @param string       $file
      * @param string|array $content
      * @return bool
      */
     public static function save($file, $content)
     {
-        $file = STORAGE_PATH . 'app/' . $file;
-        return file_put_contents($file, json_encode($content)) !== false;
+        $file = STORAGE_PATH . $file;
+        return file_put_contents($file, $content) !== false;
     }
 
     /**
      * 获取文件内容
      * @param string $file
-     * @return array|false
+     * @return mixed|false
      */
     public static function get($file)
     {
-        $file = STORAGE_PATH . 'app/' . $file;
-        if (is_readable($file)) {
-            $file = file_get_contents($file);
-            if ($file === false) {
-                Tools::log('读取 ' . $file . ' 文件失败');
-                return false;
-            }
-
-            return json_decode($file, true);
+        $file = STORAGE_PATH . $file;
+        if (is_readable($file) === false) {
+            return false;
         }
-        return false;
+        $content = @file_get_contents($file);
+        if ($content === false) {
+            Tools::log("读取 {$file} 文件失败");
+            return false;
+        }
+
+        return $content;
     }
 
     /**
@@ -48,7 +48,7 @@ class Storage
      */
     public static function remove($file)
     {
-        return self::deleteFile(STORAGE_PATH . 'app/' . $file);
+        return self::deleteFile(STORAGE_PATH . $file);
     }
 
     /**
@@ -80,9 +80,9 @@ class Storage
      */
     public static function getImage($name)
     {
-        $path = STORAGE_PATH . 'images/' . $name;
-        if (file_exists($path) && getimagesize($path)) {
-            return file_get_contents($path);
+        $path = 'images/' . $name;
+        if (file_exists(STORAGE_PATH . $path) && getimagesize(STORAGE_PATH . $path)) {
+            return self::get($path);
         }
         return false;
     }
@@ -95,5 +95,38 @@ class Storage
     public static function deleteFile($path)
     {
         return unlink($path);
+    }
+
+    /**
+     * 保存数组到json文件
+     * @param string $file 文件名。无需后缀名
+     * @param array  $data
+     * @return bool
+     */
+    public static function saveJson($file, array $data)
+    {
+        $data['date'] = date('Y-m-d');
+        $data = json_encode($data);
+        return self::save("app/{$file}.json", $data);
+    }
+
+    /**
+     * 获取json数组内容
+     * @param string $file      文件名。无需后缀名
+     * @param bool   $checkDate 检查日期。如果文件已过期则返回false
+     * @return mixed|false
+     */
+    public static function getJson($file, $checkDate = false)
+    {
+        $content = self::get("app/{$file}.json");
+        $content = json_decode($content, true);
+        if (!is_array($content)) {
+            return false;
+        }
+
+        if ($checkDate && (!isset($content['date']) || $content['date'] != date('Y-m-d'))) {
+            return false;
+        }
+        return $content;
     }
 }
