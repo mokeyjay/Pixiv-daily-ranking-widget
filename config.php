@@ -55,14 +55,14 @@ return [
 
     /**
      * 图床名称
-     * 可多选：jd、smms、imgsb、local、tietuku
-     * jd=京东、smms=smms图床、imgsb=smms图床v2(内测中)、local=服务器本地、tietuku=贴图库
+     * 可多选：jd、netease、smms、suning、imgsb、local、tietuku
+     * jd=京东、netease=网易、smms=Sm.ms图床、suning=苏宁、imgsb=smms图床v2(内测中)、local=服务器本地、tietuku=贴图库
      * （推荐度按照顺序从高到低）
      *
      * 推荐填写多个图床，如果其中一个图床上传失败，则将按照顺序继续尝试其他图床
      * （因jd图床对图片尺寸有最小限制，部分较小的缩略图会上传失败，因此强烈不建议单独使用jd图床）
      */
-    'image_hosting' => ['jd', 'smms', 'local'],
+    'image_hosting' => ['jd', 'netease', 'smms', 'suning', 'local'],
 
     /**
      * tietuku 图床需要到 http://www.tietuku.com/manager/createtoken 注册登录后生成token填到下方才能使用
