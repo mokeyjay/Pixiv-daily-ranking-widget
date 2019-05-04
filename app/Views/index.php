@@ -15,13 +15,9 @@
   <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
   <style>
     html, body, #carousel-example-generic, .carousel-inner, .item, .item div { height : 100%; }
-
-    .item { background-color : #<?=Config::$background_color?>; }
-
+    body { background: <?=Config::$background_color?>; }
     .item div { background-position : center; background-repeat : no-repeat; background-attachment : fixed; }
-
     .carousel-caption { position : static }
-
     .carousel-control.left, .carousel-control.right { background : none; }
   </style>
   <script>

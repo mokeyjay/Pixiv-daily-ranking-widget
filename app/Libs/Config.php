@@ -11,7 +11,7 @@ class Config
 {
     // 此处属性对应 config.php 内的配置项
     public static $url = '';
-    public static $background_color = 'ffffff';
+    public static $background_color = 'transparent';
     public static $limit = 50;
     public static $service = true;
     public static $log_level = [];
@@ -44,7 +44,7 @@ class Config
         // 是否对外提供服务，是则获取url参数
         if (self::$service) {
             if (isset($_GET['color'])) {
-                self::$background_color = (string)$_GET['color'];
+                self::$background_color = '#' . $_GET['color'];
             }
             if (isset($_GET['limit'])) {
                 self::$limit = (int)$_GET['limit'];

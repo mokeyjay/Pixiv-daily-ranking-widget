@@ -11,9 +11,9 @@ return [
     'url' => '',
 
     /**
-     * 背景颜色。默认值为 ffffff （纯白色）。你也可以通过get方式传参 color 来设置
+     * 背景颜色。默认值为 transparent （透明）。你也可以通过get方式传参 color 来设置
      */
-    'background_color' => 'ffffff',
+    'background_color' => 'transparent',
 
     /**
      * 显示和缓存的图片数量限制（范围1-50）
