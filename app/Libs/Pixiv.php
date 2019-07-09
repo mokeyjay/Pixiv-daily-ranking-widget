@@ -22,7 +22,7 @@ class Pixiv
 
         $html = Curl::get('https://www.pixiv.net/ranking.php?mode=daily&content=illust');
         preg_match_all('|https://i\.pximg\.net/c/240x480/img-master/img/\d{4}/\d{2}/\d{2}/\d{2}/\d{2}/\d{2}/(.*?\.\w{3})|', $html, $image); // 匹配缩略图url
-        preg_match_all('|member_illust.php\?mode=medium&amp;illust_id=\d+&amp;ref=rn-b-\d+-title-\d&amp;uarea=daily|', $html, $url); // 匹配链接
+        preg_match_all('|member_illust.php\?mode=medium&amp;illust_id=\d+|', $html, $url); // 匹配链接
 
         // 如果获取图片或url失败
         if (empty($image[0]) || empty($url[0]))

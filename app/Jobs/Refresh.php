@@ -19,14 +19,27 @@ class Refresh extends Job
     public function run()
     {
         if (!Lock::create('refresh', 1800)) {
-            Tools::log('锁创建失败，可能是刷新操作执行中');
             $this->errorMsg = '锁创建失败，可能是刷新操作执行中';
+            Tools::log($this->errorMsg);
             return false;
         }
 
         try {
             $sourceJson = Pixiv::getImageList();
             if (!$sourceJson) {
+                // 是否超过最大重试次数
+                $refreshCount = (int)Storage::get('refreshCount');
+                if ($refreshCount > 10) {
+                    // 超过10次（5小时）都无法获取到pixiv排行榜
+                    // 直接锁定一整天，明天再试，降低无意义的资源损耗
+                    $expire = mktime(23, 59, 59) - time();
+                    Lock::remove('refresh');
+                    Lock::create('refresh', $expire);
+                    Storage::remove('refreshCount');
+                } else {
+                    Storage::save('refreshCount', $refreshCount + 1);
+                }
+
                 throw new \Exception('【致命错误】无法获取Pixiv排行榜图片列表');
             }
 
