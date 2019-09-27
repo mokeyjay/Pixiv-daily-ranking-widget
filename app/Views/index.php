@@ -37,7 +37,7 @@
       <?php foreach ($pixivJson['image'] as $k => $v): ?>
           <?php if ($k >= Config::$limit) break; ?>
         <div class="item <?php if ($k == 0) echo 'active'; ?>">
-          <a href="http://www.pixiv.net/<?= $pixivJson['url'][$k] ?>" target="_blank">
+          <a href="https://www.pixiv.net/<?= $pixivJson['url'][$k] ?>" target="_blank">
             <div class="carousel-caption" style="background-image: url(<?= str_replace('http://i', '//i', $v) ?>)"></div>
           </a>
         </div>
