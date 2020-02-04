@@ -61,9 +61,9 @@ class App
         if (!$job) {
             throw new \Exception("任务 {$jobName} 加载失败");
         }
+
         set_time_limit(0);
-        $result = $job->run();
-        if ($result) {
+        if ($job->run()) {
             Tools::log("任务 {$jobName} 执行完毕");
             echo "任务 {$jobName} 执行完毕";
         } else {

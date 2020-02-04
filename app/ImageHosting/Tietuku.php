@@ -18,7 +18,7 @@ class Tietuku extends ImageHosting
     public function upload($path)
     {
         if (empty(Config::$image_hosting_extend['tietuku']['token'])) {
-            Tools::log('[Tietuku图床]上传失败：请先配置tietuku的token', 'ERROR');
+            Tools::log('[Tietuku图床]上传失败：请先配置 tietuku 的 token', 'ERROR');
             return false;
         }
 
