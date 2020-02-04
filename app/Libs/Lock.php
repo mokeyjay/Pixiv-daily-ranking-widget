@@ -28,7 +28,7 @@ class Lock
      * 创建锁
      * @param string $name
      * @param int    $expire 自动过期时间（秒）
-     * @return bool
+     * @return bool 创建失败或锁已存在时返回 false
      */
     public static function create($name, $expire = 0)
     {
@@ -46,5 +46,16 @@ class Lock
     public static function remove($name)
     {
         return Storage::remove("app/{$name}.lock");
+    }
+
+    /**
+     * 强制创建锁
+     * @param string $name 锁名称
+     * @param int    $expire 自动过期时间（秒）
+     * @return bool
+     */
+    public static function forceCreate($name, $expire)
+    {
+        return Storage::save("app/{$name}.lock", ($expire ? (time() + $expire) : 0));
     }
 }

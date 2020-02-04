@@ -20,21 +20,31 @@ class Refresh extends Job
     {
         if (!Lock::create('refresh', 1800)) {
             $this->errorMsg = '锁创建失败，可能是刷新操作执行中';
-            Tools::log($this->errorMsg);
             return false;
         }
 
         try {
+            $oldSourceJson = Storage::getJson('source');
             $sourceJson = Pixiv::getImageList();
-            if (!$sourceJson) {
+
+            // 对比新旧 source，如果内容没变，则视为今天的排行榜还没出，暂不更新
+            if ($oldSourceJson && $sourceJson){
+                unset($oldSourceJson['date'], $sourceJson['date']);
+                if(json_encode($oldSourceJson) === json_encode($sourceJson)){
+                    Tools::log('排行榜未更新，过会儿再试');
+                    Lock::forceCreate('refresh', 1800);
+                    return true;
+                }
+            }
+
+            if($sourceJson === false) {
                 // 是否超过最大重试次数
                 $refreshCount = (int)Storage::get('refreshCount');
                 if ($refreshCount > 10) {
                     // 超过10次（5小时）都无法获取到pixiv排行榜
                     // 直接锁定一整天，明天再试，降低无意义的资源损耗
                     $expire = mktime(23, 59, 59) - time();
-                    Lock::remove('refresh');
-                    Lock::create('refresh', $expire);
+                    Lock::forceCreate('refresh', $expire);
                     Storage::remove('refreshCount');
                 } else {
                     Storage::save('refreshCount', $refreshCount + 1);
@@ -109,7 +119,6 @@ class Refresh extends Job
 
         } catch (\Exception $e) {
             Lock::remove('refresh');
-            Tools::log($e->getMessage(), 'ERROR');
             $this->errorMsg = $e->getMessage();
             return false;
         }
