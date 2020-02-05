@@ -38,13 +38,13 @@ class App
         $pixivJson = Storage::getJson('pixiv');
         if ($pixivJson === false || $pixivJson['date'] != date('Y-m-d')) {
             if (!Lock::check('refresh')) {
-                Pixiv::runRefreshThread();
+                Tools::runRefreshThread();
             }
         }
         if ($pixivJson === false) {
             include APP_PATH . 'Views/loading.php';
         } else {
-            include APP_PATH . 'Views/index.php';
+            require APP_PATH . 'Views/index.php';
         }
     }
 

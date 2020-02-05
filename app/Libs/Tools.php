@@ -9,6 +9,8 @@ namespace app\Libs;
  */
 class Tools
 {
+    const LOG_LEVEL_ERROR = 'ERROR';
+
     /**
      * 写日志
      * @param string|array $message
@@ -43,5 +45,15 @@ class Tools
             $url .= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
         }
         return $url;
+    }
+
+    /**
+     * 执行刷新线程
+     */
+    public static function runRefreshThread()
+    {
+        Curl::get(Config::$url . 'index.php?job=refresh', [
+            CURLOPT_TIMEOUT => 1,
+        ]);
     }
 }

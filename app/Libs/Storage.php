@@ -105,9 +105,10 @@ class Storage
      */
     public static function saveJson($file, array $data)
     {
-        $data['date'] = date('Y-m-d');
-        $data = json_encode($data);
-        return self::save("app/{$file}.json", $data);
+        if (!isset($data['date'])) {
+            $data['date'] = date('Y-m-d');
+        }
+        return self::save("app/{$file}.json", json_encode($data));
     }
 
     /**

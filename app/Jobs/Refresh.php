@@ -18,26 +18,23 @@ class Refresh extends Job
 {
     public function run()
     {
-        if (!Lock::create('refresh', 1800)) {
+        if (!Lock::create('refresh', 600)) {
             $this->errorMsg = '锁创建失败，可能是刷新操作执行中';
             return false;
         }
 
         try {
-            $oldSourceJson = Storage::getJson('source');
-            $sourceJson = Pixiv::getImageList();
-
-            // 对比新旧 source，如果内容没变，则视为今天的排行榜还没出，暂不更新
-            if ($oldSourceJson && $sourceJson){
-                unset($oldSourceJson['date'], $sourceJson['date']);
-                if(json_encode($oldSourceJson) === json_encode($sourceJson)){
-                    Tools::log('排行榜未更新，过会儿再试');
-                    Lock::forceCreate('refresh', 1800);
-                    return true;
-                }
+            // 在线上排行榜没更新且已有 pixiv 旧缓存的情况下，不更新 pixiv 缓存
+            // 这样判断是为了防止新安装用户在当天排行榜未更新之前一直无法正常使用的问题
+            if(Pixiv::checkRankingUpdate() === false && Storage::getJson('pixiv')){
+                Tools::log('排行榜尚未更新，半小时后再试');
+                Lock::forceCreate('refresh', 1800);
+                return true;
             }
 
-            if($sourceJson === false) {
+            $images = Pixiv::getImages();
+
+            if($images === false) {
                 // 是否超过最大重试次数
                 $refreshCount = (int)Storage::get('refreshCount');
                 if ($refreshCount > 10) {
@@ -53,12 +50,6 @@ class Refresh extends Job
                 throw new \Exception('【致命错误】无法获取Pixiv排行榜图片列表');
             }
 
-            if (Config::$service) {
-                // 如果设置了对外服务并且图片缓存的话，则强制缓存50张
-                // 避免服务方设置了 limit=10 而用户请求 limit=50 时的问题
-                Config::$limit = 50;
-            }
-
             $pixivJson = [
                 'image' => [],
                 'url'   => [],
@@ -72,18 +63,18 @@ class Refresh extends Job
             }
 
             // 开始获取图片
-            foreach ($sourceJson['image'] as $i => $imageUrl) {
+            foreach ($images['image'] as $i => $imageUrl) {
                 // 缓存数量限制
-                if (Config::$service === false && Config::$limit <= $i) {
+                if ($i >= Config::$limit) {
                     break;
                 }
                 // 最多尝试下载3次
-                for ($ii = 0; $ii < 3; $ii++) {
+                for ($ii = 1; $ii <= 3; $ii++) {
                     $tmpfile = Pixiv::downloadImage($imageUrl);
                     if ($tmpfile) {
                         break;
                     } else {
-                        Tools::log("图片 {$imageUrl} 下载失败，重试第{$ii}次");
+                        Tools::log("图片 {$imageUrl} 下载失败，重试第 {$ii} 次");
                         sleep(3);
                     }
                 }
@@ -108,9 +99,11 @@ class Refresh extends Job
                     }
                 }
 
-                $pixivJson['image'][] = $url ?: $sourceJson['image'][$i]; // 如上传失败则使用原图url（虽然原图url也显示不出来）
-                $pixivJson['url'][] = $sourceJson['url'][$i];
+                $pixivJson['image'][] = $url ?: $images['image'][$i]; // 如上传失败则使用原图url（虽然原图url也显示不出来）
+                $pixivJson['url'][] = $images['url'][$i];
             }
+
+            $pixivJson['date'] = $images['date'];
             Storage::saveJson('pixiv', $pixivJson);
             Lock::remove('refresh');
 
