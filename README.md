@@ -1,7 +1,7 @@
-## Pixiv每日排行榜Top50小部件
-![Pixiv每日排行榜Top50小部件效果图](https://i.loli.net/2019/05/04/5ccd5293141b4.jpg)
+## Pixiv每日排行榜小挂件
+![Pixiv每日排行榜小挂件效果图](https://i.loli.net/2019/05/04/5ccd5293141b4.jpg)
 ## 简介
-骚年，你是`ACG`或绘画爱好者吗？你希望在你的博客或网站中添加一个 **`Pixiv`每日排行榜Top50** 的展示功能吗？现在，无需在茫茫互联网中寻找适合自己站点的插件了，只需要几个文件或是一行代码即可实现！
+骚年，你是`ACG`或绘画爱好者吗？你希望在你的博客或网站中添加一个 **`Pixiv`每日排行榜** 的展示功能吗？现在，无需在茫茫互联网中寻找适合自己站点的插件了，只需要几个文件或是一行代码即可实现！
 
 ## 特色
 - 一行`HTML`代码即可调用，方便快捷
@@ -10,10 +10,10 @@
 - 点击图片可跳转到对应作品详情页
 - 每日自动更新，无需人工干预
 - 内置多图床支持、按需加载图片，极低资源消耗
-- 提供API服务，含有更新日期、缩略图url及详情页url
+- 提供API服务，含有排行榜更新日期、缩略图url及详情页url
 
 ## 开源地址
-[Github](https://github.com/mokeyjay/Pixiv-daily-top50-widget)
+[Github](https://github.com/mokeyjay/Pixiv-daily-ranking-widget)
 
 ## 如何部署
 ### 方案一：使用[超能小紫](https://www.mokeyjay.com)提供的服务
@@ -39,7 +39,7 @@
 你还可以通过`limit`参数限制图片数量  
 例如`https://cloud.mokeyjay.com/pixiv/?color=f00&limit=10`  
 则可以得到背景为红色的Top10画册  
-> `limit`参数的范围必须在`1-50` 之间
+> `limit`参数的范围必须在`1-500` 之间
   
 #### API服务
 [图床缩略图URL+详情页URL](https://cloud.mokeyjay.com/pixiv/storage/app/pixiv.json)（推荐）  
@@ -51,7 +51,7 @@
 适用于动手能力较强或需要深度自定义的用户  
 > 需要PHP版本 >= 5.4
 
-首先[下载源代码](https://github.com/mokeyjay/Pixiv-daily-top50-widget/releases/latest)，解压  
+首先[下载源代码](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/releases/latest)，解压  
 使用专业编辑器（例如`Sublime`、`Notepad++`等，切忌使用记事本）编辑`config.php`，根据实际情况修改相应配置  
 > 由于Pixiv已经被墙，如果你想要将此项目部署在国内，请务必配置 `proxy` 配置项   
 
@@ -65,6 +65,18 @@
 - 本项目免费开源，仅供学习交流。请勿用于任何商业用途，作者不承担任何责任  
 
 ## 更新日志
+### 4.4
+- 改用官方 ajax 接口获取排行数据
+- 添加 阿里巴巴、百度、今日头条 图床接口
+- 更新 smms 图床接口到 v2 版本
+- 删除已被废弃的 img.sb 图床接口
+- 删除已被封锁的 京东 图床接口
+- 删除 loading 页面的统计代码
+- 改用综合排行榜数据，而非仅限于插画
+- 图片数量限制扩充到 500，达到官方上限
+- service 配置项的取值不再影响 limit
+- 其他优化、bug 修复
+
 ### 4.3
 - 修复Pixiv排行榜页面代码改版导致的无法更新
 - 跳转至详情页时使用 https

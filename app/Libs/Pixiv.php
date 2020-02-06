@@ -41,6 +41,13 @@ class Pixiv
         $json = self::getRanking();
 
         if ($json && isset($json['date']) && preg_match('|^\d{8}$|', $json['date'])) {
+
+            // 一般情况下 rank_total 都是 500，但不排除 pixiv 抽风某天排行榜最大数量不足 500
+            // 因此在这里处理下 limit 值防止 getImages 在某些情况下报错
+            if(isset($json['rank_total'])){
+                Config::$limit = $json['rank_total'] < Config::$limit ? $json['rank_total'] : Config::$limit;
+            }
+
             return date('Y-m-d', strtotime($json['date'])) === date('Y-m-d');
         }
 
@@ -54,8 +61,8 @@ class Pixiv
      */
     public static function getImages()
     {
-        $source = Storage::getJson('source', true);
-        if (is_array($source)) {
+        $source = Storage::getJson('source');
+        if (is_array($source) && self::checkDate($source)) {
             return $source;
         }
 
@@ -114,6 +121,21 @@ class Pixiv
             $file = sys_get_temp_dir() . '/' . $file;
             return file_put_contents($file, $image) !== false ? $file : false;
         }
+        return false;
+    }
+
+    /**
+     * 检查传入数组的 date 值是否有效。返回 true 为未过期
+     * @param array $data
+     * @return bool
+     */
+    public static function checkDate(array $data)
+    {
+        if(isset($data['date'])){
+            $yesterday = date('Y-m-d', strtotime('-1 day'));
+            return $data['date'] >= $yesterday;
+        }
+
         return false;
     }
 }

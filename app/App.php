@@ -36,7 +36,7 @@ class App
         }
 
         $pixivJson = Storage::getJson('pixiv');
-        if ($pixivJson === false || $pixivJson['date'] != date('Y-m-d')) {
+        if ($pixivJson === false || !Pixiv::checkDate($pixivJson)) {
             if (!Lock::check('refresh')) {
                 Tools::runRefreshThread();
             }

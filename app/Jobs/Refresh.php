@@ -11,6 +11,12 @@ use app\Libs\Tools;
 
 /**
  * 刷新任务
+ *
+ * 以下 3 种情况需要刷新排行榜：
+ * 1、今日的排行榜已经出来了
+ * 2、今日的排行榜还没出，但没有 pixiv.json 文件。这可能是第一次新安装，当然需要刷新
+ * 3、今日的排行榜还没出，但 pixiv.json 已经过期 2 天及以上
+ *
  * Class Refresh
  * @package app\Jobs
  */
@@ -24,9 +30,9 @@ class Refresh extends Job
         }
 
         try {
-            // 在线上排行榜没更新且已有 pixiv 旧缓存的情况下，不更新 pixiv 缓存
-            // 这样判断是为了防止新安装用户在当天排行榜未更新之前一直无法正常使用的问题
-            if(Pixiv::checkRankingUpdate() === false && Storage::getJson('pixiv')){
+            $pixivJson = Storage::getJson('pixiv');
+
+            if(!Pixiv::checkRankingUpdate() && $pixivJson && Pixiv::checkDate($pixivJson)){
                 Tools::log('排行榜尚未更新，半小时后再试');
                 Lock::forceCreate('refresh', 1800);
                 return true;

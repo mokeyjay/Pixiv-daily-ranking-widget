@@ -105,19 +105,15 @@ class Storage
      */
     public static function saveJson($file, array $data)
     {
-        if (!isset($data['date'])) {
-            $data['date'] = date('Y-m-d');
-        }
         return self::save("app/{$file}.json", json_encode($data));
     }
 
     /**
      * 获取json数组内容
-     * @param string $file      文件名。无需后缀名
-     * @param bool   $checkDate 检查日期。如果文件已过期则返回false
+     * @param string $file 文件名。无需后缀名
      * @return mixed|false
      */
-    public static function getJson($file, $checkDate = false)
+    public static function getJson($file)
     {
         $content = self::get("app/{$file}.json");
         $content = json_decode($content, true);
@@ -125,9 +121,6 @@ class Storage
             return false;
         }
 
-        if ($checkDate && (!isset($content['date']) || $content['date'] != date('Y-m-d'))) {
-            return false;
-        }
         return $content;
     }
 }
