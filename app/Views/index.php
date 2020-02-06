@@ -1,7 +1,7 @@
 <?php
   use app\Libs\Config;
 ?>
-<!-- 来自 超能小紫 的 Pixiv每日榜Top50挂件 -->
+<!-- 来自 mokeyjay 超能小紫 的 Pixiv每日排行榜小挂件 -->
 <!-- 博客：https://www.mokeyjay.com -->
 <!-- 这个博客将会集技术、ACG、日常、分享于一身，如果你喜欢，常来玩哦 -->
 <!DOCTYPE html>
@@ -10,7 +10,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pixiv每日榜Top<?=Config::$limit?>挂件</title>
+  <title>Pixiv 每日排行榜 Top<?=Config::$limit?> 小挂件</title>
 
   <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
   <style>
