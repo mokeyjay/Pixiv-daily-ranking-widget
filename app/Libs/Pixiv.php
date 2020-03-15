@@ -40,6 +40,7 @@ class Pixiv
     {
         $json = self::getRanking();
 
+        // $json['date'] 的格式为 20200310
         if ($json && isset($json['date']) && preg_match('|^\d{8}$|', $json['date'])) {
 
             // 一般情况下 rank_total 都是 500，但不排除 pixiv 抽风某天排行榜最大数量不足 500
@@ -48,7 +49,8 @@ class Pixiv
                 Config::$limit = $json['rank_total'] < Config::$limit ? $json['rank_total'] : Config::$limit;
             }
 
-            return date('Y-m-d', strtotime($json['date'])) === date('Y-m-d');
+            $json['date'] = date('Y-m-d', strtotime($json['date']));
+            return self::checkDate($json);
         }
 
         throw new \Exception('检查排行榜更新失败！接口返回值：' . json_encode($json));
@@ -125,7 +127,7 @@ class Pixiv
     }
 
     /**
-     * 检查传入数组的 date 值是否有效。返回 true 为未过期
+     * 检查传入数组的 date 值是否有效（即大于等于昨天）。返回 true 为未过期
      * @param array $data
      * @return bool
      */

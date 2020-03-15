@@ -12,10 +12,9 @@ use app\Libs\Tools;
 /**
  * 刷新任务
  *
- * 以下 3 种情况需要刷新排行榜：
- * 1、今日的排行榜已经出来了
- * 2、今日的排行榜还没出，但没有 pixiv.json 文件。这可能是第一次新安装，当然需要刷新
- * 3、今日的排行榜还没出，但 pixiv.json 已经过期 2 天及以上
+ * 以下 2 种情况需要刷新排行榜：
+ * 1、昨天的排行榜已经出来了
+ * 2、昨天的排行榜还没出，但没有 pixiv.json 文件。这可能是第一次新安装，当然需要刷新
  *
  * Class Refresh
  * @package app\Jobs
@@ -24,15 +23,9 @@ class Refresh extends Job
 {
     public function run()
     {
-        if (!Lock::create('refresh', 600)) {
-            $this->errorMsg = '锁创建失败，可能是刷新操作执行中';
-            return false;
-        }
-
         try {
             $pixivJson = Storage::getJson('pixiv');
-
-            if(!Pixiv::checkRankingUpdate() && $pixivJson && Pixiv::checkDate($pixivJson)){
+            if(!Pixiv::checkRankingUpdate() && $pixivJson){
                 Tools::log('排行榜尚未更新，半小时后再试');
                 Lock::forceCreate('refresh', 1800);
                 return true;
