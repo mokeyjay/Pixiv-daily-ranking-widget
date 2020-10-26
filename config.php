@@ -53,13 +53,13 @@ return [
 
     /**
      * 图床名称
-     * 可多选：alibaba、baidu、toutiao、netease、suning、smms、local、tietuku
-     * alibaba=阿里巴巴、baidu=百度、toutiao=今日头条、netease=网易、suning=苏宁、smms=Sm.ms图床、local=服务器本地、tietuku=贴图库
+     * 可多选：baidu、toutiao、netease、suning、smms、local、tietuku
+     * baidu=百度、toutiao=今日头条、netease=网易、suning=苏宁、smms=Sm.ms图床、local=服务器本地、tietuku=贴图库
      * （推荐度按照顺序从高到低）
      *
      * 推荐填写多个图床，如果其中一个图床上传失败，则将按照顺序继续尝试其他图床
      */
-    'image_hosting' => ['alibaba', 'baidu', 'toutiao', 'netease', 'suning', 'smms', 'local'],
+    'image_hosting' => ['baidu', 'toutiao', 'netease', 'suning', 'smms', 'local'],
 
     /**
      * 图床扩展配置信息
