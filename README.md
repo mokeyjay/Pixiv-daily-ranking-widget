@@ -16,9 +16,11 @@
 [Github](https://github.com/mokeyjay/Pixiv-daily-ranking-widget)
 
 ## 如何部署
-### 方案一：使用[超能小紫](https://www.mokeyjay.com)提供的服务
-该方案适用于动手能力较差或较懒或没有特殊需求的用户。且已配置数个图床，访问速度较快  
-服务地址：[https://cloud.mokeyjay.com/pixiv](https://cloud.mokeyjay.com/pixiv)  
+### <del>方案一：使用[超能小紫](https://www.mokeyjay.com)提供的服务</del>
+我的服务器IP已经被 pixiv 屏蔽了，暂时无法提供正常服务  
+<del>该方案适用于动手能力较差或较懒或没有特殊需求的用户。且已配置数个图床，访问速度较快  
+服务地址：[https://cloud.mokeyjay.com/pixiv](https://cloud.mokeyjay.com/pixiv)  </del>
+
 以`Wordpress`为例，首先进入 后台 -> 外观 -> 小工具  
 向右边适当的位置添加一个 **文本** 或 **自定义HTML** 小工具，标题随意，内容为  
 ```html
@@ -65,6 +67,12 @@
 - 本项目免费开源，仅供学习交流。请勿用于任何商业用途，作者不承担任何责任  
 
 ## 更新日志
+### 4.4.1
+- 更新 Curl 类的默认 UA
+- 修复部分情况下获取项目URL错误
+- 修复获取排行榜数据失败时会无限重试的问题
+- 删除已经失效的 alibaba 图床
+
 ### 4.4
 - 改用官方 ajax 接口获取排行数据
 - 添加 阿里巴巴、百度、今日头条 图床接口
