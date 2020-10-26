@@ -33,6 +33,7 @@ class App
         $opt = getopt('j:');
         if (!empty($_GET['job']) || isset($opt['j'])) {
             self::job();
+            exit;
         }
 
         $pixivJson = Storage::getJson('pixiv');
@@ -69,7 +70,5 @@ class App
         } else {
             throw new \Exception("任务 {$jobName} 执行失败：{$job->getErrorMsg()}");
         }
-
-        exit;
     }
 }

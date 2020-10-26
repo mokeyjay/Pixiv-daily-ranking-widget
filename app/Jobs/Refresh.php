@@ -32,20 +32,7 @@ class Refresh extends Job
             }
 
             $images = Pixiv::getImages();
-
             if($images === false) {
-                // 是否超过最大重试次数
-                $refreshCount = (int)Storage::get('refreshCount');
-                if ($refreshCount > 10) {
-                    // 超过10次（5小时）都无法获取到pixiv排行榜
-                    // 直接锁定一整天，明天再试，降低无意义的资源损耗
-                    $expire = mktime(23, 59, 59) - time();
-                    Lock::forceCreate('refresh', $expire);
-                    Storage::remove('refreshCount');
-                } else {
-                    Storage::save('refreshCount', $refreshCount + 1);
-                }
-
                 throw new \Exception('【致命错误】无法获取Pixiv排行榜图片列表');
             }
 
@@ -110,7 +97,21 @@ class Refresh extends Job
             return true;
 
         } catch (\Exception $e) {
-            Lock::remove('refresh');
+
+            // 是否超过最大重试次数
+            $refreshCount = (int)Storage::get('refreshCount');
+            if ($refreshCount > 10) {
+                // 超过10次（5小时）都无法获取到pixiv排行榜
+                // 直接锁定一整天，明天再试，降低无意义的资源损耗
+                $expire = mktime(23, 59, 59) - time();
+                Lock::forceCreate('refresh', $expire);
+                Storage::remove('refreshCount');
+            } else {
+                // 半小时后再试
+                Lock::forceCreate('refresh', 1800);
+                Storage::save('refreshCount', $refreshCount + 1);
+            }
+
             $this->errorMsg = $e->getMessage();
             return false;
         }
