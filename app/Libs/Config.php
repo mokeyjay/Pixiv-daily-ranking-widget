@@ -18,7 +18,7 @@ class Config
     public static $proxy = '';
     public static $clear_overdue = true;
     public static $compress = true;
-    public static $image_hosting = ['jd', 'smms', 'local'];
+    public static $image_hosting = ['local'];
     public static $image_hosting_extend = [];
 
     /**
@@ -34,11 +34,7 @@ class Config
 
         // 获取本项目url
         if (self::$url == '' && !IS_CLI) {
-            $urlInfo = pathinfo(Tools::getCurrentURL());
-            self::$url = $urlInfo['dirname'] . '/';
-            if (!isset($urlInfo['extension'])) {
-                self::$url .= $urlInfo['basename'] . '/';
-            }
+            self::$url = Tools::getCurrentURL();
         }
 
         // 是否对外提供服务，是则获取url参数
