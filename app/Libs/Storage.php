@@ -94,7 +94,7 @@ class Storage
      */
     public static function deleteFile($path)
     {
-        return unlink($path);
+        return @unlink($path);
     }
 
     /**
