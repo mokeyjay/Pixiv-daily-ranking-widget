@@ -42,6 +42,7 @@ class App
                 Tools::runRefreshThread();
             }
         }
+
         if ($pixivJson === false) {
             include APP_PATH . 'Views/loading.php';
         } else {

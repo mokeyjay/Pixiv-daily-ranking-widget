@@ -25,7 +25,9 @@ class Refresh extends Job
     {
         try {
             $pixivJson = Storage::getJson('pixiv');
-            if(!Pixiv::checkRankingUpdate() && $pixivJson){
+            $ranking = Pixiv::getRanking();
+
+            if(!$this->needRefresh($ranking, $pixivJson)){
                 Tools::log('排行榜尚未更新，半小时后再试');
                 Lock::forceCreate('refresh', 1800);
                 return true;
@@ -115,5 +117,27 @@ class Refresh extends Job
             $this->errorMsg = $e->getMessage();
             return false;
         }
+    }
+
+    /**
+     * 是否需要刷新数据
+     * @param array $ranking pixiv 接口返回的排行榜数据
+     * @param array $pixivJson pixiv.json 的内容
+     * @return bool
+     * @throws \Exception
+     */
+    private function needRefresh($ranking, $pixivJson)
+    {
+        if (!isset($pixivJson['date'])) {
+            return true;
+        }
+
+        // $ranking['date'] 的格式为 20200310
+        if ($ranking && isset($ranking['date']) && preg_match('|^\d{8}$|', $ranking['date'])) {
+
+            return $pixivJson['date'] != date('Y-m-d', strtotime($ranking['date']));
+        }
+
+        throw new \Exception('排行榜日期数据异常！数据：' . json_encode($ranking));
     }
 }
