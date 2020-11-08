@@ -48,6 +48,8 @@ class Refresh extends Job
                 $imageHostingInstances[] = ImageHosting::make($ihName);
             }
 
+            $proxy = Config::$proxy;
+
             // 开始获取图片
             foreach ($images['image'] as $i => $imageUrl) {
                 // 缓存数量限制
@@ -55,6 +57,7 @@ class Refresh extends Job
                     break;
                 }
                 // 最多尝试下载3次
+                Config::$proxy = $proxy;
                 for ($ii = 1; $ii <= 3; $ii++) {
                     $tmpfile = Pixiv::downloadImage($imageUrl);
                     if ($tmpfile) {
@@ -77,6 +80,7 @@ class Refresh extends Job
                     }
                 }
                 // 上传到图床
+                Config::$proxy = null;
                 foreach ($imageHostingInstances as $imageHosting) {
                     $url = $imageHosting->upload($tmpfile);
                     if ($url != false) {
