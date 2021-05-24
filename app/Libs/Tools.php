@@ -27,8 +27,10 @@ class Tools
             if (IS_CLI) {
                 echo $content . "\n";
             }
+
             return file_put_contents($file, $content, FILE_APPEND) !== false;
         }
+
         return true;
     }
 
@@ -38,7 +40,7 @@ class Tools
      */
     public static function getCurrentURL()
     {
-        $url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'];
+        $url = self::getRequestScheme() . '://' . $_SERVER['SERVER_NAME'];
         if ($_SERVER['SERVER_PORT'] != '80') {
             $url .= ':' . $_SERVER['SERVER_PORT'];
         }
@@ -56,5 +58,26 @@ class Tools
         Curl::get(Config::$url . 'index.php?job=refresh', [
             CURLOPT_TIMEOUT => 1,
         ]);
+    }
+
+    /**
+     * 获取当前请求的协议
+     * @return string
+     */
+    public static function getRequestScheme()
+    {
+        if (isset($_SERVER['REQUEST_SCHEME'])) {
+            return $_SERVER['REQUEST_SCHEME'];
+        }
+
+        if (
+            (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') ||
+            (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ||
+            (!empty($_SERVER['HTTP_FRONT_END_HTTPS']) && strtolower($_SERVER['HTTP_FRONT_END_HTTPS']) !== 'off')
+        ) {
+            return 'https';
+        }
+
+        return 'http';
     }
 }
