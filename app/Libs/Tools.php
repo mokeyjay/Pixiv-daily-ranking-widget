@@ -40,11 +40,11 @@ class Tools
      */
     public static function getCurrentURL()
     {
-        $url = self::getRequestScheme() . '://' . $_SERVER['SERVER_NAME'];
-        if ($_SERVER['SERVER_PORT'] != '80') {
+        $url = self::getRequestScheme() . '://' . $_SERVER['HTTP_HOST'];
+        if (!in_array($_SERVER['SERVER_PORT'], ['80', '443'])) {
             $url .= ':' . $_SERVER['SERVER_PORT'];
         }
-        $url .= pathinfo($_SERVER['DOCUMENT_URI'], PATHINFO_DIRNAME);
+        $url .= $_SERVER['REQUEST_URI'];
         $url = rtrim($url, '/') . '/';
 
         return $url;
