@@ -53,13 +53,13 @@ return [
 
     /**
      * 图床名称
-     * 可多选：baidu、toutiao、netease、suning、smms、local、tietuku
-     * baidu=百度、toutiao=今日头条、netease=网易、suning=苏宁、smms=Sm.ms图床、local=服务器本地、tietuku=贴图库
+     * 可多选：baidu、alibaba、smms、local、tietuku
+     * baidu=百度、alibaba=阿里巴巴、smms=Sm.ms图床、local=服务器本地、tietuku=贴图库
      * （推荐度按照顺序从高到低）
      *
      * 推荐填写多个图床，如果其中一个图床上传失败，则将按照顺序继续尝试其他图床
      */
-    'image_hosting' => ['baidu', 'toutiao', 'netease', 'suning', 'smms', 'local'],
+    'image_hosting' => ['baidu', 'alibaba', 'smms', 'local'],
 
     /**
      * 图床扩展配置信息
@@ -71,5 +71,12 @@ return [
         'smms' => [
             'token' => '',
         ],
-    ]
+    ],
+
+    /**
+     * 禁用 web 访问的方式触发 job 更新，仅限 cli 方式触发
+     * 由于部分环境 web 超时时间不够，会导致更新操作不断被触发但又无法完成整个更新流程
+     * 因此添加一个开关，避免 web 触发更新，节约服务器资源
+     */
+    'disable_web_job' => false,
 ];

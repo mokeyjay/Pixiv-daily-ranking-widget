@@ -19,6 +19,7 @@ abstract class ImageHosting extends Factory
     public static function make($name, array $config = [])
     {
         $name = '\\app\\ImageHosting\\' . ucfirst(strtolower($name));
+
         return parent::make($name, $config);
     }
 

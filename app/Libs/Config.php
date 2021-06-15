@@ -20,6 +20,7 @@ class Config
     public static $compress = true;
     public static $image_hosting = ['local'];
     public static $image_hosting_extend = [];
+    public static $disable_web_job = false;
 
     /**
      * 初始化配置
@@ -64,9 +65,8 @@ class Config
 
         } catch (\Exception $e) {
             Tools::log($e->getMessage(), 'ERROR');
-            if (!IS_CLI) {
-                echo '错误：' . $e->getMessage();
-            }
+            echo '错误：' . $e->getMessage();
+
             die;
         }
     }

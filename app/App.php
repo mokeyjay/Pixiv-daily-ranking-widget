@@ -38,7 +38,7 @@ class App
 
         $pixivJson = Storage::getJson('pixiv');
         if ($pixivJson === false || !Pixiv::checkDate($pixivJson)) {
-            if (Lock::create('refresh', 600)) {
+            if (Lock::create('refresh', 600) && Config::$disable_web_job === false) {
                 Tools::runRefreshThread();
             }
         }
