@@ -1,7 +1,7 @@
 <?php
 /**
  * 项目：Pixiv每日排行榜小挂件
- * 版本：4.4.1
+ * 版本：4.4.2
  * 作者：超能小紫(mokeyjay)
  * 博客：https://www.mokeyjay.com
  * 源码：https://github.com/mokeyjay/Pixiv-daily-ranking-widget
