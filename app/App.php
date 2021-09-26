@@ -33,21 +33,10 @@ class App
         $opt = getopt('j:');
         if (!empty($_GET['job']) || isset($opt['j'])) {
             self::job();
-            exit;
+            return;
         }
 
-        $pixivJson = Storage::getJson('pixiv');
-        if ($pixivJson === false || !Pixiv::checkDate($pixivJson)) {
-            if (Lock::create('refresh', 600) && Config::$disable_web_job === false) {
-                Tools::runRefreshThread();
-            }
-        }
-
-        if ($pixivJson === false) {
-            include APP_PATH . 'Views/loading.php';
-        } else {
-            require APP_PATH . 'Views/index.php';
-        }
+        self::route();
     }
 
     /**
@@ -71,5 +60,19 @@ class App
         } else {
             throw new \Exception("任务 {$jobName} 执行失败：{$job->getErrorMsg()}");
         }
+    }
+
+    /**
+     * 调用控制器
+     */
+    protected static function route()
+    {
+        $route = isset($_GET['r']) ? $_GET['r'] : 'index';
+        $route = explode('/', $route);
+
+        $method = array_pop($route) ?: 'index';
+        $controller = 'app\\Controllers\\' . ucfirst(array_pop($route) ?: 'index') . 'Controller';
+
+        (new $controller)->$method();
     }
 }
