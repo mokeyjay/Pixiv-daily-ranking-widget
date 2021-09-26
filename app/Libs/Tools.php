@@ -44,8 +44,14 @@ class Tools
         if (!in_array($_SERVER['SERVER_PORT'], ['80', '443'])) {
             $url .= ':' . $_SERVER['SERVER_PORT'];
         }
-        $url .= $_SERVER['REQUEST_URI'];
-        $url = rtrim($url, '/') . '/';
+
+        $scriptName = explode('/', $_SERVER['SCRIPT_NAME']);
+        $scriptName = array_pop($scriptName);
+
+        $path = explode($scriptName, $_SERVER['REQUEST_URI']);
+        $path = array_shift($path);
+
+        $url .= rtrim($path, '/') . '/';
 
         return $url;
     }
