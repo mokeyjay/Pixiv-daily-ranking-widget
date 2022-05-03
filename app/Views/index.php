@@ -12,13 +12,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pixiv 每日排行榜 Top<?=Config::$limit?> 小挂件</title>
 
-  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/bootstrap/5.1.3/css/bootstrap.min.css">
   <style>
-    html, body, #carousel-example-generic, .carousel-inner, .item, .item div { height : 100%; }
     body { background: <?=Config::$background_color?>; }
-    .item div { background-position : center; background-repeat : no-repeat; background-attachment : fixed; }
-    .carousel-caption { position : static }
-    .carousel-control.left, .carousel-control.right { background : none; }
+
+    html, body, #carouselExampleControls, .carousel-inner, .carousel-item, .carousel-item a, .carousel-item div { height: 100%; }
+    .carousel-item div { background-position : center; background-repeat : no-repeat; background-attachment : fixed; }
+    .carousel-control-prev-icon, .carousel-control-next-icon { opacity: 0; transition-duration: .5s; }
+    .carousel-control-prev-icon:hover, .carousel-control-next-icon:hover { opacity: 1; }
   </style>
   <script>
     var _hmt = _hmt || [];
@@ -31,29 +32,27 @@
   </script>
 </head>
 <body>
-<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-
-  <div class="carousel-inner" role="listbox">
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+  <div class="carousel-inner">
       <?php foreach ($pixivJson['image'] as $k => $v): ?>
-          <?php if ($k >= Config::$limit) break; ?>
-        <div class="item <?php if ($k == 0) echo 'active'; ?>">
-          <a href="https://www.pixiv.net/<?= $pixivJson['url'][$k] ?>" target="_blank">
-            <div class="carousel-caption" style="background-image: url(<?= str_replace('http://i', '//i', $v) ?>)"></div>
+        <?php if ($k >= Config::$limit) break; ?>
+        <div class="carousel-item <?php if ($k == 0) echo 'active'; ?>">
+          <a href="https://www.pixiv.net/<?= $pixivJson['url'][$k] ?>" target="_blank" style="display: block">
+            <div style="background-image: url(<?= str_replace('http://i', '//i', $v) ?>)"></div>
           </a>
         </div>
       <?php endforeach; ?>
   </div>
 
-  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
 </div>
-<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
-<script src="https://cdn.staticfile.org/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
