@@ -16,10 +16,49 @@
   <style>
     body { background: <?=Config::$background_color?>; }
 
-    html, body, #carouselExampleControls, .carousel-inner, .carousel-item, .carousel-item a, .carousel-item div { height: 100%; }
-    .carousel-item div { background-position : center; background-repeat : no-repeat; background-attachment : fixed; }
-    .carousel-control-prev-icon, .carousel-control-next-icon { opacity: 0; transition-duration: .5s; }
-    .carousel-control-prev-icon:hover, .carousel-control-next-icon:hover { opacity: 1; }
+    html, body, #carouselExampleControls, .carousel-inner, .carousel-item, .carousel-item a, .carousel-item a div { height: 100%; }
+
+    .carousel-item a div {
+      background-position : center;
+      background-repeat : no-repeat;
+      background-attachment : fixed;
+    }
+
+    button[class^="carousel-control-"], .carousel-caption { transition-duration: .5s; }
+    .carousel:hover button[class^="carousel-control-"], .carousel:hover .carousel-caption { opacity: 1; }
+
+    button[class^="carousel-control-"] { position: fixed; transition-property: left, right; }
+    .carousel-control-prev { left: -36px; }
+    .carousel-control-next { right: -36px; }
+    .carousel:hover .carousel-control-prev { left: 0; }
+    .carousel:hover .carousel-control-next { right: 0; }
+
+    .carousel-caption {
+      opacity: 0;
+      text-shadow: black 0.1em 0.1em 0.2em;
+      z-index: 10;
+      pointer-events:none;
+    }
+    .carousel-caption h5 {
+      font-size: 1rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .carousel-caption p { font-size: .75rem; }
+
+    #mask {
+      width: 100%;
+      height: 150px;
+      bottom: -150px;
+      position: fixed;
+      pointer-events:none;
+      transition-duration: .5s;
+      background-image: linear-gradient(transparent, rgba(0,0,0,0.4));
+    }
+    #carouselExampleControls:hover #mask {
+      bottom: 0;
+    }
   </style>
   <script>
     var _hmt = _hmt || [];
@@ -34,15 +73,21 @@
 <body>
 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
   <div class="carousel-inner">
-      <?php foreach ($pixivJson['image'] as $k => $v): ?>
+      <?php foreach ($pixivJson['data'] as $k => $data): ?>
         <?php if ($k >= Config::$limit) break; ?>
         <div class="carousel-item <?php if ($k == 0) echo 'active'; ?>">
-          <a href="https://www.pixiv.net/<?= $pixivJson['url'][$k] ?>" target="_blank" style="display: block">
-            <div style="background-image: url(<?= str_replace('http://i', '//i', $v) ?>)"></div>
+          <a href="https://www.pixiv.net/artworks/<?= $data['id'] ?>" target="_blank" style="display: block">
+            <div style="background-image: url(<?= $data['url'] ?>)"></div>
           </a>
+          <div class="carousel-caption d-md-block">
+            <h5><?= $data['title'] ?></h5>
+            <p><?= $data['user_name'] ?></p>
+          </div>
         </div>
       <?php endforeach; ?>
   </div>
+
+  <div id="mask"></div>
 
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
