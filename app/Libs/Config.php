@@ -48,11 +48,13 @@ class Config
             }
         }
 
-        Config::$image_hosting = (array)Config::$image_hosting;
-
         try {
             if (!is_writable(STORAGE_PATH)) {
                 throw new \Exception(STORAGE_PATH . ' 目录无法写入');
+            }
+
+            if (!is_array(Config::$image_hosting) || count(Config::$image_hosting) < 1) {
+                throw new \Exception('image_hosting 配置项至少要有一个值');
             }
 
             if (self::$limit < 1) {
@@ -60,7 +62,7 @@ class Config
             }
 
             if (IS_CLI && self::$url == '' && in_array('local', self::$image_hosting)) {
-                throw new \Exception('在cli模式下使用local本地图床时，必须配置url项，否则可能会生成错误的缩略图url');
+                throw new \Exception('在 cli 模式下使用 local 本地图床时，必须配置 url 项，否则可能会生成错误的缩略图 url');
             }
 
         } catch (\Exception $e) {
