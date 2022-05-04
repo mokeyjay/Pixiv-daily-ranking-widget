@@ -17,6 +17,7 @@ class Pixiv
      */
     public static function getRanking($page = 1)
     {
+        Tools::log("正在读取排行榜第 {$page} 页");
         $response = Curl::get("https://www.pixiv.net/ranking.php?mode=daily&p={$page}&format=json", [
             CURLOPT_HTTPHEADER => [
                 'Referer: https://www.pixiv.net/ranking.php?mode=daily',
@@ -43,12 +44,6 @@ class Pixiv
             return $source;
         }
 
-        // 兼容旧格式
-        $source = [
-            'image' => [],
-            'url'   => [],
-        ];
-
         $picNum = 0;
         for ($page = 1; $page <= 10; $page++) {
 
@@ -58,6 +53,21 @@ class Pixiv
             }
 
             foreach ($json['contents'] as $item) {
+                $source['data'][] = [
+                    'id' => $item['illust_id'],
+                    'url' => $item['url'],
+                    'title' => $item['title'],
+                    'tags' => $item['tags'],
+                    'width' => $item['width'],
+                    'height' => $item['height'],
+                    'page_count' => $item['illust_page_count'],
+                    'rank' => $item['rank'],
+                    'yesterday_rank' => $item['yes_rank'],
+                    'user_id' => $item['user_id'],
+                    'user_name' => $item['user_name'],
+                    'uploaded_at' => $item['illust_upload_timestamp'],
+                ];
+                // image 和 url 是为了兼容 5.x 之前的旧版本
                 $source['image'][] = $item['url'];
                 $source['url'][] = "artworks/{$item['illust_id']}";
                 $picNum++;
@@ -96,8 +106,10 @@ class Pixiv
             $file = explode('/', $url);
             $file = array_pop($file);
             $file = sys_get_temp_dir() . '/' . $file;
+
             return file_put_contents($file, $image) !== false ? $file : false;
         }
+
         return false;
     }
 
@@ -110,6 +122,7 @@ class Pixiv
     {
         if(isset($data['date'])){
             $yesterday = date('Y-m-d', strtotime('-1 day'));
+
             return $data['date'] >= $yesterday;
         }
 

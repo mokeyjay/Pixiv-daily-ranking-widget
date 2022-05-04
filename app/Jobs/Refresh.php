@@ -30,6 +30,7 @@ class Refresh extends Job
             if(!$this->needRefresh($ranking, $pixivJson)){
                 Tools::log('排行榜尚未更新，半小时后再试');
                 Lock::forceCreate('refresh', 1800);
+
                 return true;
             }
 
@@ -37,11 +38,6 @@ class Refresh extends Job
             if($images === false) {
                 throw new \Exception('【致命错误】无法获取Pixiv排行榜图片列表');
             }
-
-            $pixivJson = [
-                'image' => [],
-                'url'   => [],
-            ];
 
             $enableCompress = Config::$compress && function_exists('imagecreatefromjpeg');
 
@@ -53,25 +49,30 @@ class Refresh extends Job
             $proxy = Config::$proxy;
 
             // 开始获取图片
-            foreach ($images['image'] as $i => $imageUrl) {
+            $pixivJson = [];
+            foreach ($images['data'] as $i => $data) {
                 // 缓存数量限制
                 if ($i >= Config::$limit) {
                     break;
                 }
+
+                Tools::log("开始获取第 " . ($i + 1) . " 张图：{$data['url']}");
+
                 // 最多尝试下载3次
                 Config::$proxy = $proxy;
                 for ($ii = 1; $ii <= 3; $ii++) {
-                    $tmpfile = Pixiv::downloadImage($imageUrl);
+                    $tmpfile = Pixiv::downloadImage($data['url']);
                     if ($tmpfile) {
                         break;
                     } else {
-                        Tools::log("图片 {$imageUrl} 下载失败，重试第 {$ii} 次");
+                        Tools::log("图片 {$data['url']} 下载失败，重试第 {$ii} 次");
                         sleep(3);
                     }
                 }
                 if (!$tmpfile) {
-                    throw new \Exception("图片 {$imageUrl} 下载失败");
+                    throw new \Exception("图片 {$data['url']} 下载失败");
                 }
+
                 // 压缩图片
                 if ($enableCompress) {
                     $image = imagecreatefromjpeg($tmpfile);
@@ -81,6 +82,7 @@ class Refresh extends Job
                         unset($image);
                     }
                 }
+
                 // 上传到图床
                 Config::$proxy = null;
                 foreach ($imageHostingInstances as $imageHosting) {
@@ -91,8 +93,12 @@ class Refresh extends Job
                     }
                 }
 
-                $pixivJson['image'][] = $url ?: $images['image'][$i]; // 如上传失败则使用原图url（虽然原图url也显示不出来）
-                $pixivJson['url'][] = $images['url'][$i];
+                $url = $url ?: $data['url']; // 如上传失败则使用原图url（虽然原图url也显示不出来）
+                $data['url'] = $url;
+
+                $pixivJson['data'][] = $data;
+                $pixivJson['image'][] = $url;
+                $pixivJson['url'][] = "artworks/{$data['id']}";
             }
 
             $pixivJson['date'] = $images['date'];
@@ -100,6 +106,7 @@ class Refresh extends Job
             Lock::remove('refresh');
 
             Config::$clear_overdue && Storage::clearOverdueImages();
+
             return true;
 
         } catch (\Exception $e) {
@@ -107,7 +114,7 @@ class Refresh extends Job
             // 是否超过最大重试次数
             $refreshCount = (int)Storage::get('refreshCount');
             if ($refreshCount > 10) {
-                // 超过10次（5小时）都无法获取到pixiv排行榜
+                // 超过 10 次（5小时）都无法获取到 pixiv 排行榜
                 // 直接锁定一整天，明天再试，降低无意义的资源损耗
                 $expire = mktime(23, 59, 59) - time();
                 Lock::forceCreate('refresh', $expire);
