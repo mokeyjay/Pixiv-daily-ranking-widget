@@ -1,7 +1,7 @@
 <?php
   use app\Libs\Config;
 ?>
-<!-- 来自 mokeyjay 超能小紫 的 Pixiv每日排行榜小挂件 -->
+<!-- 来自 mokeyjay 的 Pixiv每日排行榜小挂件 -->
 <!-- 博客：https://www.mokeyjay.com -->
 <!-- 这个博客将会集技术、ACG、日常、分享于一身，如果你喜欢，常来玩哦 -->
 <!DOCTYPE html>
@@ -38,6 +38,7 @@
       text-shadow: black 0.1em 0.1em 0.2em;
       z-index: 10;
       pointer-events:none;
+      bottom: 0;
     }
     .carousel-caption h5 {
       font-size: 1rem;
@@ -71,7 +72,7 @@
   </script>
 </head>
 <body>
-<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
       <?php foreach ($pixivJson['data'] as $k => $data): ?>
         <?php if ($k >= Config::$limit) break; ?>

@@ -1,7 +1,7 @@
 <?php
 use app\Libs\Config;
 ?>
-<!-- 来自 mokeyjay 超能小紫 的 Pixiv每日排行榜小挂件 -->
+<!-- 来自 mokeyjay 的 Pixiv每日排行榜小挂件 -->
 <!-- 博客：https://www.mokeyjay.com -->
 <!-- 这个博客将会集技术、ACG、日常、分享于一身，如果你喜欢，常来玩哦 -->
 <!DOCTYPE html>
