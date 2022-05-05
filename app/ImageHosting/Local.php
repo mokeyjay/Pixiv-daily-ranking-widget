@@ -3,7 +3,7 @@
 namespace app\ImageHosting;
 
 use app\Libs\Config;
-use app\Libs\Tools;
+use app\Libs\Log;
 
 /**
  * 本地存储
@@ -17,11 +17,11 @@ class Local extends ImageHosting
     {
         $fileName = pathinfo($path, PATHINFO_BASENAME);
         $file = STORAGE_PATH . 'images/' . $fileName;
-        Tools::log('[本地]目标：' . $path);
-        Tools::log('[本地]存储到：' . $file);
+        Log::write('[本地]目标：' . $path);
+        Log::write('[本地]存储到：' . $file);
 
         if (file_put_contents($file, file_get_contents($path)) === false) {
-            Tools::log('[本地]存储失败', 'ERROR');
+            Log::write('[本地]存储失败', 'ERROR');
             return false;
         }
         return Config::$url . 'storage/images/' . $fileName;

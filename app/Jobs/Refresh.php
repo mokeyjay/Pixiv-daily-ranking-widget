@@ -7,7 +7,7 @@ use app\Libs\Config;
 use app\Libs\Lock;
 use app\Libs\Pixiv;
 use app\Libs\Storage;
-use app\Libs\Tools;
+use app\Libs\Log;
 
 /**
  * 刷新任务
@@ -28,7 +28,7 @@ class Refresh extends Job
             $ranking = Pixiv::getRanking();
 
             if(!$this->needRefresh($ranking, $pixivJson)){
-                Tools::log('排行榜尚未更新，半小时后再试');
+                Log::write('排行榜尚未更新，半小时后再试');
                 Lock::forceCreate('refresh', 1800);
 
                 return true;
@@ -56,7 +56,7 @@ class Refresh extends Job
                     break;
                 }
 
-                Tools::log("开始获取第 " . ($i + 1) . " 张图：{$data['url']}");
+                Log::write("开始获取第 " . ($i + 1) . " 张图：{$data['url']}");
 
                 // 最多尝试下载3次
                 Config::$proxy = $proxy;
@@ -65,7 +65,7 @@ class Refresh extends Job
                     if ($tmpfile) {
                         break;
                     } else {
-                        Tools::log("图片 {$data['url']} 下载失败，重试第 {$ii} 次");
+                        Log::write("图片 {$data['url']} 下载失败，重试第 {$ii} 次");
                         sleep(3);
                     }
                 }

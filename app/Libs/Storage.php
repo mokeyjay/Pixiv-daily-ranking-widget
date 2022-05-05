@@ -34,7 +34,7 @@ class Storage
         }
         $content = @file_get_contents($file);
         if ($content === false) {
-            Tools::log("读取 {$file} 文件失败");
+            Log::write("读取 {$file} 文件失败");
             return false;
         }
 
@@ -70,7 +70,7 @@ class Storage
                 }
             }
         }
-        Tools::log("共计清除过期图片 {$deleteNum} 张");
+        Log::write("共计清除过期图片 {$deleteNum} 张");
     }
 
     /**

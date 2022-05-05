@@ -17,7 +17,7 @@ class Pixiv
      */
     public static function getRanking($page = 1)
     {
-        Tools::log("正在读取排行榜第 {$page} 页");
+        Log::write("正在读取排行榜第 {$page} 页");
         $response = Curl::get("https://www.pixiv.net/ranking.php?mode=daily&p={$page}&format=json", [
             CURLOPT_HTTPHEADER => [
                 'Referer: https://www.pixiv.net/ranking.php?mode=daily',
@@ -25,7 +25,7 @@ class Pixiv
         ]);
         $json = json_decode($response, true);
         if (!isset($json['contents'])) {
-            Tools::log('获取排行榜数据失败！接口返回值：' . $response, Tools::LOG_LEVEL_ERROR);
+            Log::write('获取排行榜数据失败！接口返回值：' . $response, Log::LEVEL_ERROR);
             return false;
         }
 
@@ -45,6 +45,7 @@ class Pixiv
         }
 
         $picNum = 0;
+        $sourceJson = [];
         for ($page = 1; $page <= 10; $page++) {
 
             $json = self::getRanking($page);
@@ -53,7 +54,7 @@ class Pixiv
             }
 
             foreach ($json['contents'] as $item) {
-                $source['data'][] = [
+                $sourceJson['data'][] = [
                     'id' => $item['illust_id'],
                     'url' => $item['url'],
                     'title' => $item['title'],
@@ -68,8 +69,8 @@ class Pixiv
                     'uploaded_at' => $item['illust_upload_timestamp'],
                 ];
                 // image 和 url 是为了兼容 5.x 之前的旧版本
-                $source['image'][] = $item['url'];
-                $source['url'][] = "artworks/{$item['illust_id']}";
+                $sourceJson['image'][] = $item['url'];
+                $sourceJson['url'][] = "artworks/{$item['illust_id']}";
                 $picNum++;
 
                 if ($picNum >= Config::$limit) {
@@ -78,10 +79,10 @@ class Pixiv
             }
         }
 
-        $source['date'] = date('Y-m-d', strtotime($json['date']));
-        Storage::saveJson('source', $source);
+        $sourceJson['date'] = date('Y-m-d', strtotime($json['date']));
+        Storage::saveJson('source', $sourceJson);
 
-        return $source;
+        return $sourceJson;
     }
 
     /**

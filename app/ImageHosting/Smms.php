@@ -4,7 +4,7 @@ namespace app\ImageHosting;
 
 use app\Libs\Config;
 use app\Libs\Curl;
-use app\Libs\Tools;
+use app\Libs\Log;
 
 /**
  * sm.ms图床
@@ -18,7 +18,7 @@ class Smms extends ImageHosting
     public function upload($path)
     {
         if (empty(Config::$image_hosting_extend['smms']['token'])) {
-            Tools::log('[Smms图床]上传失败：请先配置 smms 的 token', 'ERROR');
+            Log::write('[Smms图床]上传失败：请先配置 smms 的 token', 'ERROR');
             return false;
         }
 
@@ -30,8 +30,8 @@ class Smms extends ImageHosting
         ];
         $result = Curl::post('https://sm.ms/api/v2/upload', $data, $header);
 
-        Tools::log('[Smms图床]上传：' . json_encode($data));
-        Tools::log('[Smms图床]返回：' . $result);
+        Log::write('[Smms图床]上传：' . json_encode($data));
+        Log::write('[Smms图床]返回：' . $result);
         $result = json_decode($result, true);
 
         if (isset($result['code'])) {
@@ -42,7 +42,7 @@ class Smms extends ImageHosting
             }
         }
 
-        Tools::log('[Smms图床]上传失败：' . $result['msg'], 'ERROR');
+        Log::write('[Smms图床]上传失败：' . $result['msg'], 'ERROR');
         return false;
     }
 }

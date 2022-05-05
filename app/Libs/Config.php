@@ -35,7 +35,7 @@ class Config
 
         // 获取本项目url
         if (self::$url == '' && !IS_CLI) {
-            self::$url = Tools::getCurrentURL();
+            self::$url = Request::getCurrentUrl();
         }
 
         // 是否对外提供服务，是则获取url参数
@@ -66,7 +66,7 @@ class Config
             }
 
         } catch (\Exception $e) {
-            Tools::log($e->getMessage(), 'ERROR');
+            Log::write($e->getMessage(), Log::LEVEL_ERROR);
             echo '错误：' . $e->getMessage();
 
             die;
