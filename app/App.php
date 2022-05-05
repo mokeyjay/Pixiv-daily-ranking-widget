@@ -5,6 +5,7 @@ namespace app;
 use app\Jobs\Job;
 use app\Libs\Config;
 use app\Libs\Log;
+use App\Libs\Str;
 
 class App
 {
@@ -60,16 +61,25 @@ class App
     }
 
     /**
-     * 调用控制器
+     * 路由
      */
     protected static function route()
     {
         $route = isset($_GET['r']) ? $_GET['r'] : 'index';
         $route = explode('/', $route);
 
-        $method = array_pop($route) ?: 'index';
-        $controller = 'app\\Controllers\\' . ucfirst(array_pop($route) ?: 'index') . 'Controller';
+        $controller = Str::studly(array_shift($route) ?: 'index');
+        $method = Str::studly(array_pop($route) ?: 'index');
 
-        (new $controller)->$method();
+        $class = "app\\Controllers\\{$controller}Controller";
+
+        if (!class_exists($class) || !is_callable([$class, $method])) {
+            Log::write('错误的路由：' . $_GET['r'], Log::LEVEL_ERROR);
+
+            http_response_code(404);
+            die;
+        }
+
+        (new $class)->$method();
     }
 }
