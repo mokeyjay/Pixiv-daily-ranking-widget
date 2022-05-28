@@ -49,7 +49,7 @@ use app\Libs\Config;
   <script>
     setTimeout(function() {
       location.reload()
-    }, 1000000)
+    }, 30000)
   </script>
 </head>
 <body>
