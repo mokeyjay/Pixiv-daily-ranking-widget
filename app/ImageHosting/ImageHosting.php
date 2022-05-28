@@ -3,6 +3,7 @@
 namespace app\ImageHosting;
 
 use app\Factory;
+use App\Libs\Str;
 
 /**
  * 抽象 图床类
@@ -18,7 +19,7 @@ abstract class ImageHosting extends Factory
      */
     public static function make($name, array $config = [])
     {
-        $name = '\\app\\ImageHosting\\' . ucfirst(strtolower($name));
+        $name = '\\app\\ImageHosting\\' . Str::studly($name);
 
         return parent::make($name, $config);
     }
