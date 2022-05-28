@@ -84,7 +84,7 @@ class Refresh extends Job
                 }
 
                 // 上传到图床
-                Config::$proxy = null;
+                Config::$proxy = null; // 上传过程中禁用代理
                 foreach ($imageHostingInstances as $imageHosting) {
                     $url = $imageHosting->upload($tmpfile);
                     if ($url != false) {

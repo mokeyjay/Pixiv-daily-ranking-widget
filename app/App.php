@@ -28,11 +28,7 @@ class App
     {
         self::init();
 
-        $opt = getopt('j:');
-        if (!empty($_GET['job']) || isset($opt['j'])) {
-            self::job();
-            return;
-        }
+        self::job();
 
         self::route();
     }
@@ -44,9 +40,17 @@ class App
     protected static function job()
     {
         $opt = getopt('j:');
-        $jobName = isset($_GET['job']) ? $_GET['job'] : $opt['j'];
-        $jobName = ucfirst(strtolower($jobName));
-        $job = Job::make($jobName);
+        if (empty($_GET['job']) && empty($opt['j'])) {
+            return;
+        }
+
+        $jobName = !empty($_GET['job']) ? $_GET['job'] : $opt['j'];
+        $job = Job::make(Str::studly($jobName));
+
+        if (!empty($_GET['job']) && $job->onlyActivateByCli) {
+            throw new \Exception("任务 {$jobName} 只能通过 cli 触发");
+        }
+
         if (!$job) {
             throw new \Exception("任务 {$jobName} 加载失败");
         }

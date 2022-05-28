@@ -52,7 +52,7 @@ class Storage
     }
 
     /**
-     * 清除过期地图片
+     * 清除过期的图片
      */
     public static function clearOverdueImages()
     {

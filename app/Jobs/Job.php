@@ -11,6 +11,9 @@ use app\Factory;
  */
 abstract class Job extends Factory
 {
+    // 是否只能通过 cli 触发
+    public $onlyActivateByCli = false;
+
     /**
      * @param string $name
      * @param array  $config

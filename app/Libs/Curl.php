@@ -34,14 +34,15 @@ class Curl
 
         $data = curl_exec($ch);
         curl_close($ch);
+
         return $data;
     }
 
     /**
      * post请求
-     * @param string $url
-     * @param array  $postData
-     * @param array  $opt
+     * @param string       $url
+     * @param array|string $postData
+     * @param array        $opt
      * @return bool|string
      */
     public static function post($url, $postData, $opt = [])
