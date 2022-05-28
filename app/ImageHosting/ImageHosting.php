@@ -3,7 +3,7 @@
 namespace app\ImageHosting;
 
 use app\Factory;
-use App\Libs\Str;
+use app\Libs\Str;
 
 /**
  * 抽象 图床类

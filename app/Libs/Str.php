@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Libs;
+namespace app\Libs;
 
 /**
  * 字符串类

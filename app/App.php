@@ -5,7 +5,7 @@ namespace app;
 use app\Jobs\Job;
 use app\Libs\Config;
 use app\Libs\Log;
-use App\Libs\Str;
+use app\Libs\Str;
 
 class App
 {
@@ -17,7 +17,7 @@ class App
         Config::init();
 
         // 注册全局错误捕捉
-        set_exception_handler(function (\Exception $exception) {
+        set_exception_handler(function ($exception) {
             Log::write($exception->getMessage(), 'ERROR');
             http_response_code(500);
             die;

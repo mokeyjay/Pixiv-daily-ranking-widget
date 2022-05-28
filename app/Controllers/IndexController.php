@@ -5,7 +5,7 @@ namespace app\Controllers;
 use app\Libs\Config;
 use app\Libs\Lock;
 use app\Libs\Pixiv;
-use App\Libs\Request;
+use app\Libs\Request;
 use app\Libs\Storage;
 
 class IndexController extends Controller
