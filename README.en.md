@@ -61,5 +61,5 @@ Both api automatically return the corresponding cross-domain header based on the
 
 [History Changelog](doc/log.en.md)
 
-## 👨💻 About the author
+## 👨‍💻 About the author
 Commonly used ID [mokeyjay](https://www.mokeyjay.com), IT and ACG lover
