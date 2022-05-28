@@ -58,4 +58,11 @@ use app\Libs\Config;
   <div class="tip">排行榜更新中<br>请稍候</div>
 </div>
 </body>
+<script>
+  window.onload = function(){
+    if (navigator.language.substring(0, 2).toLowerCase() !== 'zh') {
+      document.querySelector('div.tip').innerHTML = 'Ranking Updating<br>Just a moment'
+    }
+  }
+</script>
 </html>
