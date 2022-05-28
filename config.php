@@ -7,11 +7,18 @@ return [
      *
      * P.S. 如果你准备通过 cli 方式来触发 refresh 任务，且使用了 local 图床，则此项必填
      *      否则生成的图片完整 url 可能出现问题
+     *
+     * The url address of this project, must end with /
+     * Leave it blank to get it automatically, normally leave it blank
+     *
+     * P.S. If you want to trigger the refresh job via cli and you are using a local image-hosting, this field is required
+     *      Otherwise, the generated image full URL may have problems
      */
     'url' => '',
 
     /**
-     * 背景颜色。默认值为 transparent （透明）。你也可以通过get方式传参 color 来设置
+     * 背景颜色。默认值为 transparent （透明）。你也可以通过 url 参数 color 来设置
+     * Background color. The default value is transparent. You can also set the background color by url parameter 'color'
      */
     'background_color' => 'transparent',
 
@@ -20,49 +27,72 @@ return [
      * 例如将此值设为 10 则可以做出 Top10 的效果
      * 也可防止部分辣鸡主机在缓存图片时占用过多资源导致卡死或报警
      * 一般情况下默认的 50 就行
+     *
+     * Maximum number of images to display and cache (range 1-500)
+     * For example, if you set this value to 10, you can make a Top10 effect
+     * It also prevents some low-performance hosts from using too many resources when caching images, which can lead to jamming or alarms
+     * Usually the default 50 is fine
      */
     'limit' => 50,
 
     /**
      * 是否对外提供服务
      * 为 true 时，任何人都可通过 url 的 get 参数来临时修改 background_color 和 limit 的值
+     *
+     * Whether to provide external services
+     * When true, anyone can temporarily change the values of background_color and limit by the url parameter
      */
     'service' => true,
 
     /**
      * 日志级别。可多选：DEBUG、ERROR 或留空不记录任何日志
+     * Logging level. Multiple options: DEBUG, ERROR or leave blank to not record any logs
      */
     'log_level' => [],
 
     /**
      * 代理服务器配置。例如 127.0.0.1:1080
      * 留空为不使用代理
+     *
+     * Proxy server configuration. For example 127.0.0.1:1080
+     * Leave blank to not use proxy
      */
     'proxy' => '',
 
     /**
-     * 自动删除缓存在本地的过期的（即今天之前的）缩略图
+     * 每次更新排行榜数据后，自动删除过期的本地缓存缩略图
+     * Automatically delete expired local cache thumbnails after each ranking data update
      */
     'clear_overdue' => true,
 
     /**
-     * 压缩缩略图，在几乎不损失画质的前提下减小50%左右的体积，降低服务器带宽压力
-     * 需要启用PHP的 GD 扩展
+     * 压缩缩略图，在几乎不损失画质的前提下减小 50% 左右的体积，降低服务器带宽压力
+     * 需要启用 PHP 的 GD 扩展
+     *
+     * Compress thumbnails to reduce the size by about 50% with almost no loss of image quality, reducing server bandwidth pressure
+     * Need the GD extension for PHP
      */
     'compress' => true,
 
     /**
      * 图床名称
-     * 可多选：baidu、alibaba、smms、local、tietuku
-     * baidu=百度、alibaba=阿里巴巴、smms=Sm.ms图床、local=服务器本地、tietuku=贴图库
+     * 可多选：baidu、fifty-eight、jd、xiaoyuzhou、smms、local、tietuku
+     * baidu=百度、fifty-eight=58同城、jd=京东、xiaoyuzhou=小宇宙、smms=Sm.ms图床、local=服务器本地、tietuku=贴图库
      * （推荐度按照顺序从高到低）
      *
      * 推荐填写多个图床，如果其中一个图床上传失败，则将按照顺序继续尝试其他图床
+     *
+     * Image-Hosting
+     * Multiple choice: baidu, fifty-eight, jd, xiaoyuzhou, smms, local, tietuku
+     * (Recommendation is ranked from highest to lowest)
+     *
+     * It is recommended to fill in more than one image-hosting, if one of them fails to upload, it will continue to try other image-hosting in order
      */
-    'image_hosting' => ['baidu', 'alibaba', 'smms', 'local'],
+    'image_hosting' => ['baidu', 'fifty-eight', 'jd', 'xiaoyuzhou', 'smms', 'local'],
 
     /**
      * 图床扩展配置信息
+     * Extend Configuration information for the image-hosting
      */
     'image_hosting_extend' => [
         'tietuku' => [
@@ -77,6 +107,9 @@ return [
      * 禁用 web 访问的方式触发 job 更新，仅限 cli 方式触发
      * 由于部分环境 web 超时时间不够，会导致更新操作不断被触发但又无法完成整个更新流程
      * 因此添加一个开关，避免 web 触发更新，节约服务器资源
+     *
+     * Disable web-trigger update job, cli-trigger only
+     * See doc/deploy.en.md
      */
     'disable_web_job' => false,
 ];

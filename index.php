@@ -1,8 +1,8 @@
 <?php
 /**
  * 项目：Pixiv每日排行榜小挂件
- * 版本：4.4.2
- * 作者：超能小紫(mokeyjay)
+ * 版本：5.0
+ * 作者：mokeyjay
  * 博客：https://www.mokeyjay.com
  * 源码：https://github.com/mokeyjay/Pixiv-daily-ranking-widget
  * 可随意修改、二次发布。但请保留上方版权声明及注明出处
@@ -14,4 +14,5 @@ define('STORAGE_PATH', BASE_PATH . 'storage' . DIRECTORY_SEPARATOR);
 define('IS_CLI', PHP_SAPI === 'cli');
 
 require APP_PATH . 'autoload.php';
+
 app\App::run();
