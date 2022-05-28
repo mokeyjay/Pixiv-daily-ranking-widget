@@ -1,9 +1,9 @@
-<h1 style="text-align:center">🖼️ Pixiv 每日排行榜小挂件</h1>
-<div style="text-align: center">
+<h1 align="center">🖼️ Pixiv 每日排行榜小挂件</h1>
+<p align="center">
     <a href="README.en.md">English</a>
     <br><br>
     想要在你的网站页面中添加一个 <span style="font-weight: bold">Pixiv 每日排行榜</span> 的展示功能吗？现在，只需要一行代码即可实现！
-</div>
+</p>
 
 ## ✨ 特色
 - 一行 `HTML` 代码即可调用，方便快捷
