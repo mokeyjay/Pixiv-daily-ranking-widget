@@ -3,7 +3,7 @@
     <a href="README.md">中文</a>
     <br><br>
     Want to add a <span style="font-weight: bold">Pixiv Daily Ranking Widget</span> to your website? Now, it only takes a single line of code to achieve it!
-    <a href="https://cloud.mokeyjay.com/pixiv/demo.html" target="_blank"></a>
+    <a href="https://cloud.mokeyjay.com/pixiv/demo.html" target="_blank">DEMO</a>
 </p>
 
 ## ✨ Features

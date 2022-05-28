@@ -3,7 +3,7 @@
     <a href="README.en.md">English</a>
     <br><br>
     想要在你的网站页面中添加一个 <span style="font-weight: bold">Pixiv 每日排行榜</span> 的展示功能吗？现在，只需要一行代码即可实现！
-    <a href="https://cloud.mokeyjay.com/pixiv/demo.html" target="_blank"></a>
+    <a href="https://cloud.mokeyjay.com/pixiv/demo.html" target="_blank">DEMO</a>
 </p>
 
 ## ✨ 特色
