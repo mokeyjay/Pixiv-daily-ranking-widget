@@ -75,12 +75,12 @@ class App
         $route = explode('/', $route);
 
         $controller = Str::studly(array_shift($route) ?: 'index');
-        $method = Str::studly(array_pop($route) ?: 'index');
+        $method = array_pop($route) ?: 'index';
 
         $class = "app\\Controllers\\{$controller}Controller";
 
         if (!class_exists($class) || !is_callable([$class, $method])) {
-            Log::write('错误的路由：' . $_GET['r'], Log::LEVEL_ERROR);
+            Log::write('错误的路由：' . (isset($_GET['r']) ? $_GET['r'] : 'index'), Log::LEVEL_ERROR);
 
             http_response_code(404);
             die;
