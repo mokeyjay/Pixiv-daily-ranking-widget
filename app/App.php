@@ -75,17 +75,24 @@ class App
         $route = explode('/', $route);
 
         $controller = Str::studly(array_shift($route) ?: 'index');
-        $method = array_pop($route) ?: 'index';
+        $method = lcfirst(Str::studly(array_pop($route) ?: 'index'));
 
         $class = "app\\Controllers\\{$controller}Controller";
-
-        if (!class_exists($class) || !is_callable([$class, $method])) {
-            Log::write('错误的路由：' . (isset($_GET['r']) ? $_GET['r'] : 'index'), Log::LEVEL_ERROR);
+        if (!class_exists($class)) {
+            Log::write("控制器不存在：{$class}", Log::LEVEL_ERROR);
 
             http_response_code(404);
             die;
         }
 
-        (new $class)->$method();
+        $controller = new $class;
+        if (!is_callable([$controller, $method])) {
+            Log::write("无法调用此方法：{$class}->{$method}()", Log::LEVEL_ERROR);
+
+            http_response_code(404);
+            die;
+        }
+
+        $controller->$method();
     }
 }
