@@ -62,6 +62,8 @@ class App
         } else {
             throw new \Exception("任务 {$jobName} 执行失败：{$job->getErrorMsg()}");
         }
+
+        exit;
     }
 
     /**
