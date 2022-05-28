@@ -45,7 +45,7 @@ class App
         }
 
         $jobName = !empty($_GET['job']) ? $_GET['job'] : $opt['j'];
-        $job = Job::make(Str::studly($jobName));
+        $job = Job::make($jobName);
 
         if (!empty($_GET['job']) && $job->onlyActivateByCli) {
             throw new \Exception("任务 {$jobName} 只能通过 cli 触发");

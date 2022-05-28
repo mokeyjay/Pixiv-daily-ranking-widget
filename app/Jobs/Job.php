@@ -3,6 +3,7 @@
 namespace app\Jobs;
 
 use app\Factory;
+use app\Libs\Str;
 
 /**
  * 抽象 任务类
@@ -21,7 +22,7 @@ abstract class Job extends Factory
      */
     public static function make($name, array $config = [])
     {
-        $name = '\\app\\Jobs\\' . ucfirst(strtolower($name));
+        $name = '\\app\\Jobs\\' . Str::studly($name);
         return parent::make($name, $config);
     }
 
