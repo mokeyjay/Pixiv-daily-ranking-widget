@@ -95,7 +95,7 @@ class Pixiv
         $fileName = pathinfo($url, PATHINFO_BASENAME);
         // 如果 storage 里存了有，就不再重新下载了
         $image = Storage::getImage($fileName);
-        if ($image == false) {
+        if ($image === false) {
             $image = Curl::get($url, [
                 CURLOPT_HTTPHEADER => [
                     'Referer: https://www.pixiv.net/ranking.php?mode=daily',
@@ -108,7 +108,7 @@ class Pixiv
             $file = array_pop($file);
             $file = sys_get_temp_dir() . '/' . $file;
 
-            return file_put_contents($file, $image) !== false ? $file : false;
+            return file_put_contents($file, $image) > 0 ? $file : false;
         }
 
         return false;

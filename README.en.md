@@ -56,6 +56,7 @@ Both api automatically return the corresponding cross-domain header based on the
 - Update default UA
 ### Fix
 - the project url is not correctly retrieved in some cases
+- download invalid picture in some cases
 ### Other
 - Remove invalid Alibaba image-hosting
 
