@@ -11,7 +11,8 @@ However, in some cases (e.g. PHP timeouts are not long enough, server performanc
 If you encounter the same problem, you can turn off web-triggered updates (set `disable_web_job` to `false` in `config.php`)  
 Then trigger update proactively via cli, e.g. `php index.php -j=refresh`
 
-> You can use a tool like `crontab` to automatically trigger updates on a regular basis. For example `30 0 * * * * php /path/to/pixiv/index.php -j=refresh`
+> You can use a tool like `crontab` to automatically trigger updates on a regular basis. For example `*/30 * * * * php /path/to/pixiv/index.php -j=refresh`  
+> It means run update every 30 minutes. The program will automatically determine whether it really needs to be updated, and it won't waste performance
 
 ## Clear the log at regular intervals
 Opening the log (set `log_level` to `['DEBUG', 'ERROR']` in `config.php`) will log this widget's running info  

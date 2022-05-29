@@ -13,7 +13,8 @@
 如果你遇到同样的问题，可以关闭 web 方式触发更新（将 `config.php` 中的 `disable_web_job` 设为 `false`）  
 然后通过 cli 方式主动触发，例如 `php index.php -j=refresh`  
 
-> 你可以使用 `crontab` 之类的工具来定时自动触发更新。例如 `30 0 * * * php /path/to/pixiv/index.php -j=refresh`
+> 你可以使用 `crontab` 之类的工具来定时自动触发更新。例如 `*/30 * * * * php /path/to/pixiv/index.php -j=refresh`  
+> 表示每 30 分钟执行一次更新。程序会自动判断是否真的需要更新，不会浪费性能
 
 ## 定时清除日志
 打开日志（`config.php` 中的 `log_level` 设为 `['DEBUG', 'ERROR']`）可以将此挂件的运行信息记录下来  
