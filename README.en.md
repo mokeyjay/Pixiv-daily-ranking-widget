@@ -43,9 +43,9 @@ Both api automatically return the corresponding cross-domain header based on the
 
 ## 🌟 Changelog
 ### Added
-- new api (Support cross-domain)
-- 58, jd, xiaoyuzhou image-hosting
-- clear-log job for clearing history log files
+- api service support cross-domain 
+- support image-hosting with 58, jd, xiaoyuzhou
+- scheduled job to clearing historical logs
 ### Optimization
 - Left and right page flip arrows are now automatically hidden
 - Show work title and author name when hovering
