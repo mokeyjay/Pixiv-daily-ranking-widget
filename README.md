@@ -32,7 +32,7 @@
 
 [部署文档](doc/deploy.md)
 
-## 🪄 API
+## 🔌 API
 [排行榜数据（已上传至图床）](https://cloud.mokeyjay.com/pixiv/?r=api/pixiv-json)（推荐）  
 [排行榜数据（官方 url）](https://cloud.mokeyjay.com/pixiv/?r=api/source-json)  
 

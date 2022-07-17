@@ -32,7 +32,7 @@ You can also easily have your own widget!
 
 [Deployment Documentation](doc/deploy.en.md)
 
-## 🪄 API
+## 🔌 API
 [Ranking data (already uploaded to the image-hosting)](https://cloud.mokeyjay.com/pixiv/?r=api/pixiv-json) (recommended)  
 [Ranking data (official url)](https://cloud.mokeyjay.com/pixiv/?r=api/source-json)
 
