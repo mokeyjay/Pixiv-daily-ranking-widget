@@ -34,7 +34,7 @@
 
 ## 🔌 API
 [排行榜数据（已上传至图床）](https://cloud.mokeyjay.com/pixiv/?r=api/pixiv-json)（推荐）  
-[排行榜数据（官方 url）](https://cloud.mokeyjay.com/pixiv/?r=api/source-json)  
+[排行榜数据（pixiv url）](https://cloud.mokeyjay.com/pixiv/?r=api/source-json)  
 
 其中 `data` 为排行榜数据；`date` 为排行榜日期（可能是昨天或者前天，因为官方更新时间不一定）  
 这两个接口都会自动根据请求头的 `Origin` 或者 `Referer` 返回对应跨域头。可供前端直接调用  
@@ -44,8 +44,8 @@
 ## 🌟 更新日志
 ### 新增
 - 支持跨域请求的数据接口
-- 58、京东、小宇宙图床
 - clear-log 任务用于清除历史日志文件
+- 共计 8 个国内外公开、免费的图床
 ### 优化
 - 左右翻页箭头现在会自动隐藏了
 - 鼠标悬浮时显示作品标题及作者名称

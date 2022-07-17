@@ -34,7 +34,7 @@ You can also easily have your own widget!
 
 ## 🔌 API
 [Ranking data (already uploaded to the image-hosting)](https://cloud.mokeyjay.com/pixiv/?r=api/pixiv-json) (recommended)  
-[Ranking data (official url)](https://cloud.mokeyjay.com/pixiv/?r=api/source-json)
+[Ranking data (pixiv url)](https://cloud.mokeyjay.com/pixiv/?r=api/source-json)
 
 `data` is the ranking data; `date` is the ranking date (maybe yesterday or the day before yesterday, because the official update time is not necessarily)  
 Both api automatically return the corresponding cross-domain header based on the `Origin` or `Referer` in the request header. They can be called directly by the front-end
@@ -44,8 +44,8 @@ Both api automatically return the corresponding cross-domain header based on the
 ## 🌟 Changelog
 ### Added
 - api service support cross-domain 
-- support image-hosting with 58, jd, xiaoyuzhou
 - scheduled job to clearing historical logs
+- support 8 free image-hosting
 ### Optimization
 - Left and right page flip arrows are now automatically hidden
 - Show work title and author name when hovering
