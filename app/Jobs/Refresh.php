@@ -58,11 +58,11 @@ class Refresh extends Job
 
                 Log::write("开始获取第 " . ($i + 1) . " 张图：{$data['url']}");
 
-                // 最多尝试下载3次
+                // 最多尝试下载 3 次
                 Config::$proxy = $proxy;
                 for ($ii = 1; $ii <= 3; $ii++) {
                     $tmpfile = Pixiv::downloadImage($data['url']);
-                    if ($tmpfile) {
+                    if ($tmpfile && getimagesize($tmpfile)) {
                         break;
                     } else {
                         Log::write("图片 {$data['url']} 下载失败，重试第 {$ii} 次");
