@@ -76,19 +76,18 @@ return [
 
     /**
      * 图床名称
-     * 可多选：baidu、fifty-eight、jd、xiaoyuzhou、smms、local、tietuku
-     * baidu=百度、fifty-eight=58同城、jd=京东、xiaoyuzhou=小宇宙、smms=Sm.ms图床、local=服务器本地、tietuku=贴图库
+     * 可多选：baidu、imgstop、imgtg、pngcm、saoren、tsesze、catbox、imgurl、chkaja、smms、tietuku、local
      * （推荐度按照顺序从高到低）
      *
      * 推荐填写多个图床，如果其中一个图床上传失败，则将按照顺序继续尝试其他图床
      *
      * Image-Hosting
-     * Multiple choice: baidu, fifty-eight, jd, xiaoyuzhou, smms, local, tietuku
+     * Multiple choice: baidu, imgstop, imgtg, pngcm, saoren, tsesze, catbox, imgurl, chkaja, smms, tietuku, local
      * (Recommendation is ranked from highest to lowest)
      *
      * It is recommended to fill in more than one image-hosting, if one of them fails to upload, it will continue to try other image-hosting in order
      */
-    'image_hosting' => ['baidu', 'fifty-eight', 'jd', 'xiaoyuzhou', 'smms', 'local'],
+    'image_hosting' => ['baidu', 'imgstop', 'imgtg', 'pngcm', 'saoren', 'tsesze', 'catbox', 'imgurl', 'chkaja', 'local'],
 
     /**
      * 图床扩展配置信息
