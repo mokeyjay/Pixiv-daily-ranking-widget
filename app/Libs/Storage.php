@@ -74,7 +74,7 @@ class Storage
     }
 
     /**
-     * 获取图片内容。文件不存在或无效时返回false
+     * 获取图片内容。文件不存在或无效时返回 false
      * @param string $name
      * @return mixed|false
      */

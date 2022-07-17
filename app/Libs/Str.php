@@ -22,4 +22,21 @@ class Str
 
         return implode($studlyWords);
     }
+
+    /**
+     * 生成指定数量的随机字符串
+     * @param int $length 长度
+     * @param string $chars 从这些字符中随机选择。默认为 0123456789abcdefghijklmnopqrstuvwxyz
+     * @return string
+     */
+    public static function random($length, $chars = '0123456789abcdefghijklmnopqrstuvwxyz')
+    {
+        $charsLength = strlen($chars);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $chars[rand(0, $charsLength - 1)];
+        }
+
+        return $randomString;
+    }
 }

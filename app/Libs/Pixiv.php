@@ -86,7 +86,7 @@ class Pixiv
     }
 
     /**
-     * 下载Pixiv缩略图。成功返回临时文件名
+     * 下载 Pixiv 缩略图。成功返回临时文件名
      * @param string $url
      * @return string 临时文件名
      */
