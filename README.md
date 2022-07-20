@@ -41,6 +41,13 @@
 
 > `image` 和 `url` 两个键是为了兼容 4.x 及之前版本的用户，无需理会
 
+## 🆙 升级指南
+1. [下载源代码](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/releases/latest)
+2. 解压缩，将其中的 `app` 和 `index.php` 覆盖到线上环境
+
+### 从 4.x 升级到 5.0
+1. 查看 [config.php](config.php#L90) 中 `image_hosting` 配置项的注释说明，选择适合你的图床配置，填写到你线上环境的 `config.php` 中
+
 ## 🌟 更新日志
 ### 新增
 - 支持跨域请求的数据接口
