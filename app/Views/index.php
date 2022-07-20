@@ -18,21 +18,59 @@
 
     html, body, #carouselExampleControls, .carousel-inner, .carousel-item, .carousel-item a, .carousel-item a div { height: 100%; }
 
+    /* 图片样式 */
     .carousel-item a div {
       background-position : center;
       background-repeat : no-repeat;
       background-attachment : fixed;
     }
 
+    /* 左右翻页箭头动画、隐藏 bs 自带的箭头 */
+    button[class^="carousel-control-"] { position: fixed; transition-property: left, right; }
     button[class^="carousel-control-"], .carousel-caption { transition-duration: .5s; }
     .carousel:hover button[class^="carousel-control-"], .carousel:hover .carousel-caption { opacity: 1; }
-
-    button[class^="carousel-control-"] { position: fixed; transition-property: left, right; }
     .carousel-control-prev { left: -36px; }
     .carousel-control-next { right: -36px; }
     .carousel:hover .carousel-control-prev { left: 0; }
     .carousel:hover .carousel-control-next { right: 0; }
+    span[class^="carousel-control-"] { background-image: none; display: flex; justify-content: center; align-items: center; }
+    i[class^="gg-chevron-"] { text-shadow: 0 0 10px blue; }
 
+    /* 左右翻页箭头样式 */
+    .gg-chevron-left {
+      box-sizing: border-box;
+      position: relative;
+      display: block;
+      width: 22px;
+      height: 22px;
+      border: 2px solid transparent;
+      border-radius: 100px;
+      transform: scale(1.5);
+    }
+
+    .gg-chevron-left::after {
+      content: "";
+      display: block;
+      box-sizing: border-box;
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-bottom: 2px solid;
+      border-left: 2px solid;
+      transform: rotate(45deg);
+      left: 6px;
+      top: 4px
+    }
+
+    .gg-chevron-right::after {
+      border-right: 2px solid;
+      transform: rotate(-45deg);
+      right: 6px;
+      left: 0;
+      border-left: 0;
+    }
+
+    /* 底部信息栏 */
     .carousel-caption {
       opacity: 0;
       text-shadow: black 0.1em 0.1em 0.2em;
@@ -48,6 +86,7 @@
     }
     .carousel-caption p { font-size: .75rem; }
 
+    /* 底部信息栏 - 阴影层 */
     #mask {
       width: 100%;
       height: 150px;
@@ -72,7 +111,7 @@
   </script>
 </head>
 <body>
-<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
   <div class="carousel-inner">
       <?php foreach ($pixivJson['data'] as $k => $data): ?>
         <?php if ($k >= Config::$limit) break; ?>
@@ -91,11 +130,17 @@
   <div id="mask"></div>
 
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="carousel-control-prev-icon" aria-hidden="true" style="color: #fff; text-shadow: black 0.1em 0.1em 0.2em;">
+      <i class="gg-chevron-left" style="color: #555; position: absolute; filter: blur(2px);"></i>
+      <i class="gg-chevron-left" style="color: #fff"></i>
+    </span>
     <span class="visually-hidden">Previous</span>
   </button>
   <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="carousel-control-next-icon" aria-hidden="true">
+      <i class="gg-chevron-left gg-chevron-right" style="color: #555; position: absolute; filter: blur(2px);"></i>
+      <i class="gg-chevron-left gg-chevron-right" style="color: #fff"></i>
+    </span>
     <span class="visually-hidden">Next</span>
   </button>
 </div>
