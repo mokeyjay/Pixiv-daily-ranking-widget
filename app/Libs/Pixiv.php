@@ -101,6 +101,8 @@ class Pixiv
                     'Referer: https://www.pixiv.net/ranking.php?mode=daily',
                 ],
             ]);
+
+            Log::write('下载到数据包大小： ' . strlen($image) . ' 字节');
         }
 
         if ($image) {
@@ -108,7 +110,10 @@ class Pixiv
             $file = array_pop($file);
             $file = sys_get_temp_dir() . '/' . $file;
 
-            return file_put_contents($file, $image) > 0 ? $file : false;
+            $bytes = file_put_contents($file, $image);
+            Log::write("写入文件 {$file} 大小：{$bytes} 字节");
+
+            return $bytes > 0 ? $file : false;
         }
 
         return false;

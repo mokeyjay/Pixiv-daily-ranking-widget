@@ -20,10 +20,11 @@ class Local extends ImageHosting
         Log::write('[本地]目标：' . $path);
         Log::write('[本地]存储到：' . $file);
 
-        if (file_put_contents($file, file_get_contents($path)) === false) {
+        if (!file_put_contents($file, file_get_contents($path))) {
             Log::write('[本地]存储失败', 'ERROR');
             return false;
         }
+
         return Config::$url . 'storage/images/' . $fileName;
     }
 }

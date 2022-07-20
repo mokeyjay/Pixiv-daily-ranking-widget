@@ -66,7 +66,7 @@ class Refresh extends Job
                         break;
                     } else {
                         Log::write("图片 {$data['url']} 下载失败，重试第 {$ii} 次");
-                        sleep(3);
+                        sleep(mt_rand(3, 30));
                     }
                 }
                 if (!$tmpfile) {
@@ -78,8 +78,14 @@ class Refresh extends Job
                     $image = imagecreatefromjpeg($tmpfile);
                     if ($image) {
                         imagejpeg($image, $tmpfile, 95);
+                        $bytes = filesize($tmpfile);
+                        Log::write('压缩后图片大小： ' . $bytes . ' 字节');
                         imagedestroy($image);
                         unset($image);
+                    }
+
+                    if ($bytes < 1000) {
+                        throw new \Exception("图片 {$data['url']} 下载失败");
                     }
                 }
 
