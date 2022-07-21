@@ -47,6 +47,7 @@
 
 ### 从 4.x 升级到 5.0
 1. 查看 [config.php](config.php#L90) 中 `image_hosting` 配置项的注释说明，选择适合你的图床配置，填写到你线上环境的 `config.php` 中
+2. 删除 `storage/app` 下的所有文件，让程序重新获取排行榜数据
 
 ## 🌟 更新日志
 ### 新增

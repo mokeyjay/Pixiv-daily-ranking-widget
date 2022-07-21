@@ -49,6 +49,7 @@ Both api automatically return the corresponding cross-domain header based on the
 
 ### From 4.x to 5.0
 1. Check the `image_hosting` item's comment from [config.php](config.php#L90), select the appropriate option and fill it in your `config.php`
+2. Delete all files in 'storage/app', then let the program refresh the ranking data
 
 ## 🌟 Changelog
 ### Added
