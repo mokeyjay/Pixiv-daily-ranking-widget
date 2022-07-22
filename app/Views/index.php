@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pixiv 每日排行榜 Top<?=Config::$limit?> 小挂件</title>
 
-  <link rel="stylesheet" href="https://cdn.staticfile.org/bootstrap/5.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/5.1.3/css/bootstrap.min.css">
   <style>
     body { background: <?=Config::$background_color?>; }
 
@@ -22,7 +22,7 @@
     .carousel-item a div {
       background-position : center;
       background-repeat : no-repeat;
-      background-attachment : fixed;
+      background-size: contain;
     }
 
     /* 左右翻页箭头动画、隐藏 bs 自带的箭头 */
@@ -111,7 +111,7 @@
   </script>
 </head>
 <body>
-<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
   <div class="carousel-inner">
       <?php foreach ($pixivJson['data'] as $k => $data): ?>
         <?php if ($k >= Config::$limit) break; ?>
@@ -144,6 +144,6 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
-<script src="https://cdn.staticfile.org/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -57,8 +57,9 @@ Both api automatically return the corresponding cross-domain header based on the
 - scheduled job to clearing historical logs
 - support 8 free image-hosting
 ### Optimization
-- Left and right page flip arrows are now automatically hidden
-- Show work title and author name when hovering
+- Picture display effect
+- Left and right arrows will auto hidden now
+- Show works title and author name when hovering
 - Upgrade front-end dependency package to the latest, reduce dependency
 - Improve logging function
 - Enrich interface data to fit more scenarios
