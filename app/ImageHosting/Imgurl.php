@@ -6,7 +6,7 @@ use app\Libs\Curl;
 use app\Libs\Log;
 
 /**
- * Imgurl
+ * Imgurl（AWS）
  * Class Imgurl
  * @package app\ImageHosting
  * @url https://www.imgurl.org/

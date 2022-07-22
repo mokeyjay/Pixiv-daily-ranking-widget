@@ -6,7 +6,7 @@ use app\Libs\Curl;
 use app\Libs\Log;
 
 /**
- * Imgtg
+ * Imgtg（国内 CDN 但是鉴黄超级严格）
  * Class Imgtg
  * @package app\ImageHosting
  * @url https://Imgtg.com/

@@ -6,7 +6,7 @@ use app\Libs\Curl;
 use app\Libs\Log;
 
 /**
- * 愛上傳
+ * 愛上傳（Cloudflare）
  * Class Chkaja
  * @package app\ImageHosting
  * @url https://img.chkaja.com/

@@ -7,7 +7,7 @@ use app\Libs\Log;
 use app\Libs\Str;
 
 /**
- * 映画の图床
+ * 映画の图床（国内大厂 CDN）
  * Class Imgstop
  * @package app\ImageHosting
  * @url https://imgs.top/

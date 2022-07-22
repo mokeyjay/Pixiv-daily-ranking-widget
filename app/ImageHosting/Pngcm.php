@@ -7,7 +7,7 @@ use app\Libs\Log;
 use app\Libs\Str;
 
 /**
- * Pngcm
+ * Pngcm（欧洲。有时会莫名把图 404 掉）
  * Class Pngcm
  * @package app\ImageHosting
  * @url https://png.cm/

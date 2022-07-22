@@ -6,7 +6,7 @@ use app\Libs\Curl;
 use app\Libs\Log;
 
 /**
- * Tsesze（268608 的英文首字母缩写）
+ * Tsesze（268608 的英文首字母缩写。貌似是阿里云单机，带宽不是很够的样子）
  * Class Tsesze
  * @package app\ImageHosting
  * @url https://www.268608.com/

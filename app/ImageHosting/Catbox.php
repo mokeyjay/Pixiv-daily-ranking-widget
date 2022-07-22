@@ -6,7 +6,7 @@ use app\Libs\Curl;
 use app\Libs\Log;
 
 /**
- * 猫盒
+ * 猫盒（美国）
  * Class Catbox
  * @package app\ImageHosting
  * @url https://catbox.moe/
