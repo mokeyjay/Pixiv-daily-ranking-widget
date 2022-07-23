@@ -34,7 +34,7 @@ class Storage
         }
         $content = @file_get_contents($file);
         if ($content === false) {
-            Tools::log("读取 {$file} 文件失败");
+            Log::write("读取 {$file} 文件失败");
             return false;
         }
 
@@ -52,7 +52,7 @@ class Storage
     }
 
     /**
-     * 清除过期地图片
+     * 清除过期的图片
      */
     public static function clearOverdueImages()
     {
@@ -70,11 +70,11 @@ class Storage
                 }
             }
         }
-        Tools::log("共计清除过期图片 {$deleteNum} 张");
+        Log::write("共计清除过期图片 {$deleteNum} 张");
     }
 
     /**
-     * 获取图片内容。文件不存在或无效时返回false
+     * 获取图片内容。文件不存在或无效时返回 false
      * @param string $name
      * @return mixed|false
      */

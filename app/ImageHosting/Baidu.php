@@ -3,7 +3,7 @@
 namespace app\ImageHosting;
 
 use app\Libs\Curl;
-use app\Libs\Tools;
+use app\Libs\Log;
 
 /**
  * 百度图床
@@ -31,15 +31,15 @@ class Baidu extends ImageHosting
             ],
         ]);
 
-        Tools::log('[百度图床]上传：' . json_encode($data));
-        Tools::log('[百度图床]返回：' . $result);
+        Log::write('[百度图床]上传：' . json_encode($data));
+        Log::write('[百度图床]返回：' . $result);
 
         $json = json_decode($result, true);
         if(isset($json['errno']) && $json['errno'] == 0 && isset($json['ret']['org_url'])){
             return $json['ret']['org_url'];
         }
 
-        Tools::log('[百度图床]上传失败', 'ERROR');
+        Log::write('[百度图床]上传失败', 'ERROR');
         return false;
     }
 }

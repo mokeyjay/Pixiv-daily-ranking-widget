@@ -3,6 +3,7 @@
 namespace app\Jobs;
 
 use app\Factory;
+use app\Libs\Str;
 
 /**
  * 抽象 任务类
@@ -11,6 +12,9 @@ use app\Factory;
  */
 abstract class Job extends Factory
 {
+    // 是否只能通过 cli 触发
+    public $onlyActivateByCli = false;
+
     /**
      * @param string $name
      * @param array  $config
@@ -18,7 +22,7 @@ abstract class Job extends Factory
      */
     public static function make($name, array $config = [])
     {
-        $name = '\\app\\Jobs\\' . ucfirst(strtolower($name));
+        $name = '\\app\\Jobs\\' . Str::studly($name);
         return parent::make($name, $config);
     }
 
