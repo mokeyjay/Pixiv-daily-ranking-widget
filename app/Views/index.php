@@ -111,7 +111,7 @@
   </script>
 </head>
 <body>
-<div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
       <?php foreach ($pixivJson['data'] as $k => $data): ?>
         <?php if ($k >= Config::$limit) break; ?>
