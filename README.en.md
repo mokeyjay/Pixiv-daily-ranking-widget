@@ -52,8 +52,10 @@ Both APIs automatically return the respective cross-domain header according to `
 2. Delete all files in `storage/app` to enable the application refreshing the ranking data
 
 ## 🌟 Changelog
+### New Features
+- Riyugo image hosting
 ### Other
-- Removed the invalid Baidu,yinghua image hosting option
+- Removed the invalid Baidu, Imgstop image hosting option
 
 [History](doc/log.en.md)
 

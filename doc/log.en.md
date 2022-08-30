@@ -3,7 +3,7 @@
 ### New Features
 - Supporting cross-domain on the APIs
 - Scheduled job to clear historical logs
-- Supporting 8 free image hosts
+- Supporting 8 free image hosting
 ### Optimizations
 - Picture display effect
 - Left and right arrows will now be hidden automatically

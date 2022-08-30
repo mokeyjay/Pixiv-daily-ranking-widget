@@ -7,7 +7,7 @@ use app\Libs\Log;
 use app\Libs\Str;
 
 /**
- * 骚人图床（国内）
+ * 骚人图床（国内，有鉴黄，偶尔会有图 404）
  * Class Saoren
  * @package app\ImageHosting
  * @url https://tu.sao.ren/
