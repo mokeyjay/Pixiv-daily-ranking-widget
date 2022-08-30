@@ -47,29 +47,13 @@ Both APIs automatically return the respective cross-domain header according to `
 1. [Download the Source Code](https://github.com/mokeyjay/pixiv-daily-ranking-widget/releases/latest)
 2. Unzip and overwrite the `app` and `index.php` to on your server
 
-### Upgrading From 4.x to 5.0
+### Upgrading From 4.x to 5.x
 1. Check the code comment of `image_hosting` item in [config.php](config.php#L90), select the most suitable image hosting option and fill it in your `config.php`
 2. Delete all files in `storage/app` to enable the application refreshing the ranking data
 
 ## 🌟 Changelog
-### New Features
-- Supporting cross-domain on the APIs
-- Scheduled job to clear historical logs
-- Supporting 8 free image hosts
-### Optimizations
-- Picture display effect
-- Left and right arrows will now be hidden automatically
-- Display arwork title and author on mouse hover
-- Upgrade front-end dependency packages to their latest while reducing amount of dependencies
-- Improved logging function
-- Enrich interface data to fit more use cases
-- Replace Baidu Analytics with Google Analytics
-- Update default User Agent
-### Fixes
-- Project URL cannot be retrieved correctly under certain scenarios
-- A blank image will be downloaded under certain scenarios
 ### Other
-- Removed the invalid Alibaba image hosting option
+- Removed the invalid Baidu,yinghua image hosting option
 
 [History](doc/log.en.md)
 
