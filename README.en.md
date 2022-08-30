@@ -56,6 +56,7 @@ Both APIs automatically return the respective cross-domain header according to `
 - Riyugo image hosting
 ### Other
 - Removed the invalid Baidu, Imgstop image hosting option
+- Replace Google Analytics with Baidu Analytics
 
 [History](doc/log.en.md)
 
