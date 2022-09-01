@@ -57,7 +57,7 @@ return [
      * Proxy server configuration. For example 127.0.0.1:1080
      * Leave blank to not use proxy
      */
-    'proxy' => 'http://127.0.0.1:8866',
+    'proxy' => '',
 
     /**
      * 每次更新排行榜数据后，自动删除过期的本地缓存缩略图
