@@ -14,7 +14,7 @@ return [
      * P.S. If you want to trigger the refresh job via cli and you are using a local image-hosting, this field is required
      *      Otherwise, the generated image full URL may have problems
      */
-    'url' => 'localhost',
+    'url' => '',
 
     /**
      * 背景颜色。默认值为 transparent （透明）。你也可以通过 url 参数 color 来设置
@@ -48,7 +48,7 @@ return [
      * 日志级别。可多选：DEBUG、ERROR 或留空不记录任何日志
      * Logging level. Multiple options: DEBUG, ERROR or leave blank to not record any logs
      */
-    'log_level' => ['DEBUG', 'ERROR'],
+    'log_level' => [],
 
     /**
      * 代理服务器配置。例如 127.0.0.1:1080

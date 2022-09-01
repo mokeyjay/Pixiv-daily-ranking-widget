@@ -10,6 +10,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
   <title>Pixiv 每日排行榜 Top<?=Config::$limit?> 小挂件</title>
 
   <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/5.1.3/css/bootstrap.min.css">
@@ -31,6 +32,7 @@
     .carousel:hover button[class^="carousel-control-"], .carousel:hover .carousel-caption { opacity: 1; }
     .carousel-control-prev { left: -36px; }
     .carousel-control-next { right: -36px; }
+    .carousel:hover .gg-chevron-left { opacity: 1; }
     .carousel:hover .carousel-control-prev { left: 0; }
     .carousel:hover .carousel-control-next { right: 0; }
     span[class^="carousel-control-"] { background-image: none; display: flex; justify-content: center; align-items: center; }
@@ -46,6 +48,8 @@
       border: 2px solid transparent;
       border-radius: 100px;
       transform: scale(1.5);
+      transition: opacity .5s;
+      opacity: 0;
     }
 
     .gg-chevron-left::after {
@@ -130,9 +134,9 @@
   <div id="mask"></div>
 
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true" style="color: #fff; text-shadow: black 0.1em 0.1em 0.2em;">
-      <i class="gg-chevron-left" style="color: #555; position: absolute; filter: blur(2px);"></i>
-      <i class="gg-chevron-left" style="color: #fff"></i>
+    <span class="carousel-control-prev-icon" aria-hidden="true" style="color: #fff; text-shadow: black 0.1em 0.1em 0.2em; position: relative">
+      <i class="gg-chevron-left" style="color: #555; position: absolute; filter: blur(2px); left: 8px;"></i>
+      <i class="gg-chevron-left" style="color: #fff; left: 3px;"></i>
     </span>
     <span class="visually-hidden">Previous</span>
   </button>
