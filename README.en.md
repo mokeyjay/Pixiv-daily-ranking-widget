@@ -53,7 +53,7 @@ Both APIs automatically return the respective cross-domain header according to `
 
 ## 🌟 Changelog
 ### New Features
-- JD, Riyugo image hosting
+- JD, Riyugo, FiftyEight image hosting
 ### Other
 - Removed the invalid Baidu, Imgstop image hosting option
 - Replace Google Analytics with Baidu Analytics

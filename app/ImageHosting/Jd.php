@@ -31,6 +31,7 @@ class Jd extends ImageHosting
             ],
         ]);
 
+        $data['s'] = '（数据长度：' . strlen($data['s']) . '）';
         Log::write('[京东]上传：' . json_encode($data));
         Log::write('[京东]返回：' . $result);
 
