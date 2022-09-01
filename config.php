@@ -109,4 +109,13 @@ return [
      * See doc/deploy.en.md
      */
     'disable_web_job' => false,
+
+    /**
+     * 前端静态资源 CDN 供应商
+     * 可选：bytedance, baomitu, bootcdn, cdnjs, jsdelivr
+     *
+     * Front-end static resource CDN provider
+     * Options: jsdelivr, cdnjs, bytedance, baomitu, bootcdn
+     */
+    'static_cdn' => 'bytedance',
 ];

@@ -13,7 +13,7 @@
   <meta name="referrer" content="no-referrer">
   <title>Pixiv 每日排行榜 Top<?=Config::$limit?> 小挂件</title>
 
-  <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/5.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="<?=Config::$static_cdn_url['bootstrap-css']?>">
   <style>
     body { background: <?=Config::$background_color?>; }
 
@@ -135,6 +135,6 @@
     </span>
   </button>
 </div>
-<script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script src="<?=Config::$static_cdn_url['bootstrap-js']?>"></script>
 </body>
 </html>

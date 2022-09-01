@@ -54,6 +54,7 @@ Both APIs automatically return the respective cross-domain header according to `
 ## 🌟 Changelog
 ### New Features
 - JD, Riyugo, FiftyEight image hosting
+- `static_cdn` configuration, you can choose the front-end static resource CDN provider
 ### Optimizations
 - Rewritten left and right arrows, fixed some issues with it
 ### Other
