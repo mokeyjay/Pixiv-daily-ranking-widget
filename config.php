@@ -14,7 +14,7 @@ return [
      * P.S. If you want to trigger the refresh job via cli and you are using a local image-hosting, this field is required
      *      Otherwise, the generated image full URL may have problems
      */
-    'url' => '',
+    'url' => 'localhost',
 
     /**
      * 背景颜色。默认值为 transparent （透明）。你也可以通过 url 参数 color 来设置
@@ -48,7 +48,7 @@ return [
      * 日志级别。可多选：DEBUG、ERROR 或留空不记录任何日志
      * Logging level. Multiple options: DEBUG, ERROR or leave blank to not record any logs
      */
-    'log_level' => [],
+    'log_level' => ['DEBUG', 'ERROR'],
 
     /**
      * 代理服务器配置。例如 127.0.0.1:1080
@@ -57,7 +57,7 @@ return [
      * Proxy server configuration. For example 127.0.0.1:1080
      * Leave blank to not use proxy
      */
-    'proxy' => '',
+    'proxy' => 'http://127.0.0.1:8866',
 
     /**
      * 每次更新排行榜数据后，自动删除过期的本地缓存缩略图
@@ -85,7 +85,7 @@ return [
      *
      * It is recommended to fill in more than one image-hosting, if one of them fails to upload, it will continue to try other image-hosting in order
      */
-    'image_hosting' => ['riyugo', 'saoren', 'tsesze', 'imgtg', 'chkaja', 'pngcm', 'catbox', 'imgurl', 'local'],
+    'image_hosting' => ['jd', 'riyugo', 'saoren', 'tsesze', 'imgtg', 'chkaja', 'pngcm', 'catbox', 'imgurl', 'local'],
 
     /**
      * 图床扩展配置信息
