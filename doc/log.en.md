@@ -1,4 +1,24 @@
 # History Update Log
+### 5.0
+### New Features
+- Supporting cross-domain on the APIs
+- Scheduled job to clear historical logs
+- Supporting 8 free image hosting
+### Optimizations
+- Picture display effect
+- Left and right arrows will now be hidden automatically
+- Display arwork title and author on mouse hover
+- Upgrade front-end dependency packages to their latest while reducing amount of dependencies
+- Improved logging function
+- Enrich interface data to fit more use cases
+- Replace Baidu Analytics with Google Analytics
+- Update default User Agent
+### Fixes
+- Project URL cannot be retrieved correctly under certain scenarios
+- A blank image will be downloaded under certain scenarios
+### Other
+- Removed the invalid Alibaba image hosting option
+
 ### 4.4.2
 
 - Update default UA of Curl class

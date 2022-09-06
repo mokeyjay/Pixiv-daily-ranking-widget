@@ -21,6 +21,8 @@ class Config
     public static $image_hosting = ['local'];
     public static $image_hosting_extend = [];
     public static $disable_web_job = false;
+    public static $static_cdn = 'bytedance';
+    public static $static_cdn_url = [];
 
     /**
      * 初始化配置
@@ -33,12 +35,12 @@ class Config
             self::$$key = $value;
         }
 
-        // 获取本项目url
+        // 获取本项目 url
         if (self::$url == '' && !IS_CLI) {
             self::$url = Request::getCurrentUrl();
         }
 
-        // 是否对外提供服务，是则获取url参数
+        // 是否对外提供服务，是则获取 url 参数
         if (self::$service) {
             if (isset($_GET['color'])) {
                 self::$background_color = '#' . $_GET['color'];
@@ -47,6 +49,8 @@ class Config
                 self::$limit = (int)$_GET['limit'];
             }
         }
+
+        self::initStaticCdnUrl(self::$static_cdn);
 
         try {
             if (!is_writable(STORAGE_PATH)) {
@@ -71,5 +75,42 @@ class Config
 
             die;
         }
+    }
+
+    /**
+     * 初始化静态资源 CDN
+     * @param $provider
+     * @return void
+     */
+    private static function initStaticCdnUrl($provider)
+    {
+        $url = [
+            'bootcdn' => [
+                'bootstrap-css' => 'https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css',
+                'bootstrap-js' => 'https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.0/js/bootstrap.min.js',
+            ],
+            'baomitu' => [
+                'bootstrap-css' => 'https://lib.baomitu.com/twitter-bootstrap/5.2.0/css/bootstrap.min.css',
+                'bootstrap-js' => 'https://lib.baomitu.com/twitter-bootstrap/5.2.0/js/bootstrap.bundle.min.js',
+            ],
+            'bytedance' => [
+                'bootstrap-css' => 'https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/5.1.3/css/bootstrap.min.css',
+                'bootstrap-js' => 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/5.1.3/js/bootstrap.min.js',
+            ],
+            'cdnjs' => [
+                'bootstrap-css' => 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css',
+                'bootstrap-js' => 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/js/bootstrap.min.js',
+            ],
+            'jsdelivr' => [
+                'bootstrap-css' => 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css',
+                'bootstrap-js' => 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js',
+            ],
+        ];
+
+        if (!isset($url[$provider])) {
+            $provider = 'bytedance';
+        }
+
+        self::$static_cdn_url = $url[$provider];
     }
 }

@@ -44,32 +44,24 @@ Both APIs automatically return the respective cross-domain header according to `
 > The `image` and `url` keys are for compatibility purposes for users of 4.x or earlier versions, they can be ignored
 
 ## 🆙 Upgrading Guide
+### Upgrading From 5.0 to 5.1
 1. [Download the Source Code](https://github.com/mokeyjay/pixiv-daily-ranking-widget/releases/latest)
 2. Unzip and overwrite the `app` and `index.php` to on your server
+3. This version adds a new image-hosting, you can modify the `image_hosting` configuration in `config.php` as you needed
 
-### Upgrading From 4.x to 5.0
-1. Check the code comment of `image_hosting` item in [config.php](config.php#L90), select the most suitable image hosting option and fill it in your `config.php`
+### Upgrading From 4.x to 5.x
+1. Check the code comment of `image_hosting` item in [config.php](config.php#L88), select the most suitable image hosting option and fill it in your `config.php`
 2. Delete all files in `storage/app` to enable the application refreshing the ranking data
 
 ## 🌟 Changelog
 ### New Features
-- Supporting cross-domain on the APIs
-- Scheduled job to clear historical logs
-- Supporting 8 free image hosts
+- JD, Riyugo, FiftyEight image hosting
+- `static_cdn` configuration, you can choose the front-end static resource CDN provider
 ### Optimizations
-- Picture display effect
-- Left and right arrows will now be hidden automatically
-- Display arwork title and author on mouse hover
-- Upgrade front-end dependency packages to their latest while reducing amount of dependencies
-- Improved logging function
-- Enrich interface data to fit more use cases
-- Replace Baidu Analytics with Google Analytics
-- Update default User Agent
-### Fixes
-- Project URL cannot be retrieved correctly under certain scenarios
-- A blank image will be downloaded under certain scenarios
+- Rewritten left and right arrows, fixed some issues with it
 ### Other
-- Removed the invalid Alibaba image hosting option
+- Removed the invalid Baidu, Imgstop image hosting option
+- Replace Google Analytics with Baidu Analytics
 
 [History](doc/log.en.md)
 

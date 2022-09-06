@@ -85,7 +85,7 @@ return [
      *
      * It is recommended to fill in more than one image-hosting, if one of them fails to upload, it will continue to try other image-hosting in order
      */
-    'image_hosting' => ['baidu', 'imgstop', 'saoren', 'tsesze', 'imgtg', 'chkaja', 'pngcm', 'catbox', 'imgurl', 'local'],
+    'image_hosting' => ['jd', 'riyugo', 'fifty-eight', 'saoren', 'tsesze', 'imgtg', 'chkaja', 'pngcm', 'catbox', 'imgurl', 'local'],
 
     /**
      * 图床扩展配置信息
@@ -109,4 +109,13 @@ return [
      * See doc/deploy.en.md
      */
     'disable_web_job' => false,
+
+    /**
+     * 前端静态资源 CDN 供应商
+     * 可选：bytedance, baomitu, bootcdn, cdnjs, jsdelivr
+     *
+     * Front-end static resource CDN provider
+     * Options: jsdelivr, cdnjs, bytedance, baomitu, bootcdn
+     */
+    'static_cdn' => 'bytedance',
 ];

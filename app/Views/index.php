@@ -10,9 +10,10 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
   <title>Pixiv 每日排行榜 Top<?=Config::$limit?> 小挂件</title>
 
-  <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/5.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="<?=Config::$static_cdn_url['bootstrap-css']?>">
   <style>
     body { background: <?=Config::$background_color?>; }
 
@@ -25,58 +26,51 @@
       background-size: contain;
     }
 
-    /* 左右翻页箭头动画、隐藏 bs 自带的箭头 */
-    button[class^="carousel-control-"] { position: fixed; transition-property: left, right; }
-    button[class^="carousel-control-"], .carousel-caption { transition-duration: .5s; }
-    .carousel:hover button[class^="carousel-control-"], .carousel:hover .carousel-caption { opacity: 1; }
-    .carousel-control-prev { left: -36px; }
-    .carousel-control-next { right: -36px; }
-    .carousel:hover .carousel-control-prev { left: 0; }
-    .carousel:hover .carousel-control-next { right: 0; }
-    span[class^="carousel-control-"] { background-image: none; display: flex; justify-content: center; align-items: center; }
-    i[class^="gg-chevron-"] { text-shadow: 0 0 10px blue; }
-
-    /* 左右翻页箭头样式 */
-    .gg-chevron-left {
-      box-sizing: border-box;
-      position: relative;
-      display: block;
-      width: 22px;
-      height: 22px;
-      border: 2px solid transparent;
-      border-radius: 100px;
-      transform: scale(1.5);
-    }
-
-    .gg-chevron-left::after {
-      content: "";
-      display: block;
-      box-sizing: border-box;
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      border-bottom: 2px solid;
-      border-left: 2px solid;
+    /* 左右翻页箭头 */
+    .arrow {
       transform: rotate(45deg);
-      left: 6px;
-      top: 4px
+      border: 4px solid white;
+      border-radius: 2px;
+      width: 16px;
+      height: 16px;
+      position: fixed;
+      transition: opacity .3s ease-in-out, left .5s, right .5s;
+      top: 50%;
+      margin-top: -9px;
+      opacity: 0;
     }
-
-    .gg-chevron-right::after {
-      border-right: 2px solid;
-      transform: rotate(-45deg);
-      right: 6px;
-      left: 0;
-      border-left: 0;
+    .arrow.shadow {
+      border-color: #777;
+      filter: blur(2px);
+      box-shadow: none !important;
     }
+    .arrow.left {
+      border-top: none;
+      border-right: none;
+      left: -12%;
+    }
+    .arrow.right {
+      border-bottom: none;
+      border-left: none;
+      transform: rotate(45deg);
+      right: -12%;
+    }
+    .carousel:hover .arrow { opacity: 1; }
+    .carousel:hover .arrow.left { left: 6%; }
+    .carousel:hover .arrow.right { right: 6%; }
 
-    /* 底部信息栏 */
+    /* 隐藏 bs 自带的箭头 */
+    span[class^="carousel-control-"] { background: none; }
+    button[class^="carousel-control-"] { opacity: 1; }
+
+      /* 底部信息栏 */
     .carousel-caption {
       opacity: 0;
+      transition-duration: .5s;
       text-shadow: black 0.1em 0.1em 0.2em;
-      z-index: 10;
       pointer-events:none;
       bottom: 0;
+      z-index: 10;
     }
     .carousel-caption h5 {
       font-size: 1rem;
@@ -85,6 +79,7 @@
       text-overflow: ellipsis;
     }
     .carousel-caption p { font-size: .75rem; }
+    .carousel:hover .carousel-caption { opacity: 1; }
 
     /* 底部信息栏 - 阴影层 */
     #mask {
@@ -96,18 +91,16 @@
       transition-duration: .5s;
       background-image: linear-gradient(transparent, rgba(0,0,0,0.4));
     }
-    #carouselExampleControls:hover #mask {
-      bottom: 0;
-    }
+    .carousel:hover #mask { bottom: 0; }
   </style>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-P9HFSFJQ02"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-P9HFSFJQ02');
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?65a9f8c5bfa2055dbb44f895cb5ea399";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
   </script>
 </head>
 <body>
@@ -130,20 +123,18 @@
   <div id="mask"></div>
 
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true" style="color: #fff; text-shadow: black 0.1em 0.1em 0.2em;">
-      <i class="gg-chevron-left" style="color: #555; position: absolute; filter: blur(2px);"></i>
-      <i class="gg-chevron-left" style="color: #fff"></i>
+    <span class="carousel-control-prev-icon" aria-hidden="true">
+      <div class="arrow left shadow"></div>
+      <div class="arrow left"></div>
     </span>
-    <span class="visually-hidden">Previous</span>
   </button>
   <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true">
-      <i class="gg-chevron-left gg-chevron-right" style="color: #555; position: absolute; filter: blur(2px);"></i>
-      <i class="gg-chevron-left gg-chevron-right" style="color: #fff"></i>
+      <div class="arrow right shadow"></div>
+      <div class="arrow right"></div>
     </span>
-    <span class="visually-hidden">Next</span>
   </button>
 </div>
-<script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script src="<?=Config::$static_cdn_url['bootstrap-js']?>"></script>
 </body>
 </html>
