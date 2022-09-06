@@ -42,11 +42,13 @@
 > `image` 和 `url` 两个键是为了兼容 4.x 及之前版本的用户，无需理会
 
 ## 🆙 升级指南
+### 从 5.0 升级到 5.1
 1. [下载源代码](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/releases/latest)
 2. 解压缩，将其中的 `app` 和 `index.php` 覆盖到线上环境
+3. 此版本添加了新的图床，你可以按需修改 `config.php` 中的 `image_hosting` 配置项
 
 ### 从 4.x 升级到 5.x
-1. 查看 [config.php](config.php#L90) 中 `image_hosting` 配置项的注释说明，选择适合你的图床配置，填写到你线上环境的 `config.php` 中
+1. 查看 [config.php](config.php#L88) 中 `image_hosting` 配置项的注释说明，选择适合你的图床配置，填写到你线上环境的 `config.php` 中
 2. 删除 `storage/app` 下的所有文件，让程序重新获取排行榜数据
 
 ## 🌟 更新日志

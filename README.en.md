@@ -44,11 +44,13 @@ Both APIs automatically return the respective cross-domain header according to `
 > The `image` and `url` keys are for compatibility purposes for users of 4.x or earlier versions, they can be ignored
 
 ## 🆙 Upgrading Guide
+### Upgrading From 5.0 to 5.1
 1. [Download the Source Code](https://github.com/mokeyjay/pixiv-daily-ranking-widget/releases/latest)
 2. Unzip and overwrite the `app` and `index.php` to on your server
+3. This version adds a new image-hosting, you can modify the `image_hosting` configuration in `config.php` as you needed
 
 ### Upgrading From 4.x to 5.x
-1. Check the code comment of `image_hosting` item in [config.php](config.php#L90), select the most suitable image hosting option and fill it in your `config.php`
+1. Check the code comment of `image_hosting` item in [config.php](config.php#L88), select the most suitable image hosting option and fill it in your `config.php`
 2. Delete all files in `storage/app` to enable the application refreshing the ranking data
 
 ## 🌟 Changelog
