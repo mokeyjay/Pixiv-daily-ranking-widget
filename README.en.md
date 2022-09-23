@@ -65,5 +65,10 @@ Both APIs automatically return the respective cross-domain header according to `
 
 [History](doc/log.en.md)
 
+## 💖 Special Sponsor
+Many thanks to Jetbrains for providing me with an open source license for the IDE to complete development on this and other open source projects.
+
+[![](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://www.jetbrains.com/?from=https://github.com/mokeyjay)
+
 ## 👨‍💻 About author
 [mokeyjay](https://www.mokeyjay.com), IT and ACG lover
