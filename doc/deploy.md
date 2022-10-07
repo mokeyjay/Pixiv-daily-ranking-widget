@@ -1,4 +1,7 @@
 # 部署
+
+[docker 部署](./docker.md)
+
 - [下载源代码](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/releases/latest)
 - 解压缩到 web 目录下
 - 使用专业编辑器（例如 `Visual Studio Code`、`Sublime` 等，禁止使用记事本）编辑 `config.php`，根据实际情况修改相应配置
