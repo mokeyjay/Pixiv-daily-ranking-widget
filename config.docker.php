@@ -17,7 +17,7 @@ function getBoolEnv($name, $default=false){
 function getArrayEnv($name, $default=[]){
     $data = getenv($name);
     if($data === false) return $default;
-    return explode($data, ',');
+    return explode(',', $data);
 }
 
 return [
