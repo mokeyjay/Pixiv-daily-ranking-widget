@@ -1,4 +1,7 @@
 # Deployment
+
+[docker deployment](./docker.en.md)
+
 - [Download source code](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/releases/latest)
 - Unzip under your the web directory
 - Edit `config.php` with a **professional** editor (e.g. `Visual Studio Code`, `Sublime`, etc., notepad is not allowed) and modify the configuration according to your own needs

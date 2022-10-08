@@ -36,7 +36,7 @@ docker exec pixiv php index.php -j=refresh
 
 # 清除日志
 
-详见 [主动触发更新](./deploy.md)
+详见 [清除日志](./deploy.md)
 
 ```shell
 docker exec pixiv php index.php -j=clear-log
