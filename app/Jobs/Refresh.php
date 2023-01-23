@@ -99,7 +99,7 @@ class Refresh extends Job
                     }
                 }
 
-                $url = $url ?: $data['url']; // 如上传失败则使用原图url（虽然原图url也显示不出来）
+                $url = $url ?: Pixiv::getProxyUrl($data['url']); // 如上传失败则使用反代 url
                 $data['url'] = $url;
 
                 $pixivJson['data'][] = $data;

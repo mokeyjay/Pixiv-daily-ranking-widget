@@ -134,4 +134,15 @@ class Pixiv
 
         return false;
     }
+
+    /**
+     * 获取基于 pixiv.cat 提供的代理服务的图片 url
+     * 可以直接展示在页面上，突破 pixiv 的反盗链
+     * @param $url
+     * @return array|string|string[]
+     */
+    public static function getProxyUrl($url)
+    {
+        return str_replace('i.pximg.net', 'i.pixiv.re', $url);
+    }
 }
