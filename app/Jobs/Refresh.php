@@ -27,6 +27,10 @@ class Refresh extends Job
             $pixivJson = Storage::getJson('pixiv');
             $ranking = Pixiv::getRanking();
 
+            if ($ranking === false) {
+                return false;
+            }
+
             if(!$this->needRefresh($ranking, $pixivJson)){
                 Log::write('排行榜尚未更新，半小时后再试');
                 Lock::forceCreate('refresh', 1800);

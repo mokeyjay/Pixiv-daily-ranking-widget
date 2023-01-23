@@ -130,4 +130,13 @@ return [
      * Options: jsdelivr, cdnjs, bytedance, baomitu, bootcdn
      */
     'static_cdn' => 'bytedance',
+
+    /**
+     * 放置在页面 <header> 标签下的 js 脚本内容，通常用来放置统计代码
+     * 无需 <script> 标签
+     *
+     * Js script content placed under the <header> tag of the page, usually used to place statistical code
+     * Doesn't need <script> tag
+     */
+    'header_script' => '',
 ];

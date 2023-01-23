@@ -23,6 +23,7 @@ class Config
     public static $disable_web_job = false;
     public static $static_cdn = 'bytedance';
     public static $static_cdn_url = [];
+    public static $header_script = '';
 
     /**
      * 初始化配置

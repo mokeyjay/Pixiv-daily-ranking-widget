@@ -115,6 +115,7 @@ class Pixiv
 
             // 检查文件是否下载完整
             $response = Curl::get($url, [
+                CURLOPT_NOBODY => true,
                 CURLOPT_HEADER => true,
                 CURLOPT_HTTPHEADER => [
                     'Referer: https://www.pixiv.net/ranking.php?mode=daily',
