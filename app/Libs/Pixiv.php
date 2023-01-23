@@ -113,6 +113,19 @@ class Pixiv
             $bytes = file_put_contents($file, $image);
             Log::write("写入文件 {$file} 大小：{$bytes} 字节");
 
+            // 检查文件是否下载完整
+            $response = Curl::get($url, [
+                CURLOPT_HEADER => true,
+                CURLOPT_HTTPHEADER => [
+                    'Referer: https://www.pixiv.net/ranking.php?mode=daily',
+                ],
+            ]);
+            $contentLength = Response::getContentLength($response);
+            if ($bytes != $contentLength) {
+                Log::write("写入的文件大小与目标 content-length: {$contentLength} 不符");
+                return false;
+            }
+
             return $bytes > 0 ? $file : false;
         }
 
