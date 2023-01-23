@@ -98,6 +98,12 @@ return [
         'smms' => [
             'token' => '',
         ],
+        'riyugo' => [
+            'url' => '',
+            'upload_path' => '',
+            'unique_id' => '',
+            'token' => '',
+        ],
     ],
 
     /**
