@@ -25,7 +25,7 @@ return [
 
     'image_hosting' => Env::getArrayEnv(
         'IMAGE_HOSTING',
-        ['jd', 'riyugo', 'fifty-eight', 'saoren', 'tsesze', 'imgtg', 'chkaja', 'pngcm', 'catbox', 'imgurl', 'local']
+        ['tsesze', 'fifty-eight', 'chkaja', 'pngcm', 'catbox', 'local']
     ),
 
     'image_hosting_extend' => [
@@ -34,6 +34,12 @@ return [
         ],
         'smms' => [
             'token' => Env::getStrEnv('IMAGE_HOSTING_EXTEND-SMMS-TOKEN'),
+        ],
+        'riyugo' => [
+            'url' => Env::getStrEnv('IMAGE_HOSTING_EXTEND-RIYUGO-URL'),
+            'upload_path' => Env::getStrEnv('IMAGE_HOSTING_EXTEND-RIYUGO-UPLOAD-PATH'),
+            'unique_id' => Env::getStrEnv('IMAGE_HOSTING_EXTEND-RIYUGO-UNIQUE-ID'),
+            'token' => Env::getStrEnv('IMAGE_HOSTING_EXTEND-RIYUGO-TOKEN'),
         ],
     ],
 
