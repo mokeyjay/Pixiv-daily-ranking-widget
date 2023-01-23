@@ -98,10 +98,16 @@ return [
         'smms' => [
             'token' => '',
         ],
+        // 薄荷图床
         'riyugo' => [
+            // 客服提供的会员专属网址。例如 https://r789.com/1234，必须以 / 结尾
             'url' => '',
+            // 要上传到的文件夹。通常可以留空
             'upload_path' => '',
+            // 管理后台-设置 中的 唯一用户ID
             'unique_id' => '',
+            // 登录管理后台后，filemanagerXXXXXXXXX 这个 cookie 的值
+            // （XXXXXXXX 是你的唯一用户 ID）
             'token' => '',
         ],
     ],

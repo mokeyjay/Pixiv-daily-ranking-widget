@@ -32,7 +32,7 @@ class Riyugo extends ImageHosting
             'mode' => 1,
             'file' => Curl::getCurlFile($path),
         ];
-        $result = Curl::post($config['url'] . '/file.php', $data, [
+        $result = Curl::post(rtrim($config['url']) . '/file.php', $data, [
             CURLOPT_HTTPHEADER => [
                 'accept: */*',
                 'referer: ' . $config['url'],
