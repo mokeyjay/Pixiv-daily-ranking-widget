@@ -23,14 +23,14 @@
 以 `Wordpress` 为例。首先进入后台，点击 外观 -> 小工具  
 向右边适当的位置添加一个 **文本** 或 **自定义HTML** 小工具，内容填写上述代码即可  
 
-[高级用法](doc/advance-usage.md)
+[高级用法](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/advance-usage.md)
 
 ## 🛠️ 如何部署
 想要自己定制代码？嫌我提供的服务太慢？  
 你也可以轻松拥有完全属于自己的小挂件！  
 > 需要 PHP 版本 >= 5.6
 
-[部署文档](doc/deploy.md)
+[部署文档](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/deploy.md)
 
 ## 🔌 API
 [排行榜数据（已上传至图床）](https://cloud.mokeyjay.com/pixiv/?r=api/pixiv-json)（推荐）  
@@ -48,7 +48,7 @@
 3. 此版本添加了新的配置项 `header_script`，以便你自定义访问统计或者 js 代码
 
 ### 从 4.x 升级到 5.x
-1. 查看 [config.php](config.php#L88) 中 `image_hosting` 配置项的注释说明，选择适合你的图床配置，填写到你线上环境的 `config.php` 中
+1. 查看 [config.php](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/config.php#L88) 中 `image_hosting` 配置项的注释说明，选择适合你的图床配置，填写到你线上环境的 `config.php` 中
 2. 删除 `storage/app` 下的所有文件，让程序重新获取排行榜数据
 
 ## 🌟 更新日志
@@ -63,7 +63,7 @@
 ### 其他
 - 去掉失效的京东、imgurl、imgtg、saoren 图床
 
-[历史更新日志](doc/log.md)
+[历史更新日志](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/log.md)
 
 ## 💖 特别赞助
 非常感谢 Jetbrains 为我提供的 IDE 开源许可，让我完成此项目和其他开源项目上的开发工作。

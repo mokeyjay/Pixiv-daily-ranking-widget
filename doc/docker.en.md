@@ -30,10 +30,10 @@ By [environment](https://docs.docker.com/compose/compose-file/#environment) . al
 ```shell
 docker exec pixiv php index.php -j=refresh
 ```
-See [Trigger updates proactively](./deploy.en.md)
+See [Trigger updates proactively](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/deploy.en.md)
 
 ### Clear the logs
 ```shell
 docker exec pixiv php index.php -j=clear-log
 ```
-See [Clear the logs](./deploy.en.md)
+See [Clear the logs](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/deploy.en.md)

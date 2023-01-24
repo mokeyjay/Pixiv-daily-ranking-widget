@@ -23,7 +23,7 @@ Just add the below code to your page
 Taking `WordPress` as an example. On `wp-admin`, click on **Appearance** -> **Widgets**  
 Then add a **Text** or **Custom HTML** widget as deemed appropriate on the right and fill the code above in
 
-[Advance Usage](doc/advance-usage.en.md)
+[Advance Usage](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/advance-usage.en.md)
 
 ## 🛠️ How to deploy
 Wanted to customize the code yourself? Thought the service I provided is slow in speed?  
@@ -31,7 +31,7 @@ Wanted to customize the code yourself? Thought the service I provided is slow in
 You can also easily deploy your own widget!
 > Requires PHP version >= 5.6
 
-[Deployment Documentation](doc/deploy.en.md)
+[Deployment Documentation](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/deploy.en.md)
 
 ## 🔌 APIs
 [Ranking data (images hosted privately)](https://cloud.mokeyjay.com/pixiv/?r=api/pixiv-json) (recommended)  
@@ -50,7 +50,7 @@ Both APIs automatically return the respective cross-domain header according to `
 3This version adds a new config item `header_script`, so you can customize statistics code or js script
 
 ### Upgrading From 4.x to 5.x
-1. Check the code comment of `image_hosting` item in [config.php](config.php#L88), select the most suitable image hosting option and fill it in your `config.php`
+1. Check the code comment of `image_hosting` item in [config.php](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/config.php#L88), select the most suitable image hosting option and fill it in your `config.php`
 2. Delete all files in `storage/app` to enable the application refreshing the ranking data
 
 ## 🌟 Changelog
@@ -65,7 +65,7 @@ Both APIs automatically return the respective cross-domain header according to `
 ### Other
 - Removed invalid JD, imgurl, imgtg and saoren image hosting
 
-[History](doc/log.en.md)
+[History](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/log.en.md)
 
 ## 💖 Special Sponsor
 Many thanks to Jetbrains for providing me with an open source license for the IDE to complete development on this and other open source projects.

@@ -3,7 +3,7 @@
 ```shell
 docker run -d -p 80:80 --name=pixiv xxx
 ```
-详见 [Docker](./docker.md)
+详见 [Docker](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/docker.md)
 ## 本地部署
 - [下载源代码](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/releases/latest)
 - 解压缩到 web 目录下
