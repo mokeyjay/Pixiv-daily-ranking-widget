@@ -1,6 +1,6 @@
 <h1 align="center">🖼️ Pixiv Daily Ranking Widget</h1>
 <p align="center">
-    <a href="README.md">中文</a>
+    <a href="https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/README.md">中文</a>
     <br><br>
     Want to add a <span style="font-weight: bold">Pixiv Daily Ranking Widget</span> to your website? It's a matter of one line of code!
     <a href="https://cloud.mokeyjay.com/pixiv/demo.html" target="_blank">DEMO</a>
