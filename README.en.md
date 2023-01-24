@@ -56,7 +56,7 @@ Both APIs automatically return the respective cross-domain header according to `
 ## 🌟 Changelog
 ### New Features
 - Support Docker (thanks to @hujingnb)
-- 'header_script' configuration item, so you can customize statistics code or js script
+- `header_script` configuration item, so you can customize statistics code or js script
 ### Optimizations
 - Used the proxy service provided by pixiv.cat as a final guarantee plan
 - Riyugo image hosting changed to vip version, you need to buy a vip account before use it (free version is no longer available)
