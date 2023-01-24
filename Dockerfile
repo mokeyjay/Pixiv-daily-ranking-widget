@@ -1,7 +1,4 @@
-FROM wyveo/nginx-php-fpm:php81
+FROM richarvey/nginx-php-fpm:2.1.2
 
-COPY ./ /usr/share/nginx/html
-COPY ./config.docker.php /usr/share/nginx/html/config.php
-
-WORKDIR /usr/share/nginx/html
-
+COPY ./ /var/www/html
+COPY ./config.docker.php /var/www/html/config.php

@@ -9,43 +9,41 @@ namespace app\Libs;
  */
 class Env
 {
-
     /**
      * 从环境变量中读取字符串
-     * @param $name
-     * @param $default
+     * @param string $name
+     * @param mixed $default
      * @return string
      */
-    public static function getStrEnv($name, $default='')
-    {
-        return getenv($name) ?: $default;
-    }
-
-    /**
-     * 检查布尔环境变量是否存在, 若不存在, 返回默认值
-     * @param $name
-     * @param $default
-     * @return bool|mixed
-     */
-    public static function getBoolEnv($name, $default=false)
+    public static function getStr($name, $default = '')
     {
         $data = getenv($name);
-        if($data === false) return $default;
-        if(strtolower(strval($data)) === 'false') return false;
-        return true;
+
+        return $data === false ? $default : $data;
     }
 
     /**
-     * 检查数组环境变量是否存在, 若不存在, 返回默认值
+     * 检查布尔环境变量是否存在。若不存在，返回默认值
+     * @param string $name
+     * @param mixed $default
+     * @return bool
+     */
+    public static function getBool($name, $default = false)
+    {
+        return strtolower(self::getStr($name, $default)) === 'true';
+    }
+
+    /**
+     * 检查数组环境变量是否存在。若不存在，返回默认值
      * 数组的值为 ',' 分割的字符串
-     * @param $name
-     * @param $default
-     * @return array|false|mixed|string[]
+     * @param string $name
+     * @param array $default
+     * @return array|false
      */
-    public static function getArrayEnv($name, $default=[])
+    public static function getArray($name, $default = [])
     {
-        $data = getenv($name);
-        if($data === false) return $default;
-        return explode(',', $data);
+        $data = self::getStr($name, $default);
+
+        return is_array($data) ? $data : explode(',', $data);
     }
 }

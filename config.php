@@ -11,7 +11,7 @@ return [
      * The url address of this project, must end with /
      * Leave it blank to get it automatically, normally leave it blank
      *
-     * P.S. If you want to trigger the refresh job via cli and you are using a local image-hosting, this field is required
+     * P.S. If you want to trigger the refresh job via cli, and you are using a local image-hosting, this field is required
      *      Otherwise, the generated image full URL may have problems
      */
     'url' => '',
