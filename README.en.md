@@ -44,10 +44,10 @@ Both APIs automatically return the respective cross-domain header according to `
 > The `image` and `url` keys are for compatibility purposes for users of 4.x or earlier versions, they can be ignored
 
 ## 🆙 Upgrading Guide
-### Upgrading From 5.0 to 5.1
+### Upgrading From 5.1 to 5.2
 1. [Download the Source Code](https://github.com/mokeyjay/pixiv-daily-ranking-widget/releases/latest)
 2. Unzip and overwrite the `app` and `index.php` to on your server
-3. This version adds a new image-hosting, you can modify the `image_hosting` configuration in `config.php` as you needed
+3This version adds a new config item `header_script`, so you can customize statistics code or js script
 
 ### Upgrading From 4.x to 5.x
 1. Check the code comment of `image_hosting` item in [config.php](config.php#L88), select the most suitable image hosting option and fill it in your `config.php`
@@ -55,13 +55,15 @@ Both APIs automatically return the respective cross-domain header according to `
 
 ## 🌟 Changelog
 ### New Features
-- JD, Riyugo, FiftyEight image hosting
-- `static_cdn` configuration, you can choose the front-end static resource CDN provider
+- Support Docker (thanks to @hujingnb)
+- 'header_script' configuration item, so you can customize statistics code or js script
 ### Optimizations
-- Rewritten left and right arrows, fixed some issues with it
+- Used the proxy service provided by pixiv.cat as a final guarantee plan
+- Riyugo image hosting changed to vip version, you need to buy a vip account before use it (free version is no longer available)
+- Improve image download integrity check mechanism
+- Removed built-in statistics code
 ### Other
-- Removed the invalid Baidu, Imgstop image hosting option
-- Replace Google Analytics with Baidu Analytics
+- Removed invalid JD, imgurl, imgtg and saoren image hosting
 
 [History](doc/log.en.md)
 

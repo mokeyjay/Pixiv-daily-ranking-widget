@@ -1,4 +1,10 @@
 # 部署
+## Docker
+```shell
+docker run -d -p 80:80 --name=pixiv xxx
+```
+详见 [Docker](./docker.md)
+## 本地部署
 - [下载源代码](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/releases/latest)
 - 解压缩到 web 目录下
 - 使用专业编辑器（例如 `Visual Studio Code`、`Sublime` 等，禁止使用记事本）编辑 `config.php`，根据实际情况修改相应配置
@@ -16,7 +22,7 @@
 > 你可以使用 `crontab` 之类的工具来定时自动触发更新。例如 `*/30 * * * * php /path/to/pixiv/index.php -j=refresh`  
 > 表示每 30 分钟执行一次更新。程序会自动判断是否真的需要更新，不会浪费性能
 
-## 定时清除日志
+## 清除日志
 打开日志（`config.php` 中的 `log_level` 设为 `['DEBUG', 'ERROR']`）可以将此挂件的运行信息记录下来  
 向我反馈问题时，通常也建议将日志和配置文件打包发送给我（请勿将配置文件发布到公开场合）  
 如果你准备长期打开日志又担心它占用过多的硬盘，可以通过 `php index.php -j=clear-log` 来删除 7 天前的日志  

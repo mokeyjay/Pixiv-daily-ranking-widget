@@ -11,7 +11,7 @@ return [
      * The url address of this project, must end with /
      * Leave it blank to get it automatically, normally leave it blank
      *
-     * P.S. If you want to trigger the refresh job via cli and you are using a local image-hosting, this field is required
+     * P.S. If you want to trigger the refresh job via cli, and you are using a local image-hosting, this field is required
      *      Otherwise, the generated image full URL may have problems
      */
     'url' => '',
@@ -85,7 +85,7 @@ return [
      *
      * It is recommended to fill in more than one image-hosting, if one of them fails to upload, it will continue to try other image-hosting in order
      */
-    'image_hosting' => ['jd', 'riyugo', 'fifty-eight', 'saoren', 'tsesze', 'imgtg', 'chkaja', 'pngcm', 'catbox', 'imgurl', 'local'],
+    'image_hosting' => ['tsesze', 'fifty-eight', 'chkaja', 'pngcm', 'catbox', 'local'],
 
     /**
      * 图床扩展配置信息
@@ -96,6 +96,18 @@ return [
             'token' => ''
         ],
         'smms' => [
+            'token' => '',
+        ],
+        // 薄荷图床
+        'riyugo' => [
+            // 客服提供的会员专属网址。例如 https://r789.com/1234，必须以 / 结尾
+            'url' => '',
+            // 要上传到的文件夹。通常可以留空
+            'upload_path' => '',
+            // 管理后台-设置 中的 唯一用户ID
+            'unique_id' => '',
+            // 登录管理后台后，filemanagerXXXXXXXXX 这个 cookie 的值
+            // （XXXXXXXX 是你的唯一用户 ID）
             'token' => '',
         ],
     ],
@@ -118,4 +130,13 @@ return [
      * Options: jsdelivr, cdnjs, bytedance, baomitu, bootcdn
      */
     'static_cdn' => 'bytedance',
+
+    /**
+     * 放置在页面 <header> 标签下的 js 脚本内容，通常用来放置统计代码
+     * 无需 <script> 标签
+     *
+     * Js script content placed under the <header> tag of the page, usually used to place statistical code
+     * Doesn't need <script> tag
+     */
+    'header_script' => '',
 ];

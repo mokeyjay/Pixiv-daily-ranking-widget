@@ -94,13 +94,7 @@
     .carousel:hover #mask { bottom: 0; }
   </style>
   <script>
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?65a9f8c5bfa2055dbb44f895cb5ea399";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
+    <?= Config::$header_script ?>
   </script>
 </head>
 <body>

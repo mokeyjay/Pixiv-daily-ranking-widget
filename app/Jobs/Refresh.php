@@ -27,6 +27,10 @@ class Refresh extends Job
             $pixivJson = Storage::getJson('pixiv');
             $ranking = Pixiv::getRanking();
 
+            if ($ranking === false) {
+                return false;
+            }
+
             if(!$this->needRefresh($ranking, $pixivJson)){
                 Log::write('排行榜尚未更新，半小时后再试');
                 Lock::forceCreate('refresh', 1800);
@@ -99,7 +103,7 @@ class Refresh extends Job
                     }
                 }
 
-                $url = $url ?: $data['url']; // 如上传失败则使用原图url（虽然原图url也显示不出来）
+                $url = $url ?: Pixiv::getProxyUrl($data['url']); // 如上传失败则使用反代 url
                 $data['url'] = $url;
 
                 $pixivJson['data'][] = $data;

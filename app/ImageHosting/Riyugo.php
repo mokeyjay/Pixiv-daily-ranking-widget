@@ -2,6 +2,7 @@
 
 namespace app\ImageHosting;
 
+use app\Libs\Config;
 use app\Libs\Curl;
 use app\Libs\Log;
 use app\Libs\Str;
@@ -16,18 +17,28 @@ class Riyugo extends ImageHosting
 {
     public function upload($path)
     {
+        $config = Config::$image_hosting_extend['riyugo'];
+        foreach (['url', 'unique_id', 'token'] as $key) {
+            if (empty($config[$key])) {
+                Log::write('[薄荷图床]读取账号配置失败');
+                return false;
+            }
+        }
+
         $data = [
             'name' => pathinfo($path, PATHINFO_BASENAME),
-            'uuid' => 'o_1gbng' . Str::random(22),
-            'nameMode' => 'isRenameMode',
+            'uuid' => 'o_1g' . Str::random(27),
+            'uploadPath' => $config['upload_path'],
+            'mode' => 1,
             'file' => Curl::getCurlFile($path),
         ];
-        $result = Curl::post('https://4ae.cn/localup.php', $data, [
+        $result = Curl::post(rtrim($config['url']) . '/file.php', $data, [
             CURLOPT_HTTPHEADER => [
                 'accept: */*',
-                'referer: https://riyugo.com/',
-                'origin: https://riyugo.com',
+                'referer: ' . $config['url'],
+                'origin: ' . $config['url'],
             ],
+            CURLOPT_COOKIE => sprintf('frontendlogin=y; name-mode=_isRenameMode; filemanager%s=%s', $config['unique_id'], $config['token']),
         ]);
 
         Log::write('[薄荷图床]上传：' . json_encode($data));
