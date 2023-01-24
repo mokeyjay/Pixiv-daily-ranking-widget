@@ -1,13 +1,11 @@
-# docker Deployment
-
-**command deployment**
-
+# Docker
+## Deployment
+### Command
 ```shell
 docker run -d -p 80:80 --name=pixiv xxx
 ```
 
-**docker-compose deployment**
-
+### Docker compose
 ```yaml
 version: '3.1'
 
@@ -17,26 +15,25 @@ services:
     container_name: pixiv
     restart: always
     environment:
-      LOG_LEVEL: DEBUG,ERROR
       DISABLE_WEB_JOB: false
+    ports:
+      - "80:80"
 ```
 
-read config from environment. all config field can see [config.php](../config.docker.php)
+## Configure
+By [environment](https://docs.docker.com/compose/compose-file/#environment) . all config items see [config.docker.php](../config.docker.php)
 
-log file path: `/usr/share/nginx/html/storage/logs`
+> logs path: `/var/www/html/storage/logs`
 
-# Trigger updates proactively
-
-see [Trigger updates proactively](./deploy.en.md)
-
+## Jobs
+### Trigger updates proactively
 ```shell
 docker exec pixiv php index.php -j=refresh
 ```
+See [Trigger updates proactively](./deploy.en.md)
 
-# Clear the log at regular intervals
-
-see [Clear the log at regular intervals](./deploy.en.md)
-
+### Clear the logs
 ```shell
 docker exec pixiv php index.php -j=clear-log
 ```
+See [Clear the logs](./deploy.en.md)

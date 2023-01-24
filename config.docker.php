@@ -1,7 +1,10 @@
 <?php
 /**
  * 此文件为 docker 环境的配置文件
- * 参数的说明相间 config.php(这里没写是不想维护两份)
+ * 每个参数的含义见 config.php
+ *
+ * This file is the docker environment configuration file
+ * See config.php for the meaning of each parameter
  */
 
 use app\Libs\Env;
