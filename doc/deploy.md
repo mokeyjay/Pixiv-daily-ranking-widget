@@ -1,7 +1,7 @@
 # 部署
 ## Docker
 ```shell
-docker run -d -p 80:80 --name=pixiv mokeyjay/pixiv-daily-ranking-widget
+docker run -d -p 80:80 --name=pixiv -e URL=http://localhost/ mokeyjay/pixiv-daily-ranking-widget
 ```
 详见 [Docker](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/docker.md)
 ## 本地部署
