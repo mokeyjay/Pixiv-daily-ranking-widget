@@ -13,7 +13,7 @@ class Env
      * 从环境变量中读取字符串
      * @param string $name
      * @param mixed $default
-     * @return string
+     * @return mixed
      */
     public static function getStr($name, $default = '')
     {

@@ -4,7 +4,7 @@
 ## 部署
 ### 命令行
 ```shell
-docker run -d -p 80:80 --name=pixiv mokeyjay/pixiv-daily-ranking-widget
+docker run -d -p 80:80 --name=pixiv -e URL=http://localhost/ mokeyjay/pixiv-daily-ranking-widget
 ```
 
 ### Docker compose
@@ -17,22 +17,26 @@ services:
     container_name: pixiv
     restart: always
     environment:
-      DISABLE_WEB_JOB: false
+      URL: http://localhost/
     ports:
       - "80:80"
 ```
+
+> `URL` 是指向这个容器的访问地址，支持路径，必须以 `/` 结尾
 
 ## 配置
 通过 [环境变量](https://docs.docker.com/compose/compose-file/#environment) 进行配置。所有配置项见 [config.docker.php](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/config.docker.php)
 
 > 默认只启用了 `local` 图床（即图片存储在容器本地）。使用它时，必须配置 `URL` 项  
 > 
-> 如果容器无法访问此 URL，则自动更新功能无法正常运作。此时建议设置环境变量 `DISABLE_WEB_JOB=true` 并通过下方的 **主动触发更新** 来刷新排行榜数据
+> 与本地部署不同，Docker 镜像内置了自动更新排行榜数据的定时任务，因此 `DISABLE_WEB_JOB` 默认为 `true`，即不通过 web 访问触发更新
 
 > 日志路径：`/var/www/html/storage/logs`
 
 ## 任务
 ### 主动触发更新
+> 通常情况下，排行榜数据会每半小时检测一次更新，无需主动触发
+
 ```shell
 docker exec pixiv php index.php -j=refresh
 ```

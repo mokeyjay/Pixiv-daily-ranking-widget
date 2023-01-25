@@ -18,7 +18,7 @@ return [
 
     'service' => Env::getBool('SERVICE', true),
 
-    'log_level' => Env::getArray('LOG_LEVEL'),
+    'log_level' => Env::getArray('LOG_LEVEL', ['DEBUG', 'ERROR']),
 
     'proxy' => Env::getStr('PROXY'),
 
@@ -43,7 +43,7 @@ return [
         ],
     ],
 
-    'disable_web_job' => Env::getBool('DISABLE_WEB_JOB', false),
+    'disable_web_job' => Env::getBool('DISABLE_WEB_JOB', true),
 
     'static_cdn' => Env::getStr('STATIC_CDN', 'bytedance'),
 

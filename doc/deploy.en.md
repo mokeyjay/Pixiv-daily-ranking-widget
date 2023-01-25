@@ -1,7 +1,7 @@
 # Deployment
 ## Docker
 ```shell
-docker run -d -p 80:80 --name=pixiv xxx
+docker run -d -p 80:80 --name=pixiv mokeyjay/pixiv-daily-ranking-widget
 ```
 See [Docker](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/docker.en.md)
 ## Local
