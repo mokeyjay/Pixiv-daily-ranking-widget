@@ -3,7 +3,7 @@
     <a href="https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/README.en.md">English</a>
     <br><br>
     想要在你的网站页面中添加一个 <span style="font-weight: bold">Pixiv 每日排行榜</span> 的展示功能吗？现在，只需要一行代码即可实现！
-    <a href="https://cloud.mokeyjay.com/pixiv/demo.html" target="_blank">在线预览</a>
+    <a href="https://pixiv.mokeyjay.com/demo.html" target="_blank">在线预览</a>
 </p>
 
 ## ✨ 特色
@@ -17,7 +17,7 @@
 ## 🤔 如何使用
 将这行代码添加到网页上即可  
 ```html
-<iframe src="https://cloud.mokeyjay.com/pixiv" style="width:240px; height:380px; border: 0"></iframe>
+<iframe src="https://pixiv.mokeyjay.com" style="width:240px; height:380px; border: 0"></iframe>
 ```
 
 以 `Wordpress` 为例。首先进入后台，点击 外观 -> 小工具  
@@ -28,13 +28,13 @@
 ## 🛠️ 如何部署
 想要自己定制代码？嫌我提供的服务太慢？  
 你也可以轻松拥有完全属于自己的小挂件！  
-> 需要 PHP 版本 >= 5.6
+> 需要 Docker 或 PHP 版本 >= 5.6
 
 [部署文档](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/deploy.md)
 
 ## 🔌 API
-[排行榜数据（已上传至图床）](https://cloud.mokeyjay.com/pixiv/?r=api/pixiv-json)（推荐）  
-[排行榜数据（pixiv url）](https://cloud.mokeyjay.com/pixiv/?r=api/source-json)  
+[排行榜数据（已上传至图床）](https://pixiv.mokeyjay.com/?r=api/pixiv-json)（推荐）  
+[排行榜数据（pixiv url）](https://pixiv.mokeyjay.com/?r=api/source-json)  
 
 其中 `data` 为排行榜数据；`date` 为排行榜日期（可能是昨天或者前天，因为官方更新时间不一定）  
 这两个接口都会自动根据请求头的 `Origin` 或者 `Referer` 返回对应跨域头。可供前端直接调用  

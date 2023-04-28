@@ -3,7 +3,7 @@
     <a href="https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/README.md">中文</a>
     <br><br>
     Want to add a <span style="font-weight: bold">Pixiv Daily Ranking Widget</span> to your website? It's a matter of one line of code!
-    <a href="https://cloud.mokeyjay.com/pixiv/demo.html" target="_blank">DEMO</a>
+    <a href="https://pixiv.mokeyjay.com/demo.html" target="_blank">DEMO</a>
 </p>
 
 ## ✨ Features
@@ -17,7 +17,7 @@
 ## 🤔 How to use
 Just add the below code to your page
 ```html
-<iframe src="https://cloud.mokeyjay.com/pixiv" style="width:240px; height:380px; border: 0"></iframe>
+<iframe src="https://pixiv.mokeyjay.com" style="width:240px; height:380px; border: 0"></iframe>
 ```
 
 Taking `WordPress` as an example. On `wp-admin`, click on **Appearance** -> **Widgets**  
@@ -29,13 +29,13 @@ Then add a **Text** or **Custom HTML** widget as deemed appropriate on the right
 Wanted to customize the code yourself? Thought the service I provided is slow in speed?  
 
 You can also easily deploy your own widget!
-> Requires PHP version >= 5.6
+> Requires Docker or PHP version >= 5.6
 
 [Deployment Documentation](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/deploy.en.md)
 
 ## 🔌 APIs
-[Ranking data (images hosted privately)](https://cloud.mokeyjay.com/pixiv/?r=api/pixiv-json) (recommended)  
-[Ranking data (pixiv url)](https://cloud.mokeyjay.com/pixiv/?r=api/source-json)
+[Ranking data (images hosted privately)](https://pixiv.mokeyjay.com/?r=api/pixiv-json) (recommended)  
+[Ranking data (pixiv url)](https://pixiv.mokeyjay.com/?r=api/source-json)
 
 In which `data` is the data of the ranking table; `date` is the date of ranking (could be yesterday or the day before, as the time of refresh on Pixiv is not certain)  
 
