@@ -1,134 +1,213 @@
 <?php
-  use app\Libs\Config;
+use app\Libs\Config;
 ?>
 <!-- 来自 mokeyjay 的 Pixiv每日排行榜小挂件 -->
 <!-- 博客：https://www.mokeyjay.com -->
 <!-- 这个博客将会集技术、ACG、日常、分享于一身，如果你喜欢，常来玩哦 -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="referrer" content="no-referrer">
-  <title>Pixiv 每日排行榜 Top<?=Config::$limit?> 小挂件</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>Pixiv 每日排行榜 Top<?=Config::$limit?> 小挂件</title>
 
-  <link rel="stylesheet" href="<?=Config::$static_cdn_url['bootstrap-css']?>">
-  <style>
-    body { background: <?=Config::$background_color?>; }
+    <style>
+      * { margin: 0; padding: 0; }
+      html, body, #container, ul, li { height: 100%; }
 
-    html, body, #carouselExampleControls, .carousel-inner, .carousel-item, .carousel-item a, .carousel-item a div { height: 100%; }
+      body {
+        background: <?=Config::$background_color?>;
+      }
+      #container {
+        overflow: hidden;
+      }
 
-    /* 图片样式 */
-    .carousel-item a div {
-      background-position : center;
-      background-repeat : no-repeat;
-      background-size: contain;
-    }
+      /* 图片列表 & 图片 */
+      ul {
+        list-style: none;
+        transition: ease-in-out all .5s;
+      }
+      li {
+        float : left;
+        display: flex;
+        justify-content: center;
+        position : relative;
+        overflow: hidden;
+      }
+      .image {
+        background-position : center;
+        background-repeat : no-repeat;
+        background-size: contain;
+        height: 100%;
+        width: 100%;
+      }
 
-    /* 左右翻页箭头 */
-    .arrow {
-      transform: rotate(45deg);
-      border: 4px solid white;
-      border-radius: 2px;
-      width: 16px;
-      height: 16px;
-      position: fixed;
-      transition: opacity .3s ease-in-out, left .5s, right .5s;
-      top: 50%;
-      margin-top: -9px;
-      opacity: 0;
-    }
-    .arrow.shadow {
-      border-color: #777;
-      filter: blur(2px);
-      box-shadow: none !important;
-    }
-    .arrow.left {
-      border-top: none;
-      border-right: none;
-      left: -12%;
-    }
-    .arrow.right {
-      border-bottom: none;
-      border-left: none;
-      transform: rotate(45deg);
-      right: -12%;
-    }
-    .carousel:hover .arrow { opacity: 1; }
-    .carousel:hover .arrow.left { left: 6%; }
-    .carousel:hover .arrow.right { right: 6%; }
+      /* 左右翻页按钮 */
+      .button {
+        cursor: pointer;
+        position: fixed;
+        top: 0;
+        height: 100%;
+        width: 70px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity .3s ease-in-out, left .5s, right .5s;
+        opacity: 0;
+      }
+      .button.left {
+        left: -70px;
+      }
+      .button.right {
+        right: -70px;
+      }
+      body:hover .button { opacity: 1; }
+      body:hover .button.left { left: 0 }
+      body:hover .button.right { right: 0 }
 
-    /* 隐藏 bs 自带的箭头 */
-    span[class^="carousel-control-"] { background: none; }
-    button[class^="carousel-control-"] { opacity: 1; }
+      /* 左右翻页箭头 */
+      .arrow {
+        transform: rotate(45deg);
+        border: 4px solid white;
+        border-radius: 2px;
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      .arrow.shadow {
+        border-color: #777;
+        filter: blur(2px);
+        box-shadow: none !important;
+      }
+      .arrow.left {
+        border-top: none;
+        border-right: none;
+        left: -8px;
+      }
+      .arrow.right {
+        border-bottom: none;
+        border-left: none;
+        transform: rotate(45deg);
+        left: -12px;
+      }
 
-      /* 底部信息栏 */
-    .carousel-caption {
-      opacity: 0;
-      transition-duration: .5s;
-      text-shadow: black 0.1em 0.1em 0.2em;
-      pointer-events:none;
-      bottom: 0;
-      z-index: 10;
-    }
-    .carousel-caption h5 {
-      font-size: 1rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .carousel-caption p { font-size: .75rem; }
-    .carousel:hover .carousel-caption { opacity: 1; }
+      /* 阴影遮罩层 */
+      .mask {
+        width: 100%;
+        height: 150px;
+        transform: translateY(150px);
+        bottom: 0;
+        position: absolute;
+        pointer-events:none;
+        transition-duration: .5s;
+        background-image: linear-gradient(transparent, rgba(0,0,0,0.4));
+      }
+      body:hover .mask { bottom: 0; transform: translateY(0); }
 
-    /* 底部信息栏 - 阴影层 */
-    #mask {
-      width: 100%;
-      height: 150px;
-      bottom: -150px;
-      position: fixed;
-      pointer-events:none;
-      transition-duration: .5s;
-      background-image: linear-gradient(transparent, rgba(0,0,0,0.4));
-    }
-    .carousel:hover #mask { bottom: 0; }
-  </style>
-  <script>
-    <?= Config::$header_script ?>
-  </script>
+      /* 作品 & 作者信息 */
+      .info {
+        opacity: 0;
+        transition-duration: .5s;
+        text-shadow: black 0.1em 0.1em 0.2em;
+        pointer-events:none;
+        bottom: 60px;
+        position: fixed;
+        text-align: center;
+        color: white;
+      }
+      body:hover .info { opacity: 1 }
+      .title {
+        font-size: 1rem;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .author {
+        font-size: .75rem;
+      }
+    </style>
 </head>
 <body>
-<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-inner">
-      <?php foreach ($pixivJson['data'] as $k => $data): ?>
-        <?php if ($k >= Config::$limit) break; ?>
-        <div class="carousel-item <?php if ($k == 0) echo 'active'; ?>">
-          <a href="https://www.pixiv.net/artworks/<?= $data['id'] ?>" target="_blank" style="display: block">
-            <div style="background-image: url(<?= $data['url'] ?>)"></div>
-          </a>
-          <div class="carousel-caption d-md-block">
-            <h5><?= $data['title'] ?></h5>
-            <p><?= $data['user_name'] ?></p>
-          </div>
+    <div id="container">
+        <?php
+            // 每个 li 的宽度
+            $perWidth = 100 / (Config::$limit + 2);
+
+            // 在图片列表最前面加上最后一张图、最后面加上最前一张图，确保边界情况下左右翻页动画过渡效果正常
+            $firstImage = $pixivJson['data'][0];
+            $lastImage = $pixivJson['data'][count($pixivJson['data']) - 1];
+            $pixivJson['data'] = array_merge([$lastImage], $pixivJson['data'], [$firstImage]);
+        ?>
+
+        <ul id="list" style="width: <?= (Config::$limit + 2) * 100 ?>%; transform: translateX(-<?= $perWidth ?>%)">
+            <?php foreach ($pixivJson['data'] as $k => $data): ?>
+                <li data-index="<?= $k ?>" style="width: <?= $perWidth ?>%">
+                    <div class="image" style="background-image: url(<?= $data['url'] ?>)"></div>
+                    <div class="mask"></div>
+                    <div class="info">
+                        <div class="title"><?= htmlentities($data['title']) ?></div>
+                        <div class="author"><?= htmlentities($data['user_name']) ?></div>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+
+    <div id="left-btn" class="button left">
+        <div style="position: relative">
+            <div class="arrow left shadow"></div>
+            <div class="arrow left"></div>
         </div>
-      <?php endforeach; ?>
-  </div>
+    </div>
+    <div id="right-btn" class="button right">
+        <div style="position: relative">
+            <div class="arrow right shadow"></div>
+            <div class="arrow right"></div>
+        </div>
+    </div>
 
-  <div id="mask"></div>
+    <script>
+      let i = 1;
+      let maxPage = <?= Config::$limit ?>;
+      let perWidth = <?= $perWidth ?>;
+      let list = document.getElementById('list')
 
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true">
-      <div class="arrow left shadow"></div>
-      <div class="arrow left"></div>
-    </span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true">
-      <div class="arrow right shadow"></div>
-      <div class="arrow right"></div>
-    </span>
-  </button>
-</div>
-<script src="<?=Config::$static_cdn_url['bootstrap-js']?>"></script>
+      function switchPage(action) {
+        if (action === 'left') {
+          i--;
+        } else {
+          i++;
+        }
+
+        list.style.transform = 'translateX(-' + (i * perWidth) + '%)';
+
+        // 翻到第 0 页了，要瞬间跳回列表最末尾，不然没法继续往左翻
+        // 翻到最后一页也是同理
+        if (i === 0 || i === maxPage + 1) {
+          setTimeout(() => {
+            // 瞬间跳到最前面或最后面
+            list.style.transition = 'none'
+            i = i === 0 ? maxPage : 1
+            list.style.transform = 'translateX(-' + (i * perWidth) + '%)'
+            // 重新打开动画效果
+            setTimeout(() => {
+              list.style.transition = 'ease-in-out all .5s'
+            }, 100)
+          }, 500)
+        }
+      }
+
+      window.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('left-btn').addEventListener('click', () => {
+          switchPage('left')
+        })
+        document.getElementById('right-btn').addEventListener('click', () => {
+          switchPage('right')
+        })
+      })
+    </script>
 </body>
 </html>
