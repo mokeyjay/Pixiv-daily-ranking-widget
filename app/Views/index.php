@@ -241,13 +241,29 @@ use app\Libs\Config;
     })
 
     // 自动滚动
-    interval = setInterval(nextPage, 3000)
+    interval = setInterval(nextPage, 5000)
     document.querySelector('body').addEventListener('mouseenter', () => {
       clearInterval(interval)
     })
     document.querySelector('body').addEventListener('mouseleave', () => {
-      interval = setInterval(nextPage, 3000)
+      interval = setInterval(nextPage, 5000)
     })
+
+    // 左右滑动
+    let startX = 0
+    document.addEventListener('touchstart', e => {
+      startX = e.changedTouches[0].pageX;
+    });
+    document.addEventListener('touchend', e => {
+      let endX = e.changedTouches[0].pageX;
+      let diffX = endX - startX;
+
+      if (diffX > 50) {
+        switchPage('left')
+      } else if (diffX < -50) {
+        nextPage()
+      }
+    });
   })
 </script>
 </body>
