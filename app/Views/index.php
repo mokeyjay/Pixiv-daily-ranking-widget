@@ -133,6 +133,9 @@ use app\Libs\Config;
       font-size: .75rem;
     }
   </style>
+  <script>
+      <?= Config::$header_script ?>
+  </script>
 </head>
 <body>
 <div id="container">
@@ -242,10 +245,10 @@ use app\Libs\Config;
 
     // 自动滚动
     interval = setInterval(nextPage, 5000)
-    document.querySelector('body').addEventListener('mouseenter', () => {
+    document.addEventListener('mouseenter', () => {
       clearInterval(interval)
     })
-    document.querySelector('body').addEventListener('mouseleave', () => {
+    document.addEventListener('mouseleave', () => {
       interval = setInterval(nextPage, 5000)
     })
 
