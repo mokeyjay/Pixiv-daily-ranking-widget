@@ -123,15 +123,6 @@ return [
     'disable_web_job' => false,
 
     /**
-     * 前端静态资源 CDN 供应商
-     * 可选：bytedance, baomitu, bootcdn, cdnjs, jsdelivr
-     *
-     * Front-end static resource CDN provider
-     * Options: jsdelivr, cdnjs, bytedance, baomitu, bootcdn
-     */
-    'static_cdn' => 'bytedance',
-
-    /**
      * 放置在页面 <header> 标签下的 js 脚本内容，通常用来放置统计代码
      * 无需 <script> 标签
      *
