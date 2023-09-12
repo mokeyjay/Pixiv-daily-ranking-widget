@@ -45,7 +45,7 @@ return [
 
     'disable_web_job' => Env::getBool('DISABLE_WEB_JOB', true),
 
-    'static_cdn' => Env::getStr('STATIC_CDN', 'bytedance'),
-
     'header_script' => Env::getStr('HEADER_SCRIPT', ''),
+
+    'ranking_type' => Env::getStr('RANKING_TYPE', ''),
 ];
