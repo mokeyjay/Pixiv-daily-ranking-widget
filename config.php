@@ -130,4 +130,14 @@ return [
      * Doesn't need <script> tag
      */
     'header_script' => '',
+
+    /**
+     * 排行榜类型。支持 综合、插画、漫画 三种类型
+     * 留空为综合； illust 为插画； manga 为漫画
+     *
+     * The type of ranking.
+     * Support three types: synthesis, illustration and manga.
+     * Leave '' for synthesis, 'illust' for illustration, 'manga' for manga
+     */
+    'ranking_type' => '',
 ];

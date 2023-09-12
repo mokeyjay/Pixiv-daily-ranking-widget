@@ -232,7 +232,7 @@ use app\Libs\Config;
   let interval = null
 
   window.addEventListener('DOMContentLoaded', () => {
-    // 默认展示前 3 张图
+
     loadImages([0, 1, 2, maxPage + 1])
 
     // 翻页事件
@@ -240,7 +240,7 @@ use app\Libs\Config;
       switchPage('left')
     })
     document.getElementById('right-btn').addEventListener('click', () => {
-      switchPage('right')
+      nextPage()
     })
 
     // 自动滚动
@@ -252,7 +252,7 @@ use app\Libs\Config;
       interval = setInterval(nextPage, 5000)
     })
 
-    // 左右滑动
+    // 左右滑动翻页
     let startX = 0
     document.addEventListener('touchstart', e => {
       startX = e.changedTouches[0].pageX;

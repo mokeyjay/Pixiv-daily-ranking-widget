@@ -18,7 +18,17 @@ class Pixiv
     public static function getRanking($page = 1)
     {
         Log::write("正在读取排行榜第 {$page} 页");
-        $response = Curl::get("https://www.pixiv.net/ranking.php?mode=daily&p={$page}&format=json", [
+
+        $params = [
+            'mode' => 'daily',
+            'p' => $page,
+            'format' => 'json',
+        ];
+        if (Config::$ranking_type) {
+            $params['content'] = Config::$ranking_type;
+        }
+
+        $response = Curl::get('https://www.pixiv.net/ranking.php?' . http_build_query($params), [
             CURLOPT_HTTPHEADER => [
                 'Referer: https://www.pixiv.net/ranking.php?mode=daily',
             ],

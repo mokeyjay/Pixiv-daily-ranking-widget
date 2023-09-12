@@ -22,6 +22,7 @@ class Config
     public static $image_hosting_extend = [];
     public static $disable_web_job = false;
     public static $header_script = '';
+    public static $ranking_type = '';
 
     /**
      * 初始化配置
@@ -64,6 +65,10 @@ class Config
 
             if (IS_CLI && self::$url == '' && in_array('local', self::$image_hosting)) {
                 throw new \Exception('在 cli 模式下使用 local 本地图床时，必须配置 url 项，否则可能会生成错误的缩略图 url');
+            }
+
+            if (!in_array(Config::$ranking_type, ['', 'illust', 'manga'])) {
+                throw new \Exception('ranking_type 配置项必须为空、illust 或 manga');
             }
 
         } catch (\Exception $e) {
