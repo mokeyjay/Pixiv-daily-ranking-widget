@@ -41,5 +41,6 @@ jobs:
           context: .
           file: docker/Dockerfile
           push: true
-          tags: develop
+          tags: mokeyjay/pixiv-daily-ranking-widget:develop
           platforms: linux/amd64,linux/arm64
+          cache-from: type=registry,ref=mokeyjay/pixiv-daily-ranking-widget:latest
