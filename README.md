@@ -65,10 +65,5 @@
 
 [历史更新日志](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/log.md)
 
-## 💖 特别赞助
-非常感谢 Jetbrains 为我提供的 IDE 开源许可，让我完成此项目和其他开源项目上的开发工作。
-
-[![](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://www.jetbrains.com/zh-cn/?from=https://github.com/mokeyjay)
-
 ## 👨‍💻 关于作者
 常用 ID [mokeyjay](https://www.mokeyjay.com)，热爱 IT 与 ACG 的学渣

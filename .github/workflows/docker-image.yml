@@ -3,7 +3,7 @@ name: 推送 Docker 镜像
 # 触发 action 的事件
 on:
   push:
-    # main 分支有推送时触发
+    # master 分支有推送时触发
     branches:
       - 'master'
     # tag 新建时触发
