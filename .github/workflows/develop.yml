@@ -23,6 +23,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      # https://github.com/docker/metadata-action
+      - name: 提取事件元数据
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: mokeyjay/pixiv-daily-ranking-widget
+
       # https://github.com/docker/setup-buildx-action
       - name: 使用 buildx 作为构建器
         uses: docker/setup-buildx-action@v2
