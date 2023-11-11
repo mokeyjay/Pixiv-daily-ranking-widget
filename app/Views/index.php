@@ -29,18 +29,15 @@ use app\Libs\Config;
     /* 图片列表 & 图片 */
     ul {
       list-style: none;
-      transition: ease-in-out all .5s;
+      transition: ease-in-out transform .5s;
     }
     li {
       float: left;
-      display: flex;
-      justify-content: center;
       position: relative;
       overflow: hidden;
     }
     a {
       display: flex;
-      width: 100%;
       justify-content: center;
     }
     img {
@@ -58,7 +55,8 @@ use app\Libs\Config;
       display: flex;
       justify-content: center;
       align-items: center;
-      transition: opacity .3s ease-in-out, left .5s, right .5s;
+      transition: ease-in-out opacity .3s,
+                  transform .5s;
       opacity: 0;
     }
     .button.left {
@@ -68,8 +66,8 @@ use app\Libs\Config;
       right: -70px;
     }
     body:hover .button { opacity: 1; }
-    body:hover .button.left { left: 0 }
-    body:hover .button.right { right: 0 }
+    body:hover .button.left { transform: translateX(70px); }
+    body:hover .button.right { transform: translateX(-70px); }
 
     /* 左右翻页箭头 */
     .arrow {
@@ -143,6 +141,8 @@ use app\Libs\Config;
     // 每个 li 的宽度
     $perWidth = 100 / (Config::$limit + 2);
 
+    $pixivJson['data'] = array_slice($pixivJson['data'], 0, Config::$limit);
+
     // 在图片列表最前面加上最后一张图、最后面加上最前一张图，确保边界情况下左右翻页动画过渡效果正常
     $firstImage = $pixivJson['data'][0];
     $lastImage = $pixivJson['data'][count($pixivJson['data']) - 1];
@@ -163,100 +163,100 @@ use app\Libs\Config;
       </li>
     <?php endforeach; ?>
   </ul>
-</div>
 
-<div id="left-btn" class="button left">
-  <div style="position: relative">
-    <div class="arrow left shadow"></div>
-    <div class="arrow left"></div>
+  <div id="left-btn" class="button left" onclick="switchPage('left')">
+    <div style="position: relative">
+      <div class="arrow left shadow"></div>
+      <div class="arrow left"></div>
+    </div>
   </div>
-</div>
-<div id="right-btn" class="button right">
-  <div style="position: relative">
-    <div class="arrow right shadow"></div>
-    <div class="arrow right"></div>
+  <div id="right-btn" class="button right" onclick="nextPage()">
+    <div style="position: relative">
+      <div class="arrow right shadow"></div>
+      <div class="arrow right"></div>
+    </div>
   </div>
 </div>
 
 <script>
-  let i        = 1;
-  let maxPage  = <?= Config::$limit ?>;
+  let page    = 1;
+  let maxPage = <?= Config::$limit ?>;
   let perWidth = <?= $perWidth ?>;
   let list     = document.getElementById('list')
 
-  function switchPage(action) {
-    if(action === 'left'){
-      i--;
-    } else{
-      i++;
-    }
-
-    list.style.transform = 'translateX(-' + (i * perWidth) + '%)';
-
-    // 预加载下一张图
-    if (i + 1 <= maxPage) {
-      let nextI = [action === 'left' ? i - 1 : i + 1]
-      if (i <= 0) {
-        nextI = [maxPage, maxPage - 1]
-      }
-      loadImages(nextI)
-    }
-
-    // 翻到第 0 页了，要瞬间跳回列表最末尾，不然没法继续往左翻
-    // 翻到最后一页也是同理
-    if(i === 0 || i === maxPage + 1){
-      setTimeout(() => {
-        // 瞬间跳到最前面或最后面
-        list.style.transition = 'none'
-        i                     = i === 0 ? maxPage : 1
-        list.style.transform  = 'translateX(-' + (i * perWidth) + '%)'
-        // 重新打开动画效果
-        setTimeout(() => {
-          list.style.transition = 'ease-in-out all .5s'
-        }, 100)
-      }, 500)
-    }
-  }
-
+  // 加载图片
   function loadImages(indexes) {
     for (let i of indexes) {
       let img = document.querySelector(`li[data-index='${i}'] img`)
-      img.setAttribute('src', img.getAttribute('data-src'))
+      img && img.setAttribute('src', img.getAttribute('data-src'))
     }
+  }
+
+  // 翻页锁
+  let switchLock = false
+  // 翻页
+  function switchPage(action) {
+    if (switchLock) return
+
+    switchLock = true
+    action === 'left' ? page-- : page++;
+
+    // 图片预加载
+    // 一般情况下只需要根据翻页方向预加载下一页就够了
+    if (page >= 1 && page <= maxPage) {
+      loadImages([action === 'left' ? page - 1 : page + 1])
+    } else if (page === 0) {
+      // 但在左翻到第 0 页（即排行榜最后一张图）时，需要同时预加载最后一张图和倒数第二张图
+      loadImages([maxPage, maxPage - 1])
+    }
+
+    list.style.transform = 'translateX(-' + (page * perWidth) + '%)';
+
+    // 如果列表已经达到边界，就重置列表位置
+    if (page === 0 || page === maxPage + 1) {
+      list.addEventListener('transitionend', resetListPosition)
+    }
+  }
+  list.addEventListener('transitionend', () => switchLock = false)
+
+  // 重置列表位置
+  function resetListPosition() {
+    // 翻到第 0 页了，要关闭动画瞬间跳回列表最末尾，不然没法继续往左翻
+    // 翻到最后一页也是同理
+    page = page === 0 ? maxPage : 1
+    list.style.transition = 'none'
+    list.style.transform = 'translateX(-' + (page * perWidth) + '%)'
+
+    setTimeout(() => {
+      list.style.transition = 'ease-in-out all .5s'
+    })
+
+    list.removeEventListener('transitionend', resetListPosition)
   }
 
   function nextPage() {
     switchPage('right')
   }
 
+  // 自动播放
   let interval = null
+  function startAutoPlay() {
+    clearInterval(interval)
+    interval = setInterval(nextPage, 5000)
+  }
 
   window.addEventListener('DOMContentLoaded', () => {
 
     loadImages([0, 1, 2, maxPage + 1])
 
-    // 翻页事件
-    document.getElementById('left-btn').addEventListener('click', () => {
-      switchPage('left')
-    })
-    document.getElementById('right-btn').addEventListener('click', () => {
-      nextPage()
-    })
+    // 注册自动滚动
+    startAutoPlay()
+    document.addEventListener('pointerenter', () => clearInterval(interval))
+    document.addEventListener('pointerleave', startAutoPlay)
 
-    // 自动滚动
-    interval = setInterval(nextPage, 5000)
-    document.addEventListener('mouseenter', () => {
-      clearInterval(interval)
-    })
-    document.addEventListener('mouseleave', () => {
-      interval = setInterval(nextPage, 5000)
-    })
-
-    // 左右滑动翻页
+    // 左右滑动手势
     let startX = 0
-    document.addEventListener('touchstart', e => {
-      startX = e.changedTouches[0].pageX;
-    });
+    document.addEventListener('touchstart', e => startX = e.changedTouches[0].pageX);
     document.addEventListener('touchend', e => {
       let endX = e.changedTouches[0].pageX;
       let diffX = endX - startX;
@@ -268,6 +268,7 @@ use app\Libs\Config;
       }
     });
   })
+
 </script>
 </body>
 </html>
