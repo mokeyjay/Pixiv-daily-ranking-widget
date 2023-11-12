@@ -59,43 +59,46 @@ use app\Libs\Config;
                   transform .5s;
       opacity: 0;
     }
-    .button.left {
+    .button.prev {
       left: -70px;
     }
-    .button.right {
+    .button.next {
       right: -70px;
     }
     body:hover .button { opacity: 1; }
-    body:hover .button.left { transform: translateX(70px); }
-    body:hover .button.right { transform: translateX(-70px); }
-
-    /* 左右翻页箭头 */
-    .arrow {
-      transform: rotate(45deg);
-      border: 4px solid white;
-      border-radius: 2px;
+    body:hover .button.prev { transform: translateX(70px); }
+    body:hover .button.next { transform: translateX(-70px); }
+    /* 左右箭头 */
+    .button i {
+      position: relative;
+      display: block;
+      width: 30px;
+      height: 30px;
+    }
+    .button i::before, .button i::after {
+      display: block;
+      content: " ";
       width: 16px;
       height: 16px;
+      border: 4px solid white;
+      border-radius: 2px;
       position: absolute;
-      top: 0;
-      left: 0;
-    }
-    .arrow.shadow {
-      border-color: #777;
-      filter: blur(2px);
-      box-shadow: none !important;
-    }
-    .arrow.left {
-      border-top: none;
-      border-right: none;
-      left: -8px;
-    }
-    .arrow.right {
       border-bottom: none;
       border-left: none;
       transform: rotate(45deg);
-      left: -12px;
     }
+    .button i::before {
+      border-color: #777;
+      filter: blur(2px);
+    }
+    .button.prev i::before, .button.prev i::after {
+      transform: rotate(225deg);
+      left: 10px;
+    }
+    /*.button.prev i::before, .button.prev i::after {*/
+    /*  border-top: none;*/
+    /*  border-right: none;*/
+    /*}*/
 
     /* 阴影遮罩层 */
     .mask {
@@ -164,18 +167,8 @@ use app\Libs\Config;
     <?php endforeach; ?>
   </ul>
 
-  <div id="left-btn" class="button left" onclick="switchPage('left')">
-    <div style="position: relative">
-      <div class="arrow left shadow"></div>
-      <div class="arrow left"></div>
-    </div>
-  </div>
-  <div id="right-btn" class="button right" onclick="nextPage()">
-    <div style="position: relative">
-      <div class="arrow right shadow"></div>
-      <div class="arrow right"></div>
-    </div>
-  </div>
+  <div class="button prev" onclick="switchPage('left')"><i></i></div>
+  <div class="button next" onclick="nextPage()"><i></i></div>
 </div>
 
 <script>

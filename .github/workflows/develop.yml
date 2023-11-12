@@ -12,13 +12,13 @@ jobs:
     steps:
       # https://github.com/actions/checkout
       - name: 拉取代码
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: develop
 
       # https://github.com/docker/login-action
       - name: 登录到 Docker hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -26,21 +26,21 @@ jobs:
       # https://github.com/docker/metadata-action
       - name: 提取事件元数据
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: mokeyjay/pixiv-daily-ranking-widget
 
       # https://github.com/docker/setup-buildx-action
       - name: 使用 buildx 作为构建器
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       # https://github.com/docker/build-push-action
       - name: 构建并推送
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: docker/Dockerfile
           push: true
-          tags: mokeyjay/pixiv-daily-ranking-widget:develop
+          tags: ${{ steps.meta.outputs.tags }}
           platforms: linux/amd64,linux/arm64
-          cache-from: type=registry,ref=mokeyjay/pixiv-daily-ranking-widget:latest
+          cache-from: mokeyjay/pixiv-daily-ranking-widget:latest
