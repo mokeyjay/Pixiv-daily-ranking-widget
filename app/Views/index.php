@@ -184,10 +184,10 @@
       <?php endforeach; ?>
     </div>
     <div class="control">
-      <div class="button prev" onclick="switchPage('prev')">
+      <div class="button prev" onclick="carousel.prev()">
         <div class="arrow"><i></i></div>
       </div>
-      <div class="button next" onclick="switchPage('next')">
+      <div class="button next" onclick="carousel.next()">
         <div class="arrow"><i></i></div>
       </div>
     </div>
@@ -197,71 +197,121 @@
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
 
-    function switchPage(direction) {
+    class Carousel {
+      // 自动播放句柄
+      autoPlayInterval = 0;
+      // 滑动手势开始位置
+      startX = 0;
 
-      const currentDom = $('.list-item.current');
-      const nextDom = findNextDomByDirection(currentDom, direction);
+      constructor($dom) {
+        // 轮播组件
+        this.$carousel = $dom
+        // 轮播列表
+        this.$carouselList = this.$carousel.querySelector('.list')
+        // 当前展示项
+        this.$currentItem = this.$carouselList.querySelector('.list-item.current')
+      }
 
-      [currentDom, nextDom].map(dom => {
-        dom.addEventListener('animationend', function end() {
-          if (dom.classList.contains('next-to-current') || dom.classList.contains('prev-to-current')) {
-            dom.className = 'list-item current'
-          } else {
-            dom.className = 'list-item'
-          }
+      init() {
+        this.loadImage(
+          this.findNextItemByDirection(this.$currentItem, 'prev'),
+          this.findNextItemByDirection(this.$currentItem, 'next')
+        )
 
-          dom.removeEventListener('animationend', end)
+        this.registerAutoPlay()
+        this.registerMouseHoverPausePlay()
+        this.registerSlideGesture()
+      }
+
+      // 根据翻页方向获取下一个项目
+      findNextItemByDirection($item, direction) {
+        let prop = direction === 'next' ? 'next' : 'previous'
+        let nextItem = $item[`${prop}ElementSibling`]
+
+        // 对应方向找不到下一个 item，就说明滑动到尽头了，要跳到开头或结尾
+        if (nextItem === null) {
+          prop = direction === 'next' ? 'first' : 'last'
+          nextItem = this.$carouselList.querySelector(`.list-item:${prop}-child`)
+        }
+
+        return nextItem
+      }
+
+      // 翻页
+      switchPage(direction) {
+        const $nextItem = this.findNextItemByDirection(this.$currentItem, direction);
+
+        [this.$currentItem, $nextItem].map($item => {
+          $item.addEventListener('animationend', function end() {
+            if ($item.classList.contains('next-to-current') || $item.classList.contains('prev-to-current')) {
+              $item.className = 'list-item current'
+            } else {
+              $item.className = 'list-item'
+            }
+
+            $item.removeEventListener('animationend', end)
+          })
         })
-      })
 
-      if (direction === 'next') {
-        currentDom.className = 'list-item current-to-prev'
-        nextDom.className = 'list-item next-to-current'
-      } else {
-        currentDom.className = 'list-item current-to-next'
-        nextDom.className = 'list-item prev-to-current'
+        if (direction === 'next') {
+          this.$currentItem.className = 'list-item current-to-prev'
+          $nextItem.className = 'list-item next-to-current'
+        } else {
+          this.$currentItem.className = 'list-item current-to-next'
+          $nextItem.className = 'list-item prev-to-current'
+        }
+
+        // 预加载下一张图
+        this.loadImage(this.findNextItemByDirection($nextItem, direction))
+
+        this.$currentItem = $nextItem
       }
 
-      // 预加载下一张图
-      loadImage(findNextDomByDirection(nextDom, direction))
-    }
-
-    // 根据翻页方向获取下一个 dom
-    function findNextDomByDirection(currentDom, direction) {
-      let prop = direction === 'next' ? 'next' : 'previous'
-      let nextDom = currentDom[`${prop}ElementSibling`]
-
-      // 对应方向找不到下一个 dom，就说明滑动到尽头了，要跳到开头或结尾
-      if (nextDom === null) {
-        prop = direction === 'next' ? 'first' : 'last'
-        nextDom = $('.list').querySelector(`.list-item:${prop}-child`)
+      // 加载图片
+      loadImage() {
+        for (let $item of arguments) {
+          let $img = $item.querySelector('img')
+          $img.setAttribute('src', $img.getAttribute('data-src'))
+        }
       }
 
-      return nextDom
-    }
+      next() {
+        this.switchPage('next')
+      }
+      prev() {
+        this.switchPage('prev')
+      }
 
-    // 加载图片
-    function loadImage() {
-      for (let dom of arguments) {
-        let img = dom.querySelector('img')
-        img.setAttribute('src', img.getAttribute('data-src'))
+      // 注册自动播放
+      registerAutoPlay() {
+        clearInterval(this.autoPlayInterval)
+        this.autoPlayInterval = setInterval(() => this.next(), 5000)
+      }
+
+      // 注册鼠标移入暂停轮播
+      registerMouseHoverPausePlay() {
+        this.$carousel.addEventListener('pointerenter', () => clearInterval(this.autoPlayInterval))
+        this.$carousel.addEventListener('pointerleave', () => this.registerAutoPlay())
+      }
+
+      // 注册左右滑动手势
+      registerSlideGesture() {
+        this.$carousel.addEventListener('touchstart', e => this.startX = e.changedTouches[0].pageX);
+        this.$carousel.addEventListener('touchend', e => {
+          let endX = e.changedTouches[0].pageX;
+          let diffX = endX - this.startX;
+
+          if (diffX > 50) {
+            this.prev()
+          } else if (diffX < -50) {
+            this.next()
+          }
+        });
       }
     }
 
-    let interval = null
-    function registerAutoPlay() {
-      clearInterval(interval)
-      interval = setInterval(() => switchPage('next'), 5000)
-    }
-
-    (function() {
-
-      // 预加载前后两张图
-      const currentDom = $('.list-item.current');
-      loadImage(findNextDomByDirection(currentDom, 'prev'), findNextDomByDirection(currentDom, 'next'))
-
-      registerAutoPlay()
-    })()
+    const carousel = new Carousel($('.carousel'));
+    carousel.init()
 
   </script>
 </body>
