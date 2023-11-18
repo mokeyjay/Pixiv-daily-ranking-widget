@@ -1,4 +1,16 @@
 # History Update Log
+## 5.2
+### New Features
+- Support Docker (thanks to @hujingnb)
+- `header_script` configuration item, so you can customize statistics code or js script
+### Optimizations
+- Used the proxy service provided by pixiv.cat as a final guarantee plan
+- Riyugo image hosting changed to vip version, you need to buy a vip account before use it (free version is no longer available)
+- Improve image download integrity check mechanism
+- Removed built-in statistics code
+### Other
+- Removed invalid JD, imgurl, imgtg and saoren image hosting
+
 ## 5.1
 ### New Features
 - JD, Riyugo, FiftyEight image hosting

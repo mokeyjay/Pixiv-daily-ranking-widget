@@ -1,5 +1,5 @@
 # Docker
-> If you need to enable multiple containers, share the /var/www/html/storage directory between them by mounting it to avoid each container updating the ranking data separately and causing performance waste
+> If you need to enable multiple containers, share the `/var/www/html/storage` directory between them by mounting it to avoid each container updating the ranking data separately and causing performance waste
 
 ## Deployment
 ### Command

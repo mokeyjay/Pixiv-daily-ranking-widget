@@ -44,10 +44,9 @@ Both APIs automatically return the respective cross-domain header according to `
 > The `image` and `url` keys are for compatibility purposes for users of 4.x or earlier versions, they can be ignored
 
 ## 🆙 Upgrading Guide
-### Upgrading From 5.1 to 5.2
+### Upgrading From 5.2 to 5.3
 1. [Download the Source Code](https://github.com/mokeyjay/pixiv-daily-ranking-widget/releases/latest)
-2. Unzip and overwrite the `app` and `index.php` to on your server
-3This version adds a new config item `header_script`, so you can customize statistics code or js script
+2. Unzip and overwrite the `app` and `index.php` to your server
 
 ### Upgrading From 4.x to 5.x
 1. Check the code comment of `image_hosting` item in [config.php](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/config.php#L88), select the most suitable image hosting option and fill it in your `config.php`
@@ -55,15 +54,14 @@ Both APIs automatically return the respective cross-domain header according to `
 
 ## 🌟 Changelog
 ### New Features
-- Support Docker (thanks to @hujingnb)
-- `header_script` configuration item, so you can customize statistics code or js script
+- Added `ranking_type` configuration option, which now allows you to select whether to fetch the overall or illustration/manga daily rankings.  
+- Added image preloading to improve the experience in poor network environments.
 ### Optimizations
-- Used the proxy service provided by pixiv.cat as a final guarantee plan
-- Riyugo image hosting changed to vip version, you need to buy a vip account before use it (free version is no longer available)
-- Improve image download integrity check mechanism
-- Removed built-in statistics code
+- Completely rewritten the frontend with more elegant animation effects.  
+- Removed the dependency on Bootstrap for faster loading.  
+- Switched to using the official PHP and Nginx packages.
 ### Other
-- Removed invalid JD, imgurl, imgtg and saoren image hosting
+- Removed the `static_cdn` configuration option due to the removal of the dependency on Bootstrap.
 
 [History](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/log.en.md)
 

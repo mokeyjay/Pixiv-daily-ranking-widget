@@ -14,7 +14,7 @@ return [
      * P.S. If you want to trigger the refresh job via cli, and you are using a local image-hosting, this field is required
      *      Otherwise, the generated image full URL may have problems
      */
-    'url' => '',
+    'url' => 'http://pixiv.test/',
 
     /**
      * 背景颜色。默认值为 transparent （透明）。你也可以通过 url 参数 color 来设置
@@ -33,7 +33,7 @@ return [
      * It also prevents some low-performance hosts from using too many resources when caching images, which can lead to jamming or alarms
      * Usually the default 50 is fine
      */
-    'limit' => 50,
+    'limit' => 10,
 
     /**
      * 是否对外提供服务
@@ -48,7 +48,7 @@ return [
      * 日志级别。可多选：DEBUG、ERROR 或留空不记录任何日志
      * Logging level. Multiple options: DEBUG, ERROR or leave blank to not record any logs
      */
-    'log_level' => [],
+    'log_level' => ['DEBUG', 'ERROR'],
 
     /**
      * 代理服务器配置。例如 127.0.0.1:1080
@@ -85,7 +85,7 @@ return [
      *
      * It is recommended to fill in more than one image-hosting, if one of them fails to upload, it will continue to try other image-hosting in order
      */
-    'image_hosting' => ['tsesze', 'fifty-eight', 'chkaja', 'pngcm', 'catbox', 'local'],
+    'image_hosting' => ['local'],
 
     /**
      * 图床扩展配置信息
@@ -120,7 +120,7 @@ return [
      * Disable web-trigger update job, cli-trigger only
      * See doc/deploy.en.md
      */
-    'disable_web_job' => false,
+    'disable_web_job' => true,
 
     /**
      * 放置在页面 <header> 标签下的 js 脚本内容，通常用来放置统计代码
