@@ -35,7 +35,8 @@ By [environment](https://docs.docker.com/compose/compose-file/#environment) . al
 
 ## Jobs
 ### Trigger updates proactively
-> In general, ranking data is detected for updates every half hour without being actively triggered
+> In general, ranking data is detected for updates every half hour without being actively triggered  
+> When you deploy for the first time, you can trigger an update manually or wait for half an hour to update automatically
 
 ```shell
 docker exec pixiv php index.php -j=refresh
