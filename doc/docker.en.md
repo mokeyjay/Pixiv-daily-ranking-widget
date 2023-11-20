@@ -4,7 +4,7 @@
 ## Deployment
 ### Command
 ```shell
-docker run -d -p 80:80 --name=pixiv -e URL=http://localhost/ mokeyjay/pixiv-daily-ranking-widget
+docker run -d -p 80:80 --name=pixiv -e URL=http://localhost/ ghcr.io/mokeyjay/pixiv-daily-ranking-widget
 ```
 
 ### Docker compose
@@ -13,7 +13,7 @@ version: '3.1'
 
 services:
   pixiv:
-    image: mokeyjay/pixiv-daily-ranking-widget
+    image: ghcr.io/mokeyjay/pixiv-daily-ranking-widget
     container_name: pixiv
     restart: always
     environment:

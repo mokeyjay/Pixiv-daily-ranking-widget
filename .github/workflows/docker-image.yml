@@ -10,12 +10,20 @@ on:
     tags:
       - '*'
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   push_to_registry:
-    name: 推送到 Docker Hub
+    name: 构建并推送
     # 基于指定平台构建。有 win、ubuntu、mac 可选
     # 消耗的分钟倍数：linux 1x、win 2x、mac 10x
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       # https://github.com/actions/checkout
@@ -23,13 +31,12 @@ jobs:
         uses: actions/checkout@v4
 
       # https://github.com/docker/login-action
-      - name: 登录到 Docker hub
+      - name: 登录到 ghcr
         uses: docker/login-action@v3
         with:
-          # 登录用的账号密码。在项目的 Settings -> Secrets and variables -> Actions 中配置
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          # 在 DockerHub 的 Account Settings -> Security -> Access Token 中配置
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       # 从触发此次 action 的事件中提取源数据（tag、label 什么的）
       # https://github.com/docker/metadata-action
@@ -38,7 +45,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           # 提取出来的源数据用于这个镜像
-          images: mokeyjay/pixiv-daily-ranking-widget
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       # 使用 buildx 作为构建器，以支持多平台构建之类的能力
       # https://github.com/docker/setup-buildx-action
@@ -55,11 +62,5 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64
-
-      # https://github.com/peter-evans/dockerhub-description
-      - name: 更新镜像描述
-        uses: peter-evans/dockerhub-description@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          repository: mokeyjay/pixiv-daily-ranking-widget
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

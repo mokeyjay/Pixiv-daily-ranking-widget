@@ -74,7 +74,7 @@
     /* 左右翻页按钮 */
     .button {
       height: 100%;
-      width: 70px;
+      width: 50px;
       position: fixed;
       top: 0;
       z-index: 5;
@@ -108,6 +108,7 @@
       position: absolute;
       width: 16px;
       height: 16px;
+      box-sizing: border-box;
     }
     .button.prev i:before, .button.prev i:after {
       border-top: none;
@@ -148,18 +149,22 @@
       position: fixed;
       text-align: center;
       color: white;
-      width: 100%;
+      width: 80%;
       transition: opacity .3s ease-in-out;
+      transform: translateX(10%);
     }
-    body:hover .info { opacity: 1 }
-    .title {
-      font-size: 1.2rem;
+    .carousel:hover .info { opacity: 1 }
+    .title, .author {
       white-space: nowrap;
       text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .title {
+      font-size: 1rem;
     }
     .author {
       margin-top: 5px;
-      font-size: 1rem;
+      font-size: .75rem;
     }
 
   </style>
@@ -218,8 +223,8 @@
           this.findNextItemByDirection(this.$currentItem, 'next')
         )
 
-        this.registerAutoPlay()
-        this.registerMouseHoverPausePlay()
+        // this.registerAutoPlay()
+        // this.registerMouseHoverPausePlay()
         this.registerSlideGesture()
       }
 
