@@ -5,8 +5,9 @@ COPY docker/config.php /var/www/html/config.php
 COPY docker/nginx-site.conf /etc/nginx/conf.d/default.conf
 COPY docker/start.sh /root/start.sh
 
-RUN echo "30 * * * * cd /var/www/html/ && /usr/local/bin/php index.php -j=refresh" >> /var/spool/cron/crontabs/root && \
-    echo "30 1 * * * cd /var/www/html/ && /usr/local/bin/php index.php -j=clear-log" >> /var/spool/cron/crontabs/root
+COPY docker/crontab /etc/cron.d/pixiv-cron-job
+RUN chmod 0644 /etc/cron.d/pixiv-cron-job && \
+    crontab /etc/cron.d/pixiv-cron-job
 
 LABEL Author="mokeyjay<i@mokeyjay.com>"
 LABEL Version="2023.11.20"
