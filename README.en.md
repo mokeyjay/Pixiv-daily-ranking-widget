@@ -62,6 +62,7 @@ Both APIs automatically return the respective cross-domain header according to `
 - Switched to using the official PHP and Nginx packages.
 ### Other
 - Removed the `static_cdn` configuration option due to the removal of the dependency on Bootstrap.
+- Removed the invalid `Pngcm` and `Tsesze` image-hosting
 
 [History](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/log.en.md)
 
