@@ -63,6 +63,7 @@ Both APIs automatically return the respective cross-domain header according to `
 ### Other
 - Removed the `static_cdn` configuration option due to the removal of the dependency on Bootstrap.
 - Removed the invalid `Pngcm` and `Tsesze` image-hosting
+- Docker image migration to [ghcr.io](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/pkgs/container/pixiv-daily-ranking-widget)
 
 [History](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/log.en.md)
 

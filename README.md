@@ -60,6 +60,8 @@
 - 改为使用官方 php、nginx 包
 ### 其他
 - 由于不再依赖 bs，去除 `static_cdn` 配置项
+- 删除已经失效的 `Pngcm`、`Tsesze` 图床
+- Docker 镜像迁移至 [ghcr.io](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/pkgs/container/pixiv-daily-ranking-widget)
 
 [历史更新日志](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/log.md)
 

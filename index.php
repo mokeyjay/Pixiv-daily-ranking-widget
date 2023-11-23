@@ -1,7 +1,7 @@
 <?php
 /**
- * 项目：Pixiv每日排行榜小挂件
- * 版本：5.2
+ * 项目：Pixiv 每日排行榜小挂件
+ * 版本：5.3
  * 作者：mokeyjay
  * 博客：https://www.mokeyjay.com
  * 源码：https://github.com/mokeyjay/Pixiv-daily-ranking-widget
