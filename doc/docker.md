@@ -25,7 +25,7 @@ services:
 > `URL` 是指向这个容器的访问地址，支持路径，必须以 `/` 结尾
 
 ## 配置
-通过 [环境变量](https://docs.docker.com/compose/compose-file/#environment) 进行配置。所有配置项见 [config.docker.php](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/config.docker.php)
+通过 [环境变量](https://docs.docker.com/compose/compose-file/#environment) 进行配置。所有配置项见 [config.docker.php](../.docker/config.php)
 
 > 默认只启用了 `local` 图床（即图片存储在容器本地）。使用它时，必须配置 `URL` 项  
 > 

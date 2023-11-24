@@ -25,7 +25,7 @@ services:
 > `URL` is the access url to the container, supports path, and must end with `/`
 
 ## Configure
-By [environment](https://docs.docker.com/compose/compose-file/#environment) . all config items see [config.docker.php](../docker/config.php)
+By [environment](https://docs.docker.com/compose/compose-file/#environment) . all config items see [config.docker.php](../.docker/config.php)
 
 > Only the `local` image hosting is enabled by default (images are stored locally to the container). To use it, you must configure the `URL` item  
 > 
