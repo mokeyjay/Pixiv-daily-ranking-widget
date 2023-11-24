@@ -1,11 +1,11 @@
 FROM ghcr.io/mokeyjay/pixiv-widget-image:main
 
 COPY . /var/www/html
-COPY docker/config.php /var/www/html/config.php
-COPY docker/nginx-site.conf /etc/nginx/conf.d/default.conf
-COPY docker/start.sh /root/start.sh
+COPY .docker/config.php /var/www/html/config.php
+COPY .docker/nginx-site.conf /etc/nginx/conf.d/default.conf
+COPY .docker/start.sh /root/start.sh
 
-COPY docker/crontab /etc/cron.d/pixiv-cron-job
+COPY .docker/crontab /etc/cron.d/pixiv-cron-job
 RUN chmod 0644 /etc/cron.d/pixiv-cron-job && \
     crontab /etc/cron.d/pixiv-cron-job
 
