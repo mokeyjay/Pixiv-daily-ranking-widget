@@ -42,13 +42,12 @@
 > `image` 和 `url` 两个键是为了兼容 4.x 及之前版本的用户，无需理会
 
 ## 🆙 升级指南
-### 从 5.2 升级到 5.3
+### 从 5.2 升级到 6.0
 1. [下载源代码](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/releases/latest)
 2. 解压缩，将其中的 `app` 和 `index.php` 覆盖到线上环境
-
-### 从 4.x 升级到 5.x
-1. 查看 [config.php](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/config.php#L88) 中 `image_hosting` 配置项的注释说明，选择适合你的图床配置，填写到你线上环境的 `config.php` 中
-2. 删除 `storage/app` 下的所有文件，让程序重新获取排行榜数据
+> **⚠️ 对于 Docker 方式部署的用户**
+> - 请将环境变量名中所有 `-` 替换为 `_`
+> - 镜像从 docker hub 迁移至 [ghcr.io](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/pkgs/container/pixiv-daily-ranking-widget)
 
 ## 🌟 更新日志
 ### 新增
@@ -58,6 +57,9 @@
 - 完全重写了前端，更优雅的缓动效果
 - 不再依赖 bootstrap，加载更快啦
 - 改为使用官方 php、nginx 包
+### 修复
+- 部分环境变量在一些情况下无法被正常获取的问题
+- 定时任务实际上是一小时执行一次，而非文档说的半小时一次
 ### 其他
 - 由于不再依赖 bs，去除 `static_cdn` 配置项
 - 删除已经失效的 `Pngcm`、`Tsesze` 图床

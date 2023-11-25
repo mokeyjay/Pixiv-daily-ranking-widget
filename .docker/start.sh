@@ -2,9 +2,16 @@
 
 echo '' > /etc/nginx/sites-enabled/default
 
+cd /var/www/html
 # 将环境变量保存起来，免得 crontab 读不到
-# 部分环境变量值含有空格，得用双引号包起来，不然 source 时会报错
-printenv | awk -F= -v OFS== '{ if ($2 ~ /[[:space:]]/) $2="\""$2"\""; print }' > /var/www/html/.docker/env.sh
+env=("URL" "BACKGROUND_COLOR" "LIMIT" "SERVICE" "LOG_LEVEL" "PROXY" "CLEAR_OVERDUE" "COMPRESS" "IMAGE_HOSTING" "IMAGE_HOSTING_EXTEND_TIETUKU_TOKEN" "IMAGE_HOSTING_EXTEND_SMMS_TOKEN" "IMAGE_HOSTING_EXTEND_RIYUGO_URL" "IMAGE_HOSTING_EXTEND_RIYUGO_UPLOAD_PATH" "IMAGE_HOSTING_EXTEND_RIYUGO_UNIQUE_ID" "IMAGE_HOSTING_EXTEND_RIYUGO_TOKEN" "DISABLE_WEB_JOB" "HEADER_SCRIPT" "RANKING_TYPE")
+file=".env"
+> $file
+for var in "${env[@]}"
+do
+  # 部分环境变量值含有空格、换行，得用双引号包起来，不然 source 时会报错
+  echo "$var=\"${!var}\"" >> $file
+done
 
 chown -R www-data:www-data /var/www/html
 

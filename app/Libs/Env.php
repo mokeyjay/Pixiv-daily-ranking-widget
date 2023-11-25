@@ -9,6 +9,28 @@ namespace app\Libs;
  */
 class Env
 {
+    private static $env = [];
+
+    /**
+     * 从指定环境变量文件读取
+     * 避免被 crontab 触发时无法读到环境变量的问题
+     * @param $file
+     * @return void
+     * @throws \Exception
+     */
+    public static function init($file = '.env')
+    {
+        if (!is_readable(BASE_PATH . $file)) {
+            throw new \Exception('无法读取 .env 环境变量文件');
+        }
+
+        self::$env = parse_ini_file(BASE_PATH . $file);
+
+        if (self::$env === false) {
+            throw new \Exception('无法解析 .env 环境变量文件');
+        }
+    }
+
     /**
      * 从环境变量中读取字符串
      * @param string $name
@@ -17,7 +39,7 @@ class Env
      */
     public static function getStr($name, $default = '')
     {
-        $data = getenv($name);
+        $data = self::$env[$name] ?: false;
 
         return $data === false ? $default : $data;
     }
