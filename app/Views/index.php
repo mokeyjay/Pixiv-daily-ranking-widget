@@ -132,7 +132,7 @@
       width: 100%;
       position: fixed;
       bottom: 0;
-      background: linear-gradient(to top, rgba(0, 0, 0, .2), transparent);
+      background: linear-gradient(to top, rgba(0, 0, 0, .3), transparent);
       transform: translateY(150px);
       transition: transform .3s ease-in-out
     }
@@ -223,8 +223,8 @@
           this.findNextItemByDirection(this.$currentItem, 'next')
         )
 
-        // this.registerAutoPlay()
-        // this.registerMouseHoverPausePlay()
+        this.registerAutoPlay()
+        this.registerMouseHoverPausePlay()
         this.registerSlideGesture()
       }
 
@@ -276,7 +276,9 @@
       loadImage() {
         for (let $item of arguments) {
           let $img = $item.querySelector('img')
-          $img.setAttribute('src', $img.getAttribute('data-src'))
+          if ($img.getAttribute('src') === '') {
+            $img.setAttribute('src', $img.getAttribute('data-src'))
+          }
         }
       }
 
