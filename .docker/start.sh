@@ -10,7 +10,9 @@ file=".env"
 for var in "${env[@]}"
 do
   # 部分环境变量值含有空格、换行，得用双引号包起来，不然 source 时会报错
-  echo "$var=\"${!var}\"" >> $file
+  value="${!var}"
+  value="${value//\"/\\\"}"
+  echo "$var=\"$value\"" >> $file
 done
 
 chown -R www-data:www-data /var/www/html
