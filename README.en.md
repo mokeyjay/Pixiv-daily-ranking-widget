@@ -59,6 +59,7 @@ Both APIs automatically return the respective cross-domain header according to `
 - Completely rewritten the frontend with more elegant animation effects.  
 - Removed the dependency on Bootstrap for faster loading.  
 - Switched to using the official PHP and Nginx packages.
+- No longer repeatedly check integrity when retrieving images from local storage.
 ### Fixes
 - Some environment variables cannot be obtained normally in some cases
 - The scheduled task actually runs once every hour, not every half hour as stated in the documentation
