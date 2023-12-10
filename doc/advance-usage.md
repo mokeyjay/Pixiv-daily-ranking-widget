@@ -1,6 +1,6 @@
 # 高级用法
 ```html
-<iframe src="https://cloud.mokeyjay.com/pixiv" style="width:240px; height:380px; border: 0"></iframe>
+<iframe src="https://pixiv.mokeyjay.com" style="width:240px; height:380px; border: 0"></iframe>
 ```
 
 ## 自定义宽度或高度

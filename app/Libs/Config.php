@@ -21,9 +21,8 @@ class Config
     public static $image_hosting = ['local'];
     public static $image_hosting_extend = [];
     public static $disable_web_job = false;
-    public static $static_cdn = 'bytedance';
-    public static $static_cdn_url = [];
     public static $header_script = '';
+    public static $ranking_type = '';
 
     /**
      * 初始化配置
@@ -51,8 +50,6 @@ class Config
             }
         }
 
-        self::initStaticCdnUrl(self::$static_cdn);
-
         try {
             if (!is_writable(STORAGE_PATH)) {
                 throw new \Exception(STORAGE_PATH . ' 目录无法写入');
@@ -70,48 +67,15 @@ class Config
                 throw new \Exception('在 cli 模式下使用 local 本地图床时，必须配置 url 项，否则可能会生成错误的缩略图 url');
             }
 
+            if (!in_array(Config::$ranking_type, ['', 'illust', 'manga'])) {
+                throw new \Exception('ranking_type 配置项必须为空、illust 或 manga');
+            }
+
         } catch (\Exception $e) {
             Log::write($e->getMessage(), Log::LEVEL_ERROR);
             echo '错误：' . $e->getMessage();
 
             die;
         }
-    }
-
-    /**
-     * 初始化静态资源 CDN
-     * @param $provider
-     * @return void
-     */
-    private static function initStaticCdnUrl($provider)
-    {
-        $url = [
-            'bootcdn' => [
-                'bootstrap-css' => 'https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css',
-                'bootstrap-js' => 'https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.0/js/bootstrap.min.js',
-            ],
-            'baomitu' => [
-                'bootstrap-css' => 'https://lib.baomitu.com/twitter-bootstrap/5.2.0/css/bootstrap.min.css',
-                'bootstrap-js' => 'https://lib.baomitu.com/twitter-bootstrap/5.2.0/js/bootstrap.bundle.min.js',
-            ],
-            'bytedance' => [
-                'bootstrap-css' => 'https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/5.1.3/css/bootstrap.min.css',
-                'bootstrap-js' => 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/5.1.3/js/bootstrap.min.js',
-            ],
-            'cdnjs' => [
-                'bootstrap-css' => 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css',
-                'bootstrap-js' => 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/js/bootstrap.min.js',
-            ],
-            'jsdelivr' => [
-                'bootstrap-css' => 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css',
-                'bootstrap-js' => 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js',
-            ],
-        ];
-
-        if (!isset($url[$provider])) {
-            $provider = 'bytedance';
-        }
-
-        self::$static_cdn_url = $url[$provider];
     }
 }

@@ -1,10 +1,10 @@
 # Docker
-> If you need to use multiple containers, share the `/var/www/html/storage` directory between them by mounting directories to prevent each container refresh the ranking data
+> If you need to enable multiple containers, share the `/var/www/html/storage` directory between them by mounting it to avoid each container updating the ranking data separately and causing performance waste
 
 ## Deployment
 ### Command
 ```shell
-docker run -d -p 80:80 --name=pixiv -e URL=http://localhost/ mokeyjay/pixiv-daily-ranking-widget
+docker run -d -p 80:80 --name=pixiv -e URL=http://localhost/ ghcr.io/mokeyjay/pixiv-daily-ranking-widget
 ```
 
 ### Docker compose
@@ -13,7 +13,7 @@ version: '3.1'
 
 services:
   pixiv:
-    image: mokeyjay/pixiv-daily-ranking-widget
+    image: ghcr.io/mokeyjay/pixiv-daily-ranking-widget
     container_name: pixiv
     restart: always
     environment:
@@ -25,7 +25,7 @@ services:
 > `URL` is the access url to the container, supports path, and must end with `/`
 
 ## Configure
-By [environment](https://docs.docker.com/compose/compose-file/#environment) . all config items see [config.docker.php](../docker/config.php)
+By [environment](https://docs.docker.com/compose/compose-file/#environment) . all config items see [config.docker.php](../.docker/config.php)
 
 > Only the `local` image hosting is enabled by default (images are stored locally to the container). To use it, you must configure the `URL` item  
 > 
@@ -35,7 +35,8 @@ By [environment](https://docs.docker.com/compose/compose-file/#environment) . al
 
 ## Jobs
 ### Trigger updates proactively
-> In general, ranking data is detected for updates every half hour without being actively triggered
+> In general, ranking data is detected for updates every half hour without being actively triggered  
+> When you deploy for the first time, you can trigger an update manually or wait for half an hour to update automatically
 
 ```shell
 docker exec pixiv php index.php -j=refresh

@@ -9,6 +9,8 @@
 
 use app\Libs\Env;
 
+Env::init();
+
 return [
     'url' => Env::getStr('URL'),
 
@@ -30,22 +32,22 @@ return [
 
     'image_hosting_extend' => [
         'tietuku' => [
-            'token' => Env::getStr('IMAGE_HOSTING_EXTEND-TIETUKU-TOKEN'),
+            'token' => Env::getStr('IMAGE_HOSTING_EXTEND_TIETUKU_TOKEN'),
         ],
         'smms' => [
-            'token' => Env::getStr('IMAGE_HOSTING_EXTEND-SMMS-TOKEN'),
+            'token' => Env::getStr('IMAGE_HOSTING_EXTEND_SMMS_TOKEN'),
         ],
         'riyugo' => [
-            'url' => Env::getStr('IMAGE_HOSTING_EXTEND-RIYUGO-URL'),
-            'upload_path' => Env::getStr('IMAGE_HOSTING_EXTEND-RIYUGO-UPLOAD-PATH'),
-            'unique_id' => Env::getStr('IMAGE_HOSTING_EXTEND-RIYUGO-UNIQUE-ID'),
-            'token' => Env::getStr('IMAGE_HOSTING_EXTEND-RIYUGO-TOKEN'),
+            'url' => Env::getStr('IMAGE_HOSTING_EXTEND_RIYUGO_URL'),
+            'upload_path' => Env::getStr('IMAGE_HOSTING_EXTEND_RIYUGO_UPLOAD_PATH'),
+            'unique_id' => Env::getStr('IMAGE_HOSTING_EXTEND_RIYUGO_UNIQUE_ID'),
+            'token' => Env::getStr('IMAGE_HOSTING_EXTEND_RIYUGO_TOKEN'),
         ],
     ],
 
     'disable_web_job' => Env::getBool('DISABLE_WEB_JOB', true),
 
-    'static_cdn' => Env::getStr('STATIC_CDN', 'bytedance'),
-
     'header_script' => Env::getStr('HEADER_SCRIPT', ''),
+
+    'ranking_type' => Env::getStr('RANKING_TYPE', ''),
 ];

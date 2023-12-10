@@ -18,7 +18,17 @@ class Pixiv
     public static function getRanking($page = 1)
     {
         Log::write("正在读取排行榜第 {$page} 页");
-        $response = Curl::get("https://www.pixiv.net/ranking.php?mode=daily&p={$page}&format=json", [
+
+        $params = [
+            'mode' => 'daily',
+            'p' => $page,
+            'format' => 'json',
+        ];
+        if (Config::$ranking_type) {
+            $params['content'] = Config::$ranking_type;
+        }
+
+        $response = Curl::get('https://www.pixiv.net/ranking.php?' . http_build_query($params), [
             CURLOPT_HTTPHEADER => [
                 'Referer: https://www.pixiv.net/ranking.php?mode=daily',
             ],
@@ -92,9 +102,9 @@ class Pixiv
      */
     public static function downloadImage($url)
     {
-        $fileName = pathinfo($url, PATHINFO_BASENAME);
-        // 如果 storage 里存了有，就不再重新下载了
-        $image = Storage::getImage($fileName);
+        // 如果 local storage 已经存有这张图（每日榜上的图片是可能存在重复的），就不再重新下载了
+        $image = Storage::getImage(pathinfo($url, PATHINFO_BASENAME));
+        $shouldCheckComplete = !$image;
         if ($image === false) {
             $image = Curl::get($url, [
                 CURLOPT_HTTPHEADER => [
@@ -108,23 +118,25 @@ class Pixiv
         if ($image) {
             $file = explode('/', $url);
             $file = array_pop($file);
-            $file = sys_get_temp_dir() . '/' . $file;
+            $file = sys_get_temp_dir() . '/' . Str::random(16) . $file;
 
             $bytes = file_put_contents($file, $image);
             Log::write("写入文件 {$file} 大小：{$bytes} 字节");
 
             // 检查文件是否下载完整
-            $response = Curl::get($url, [
-                CURLOPT_NOBODY => true,
-                CURLOPT_HEADER => true,
-                CURLOPT_HTTPHEADER => [
-                    'Referer: https://www.pixiv.net/ranking.php?mode=daily',
-                ],
-            ]);
-            $contentLength = Response::getContentLength($response);
-            if ($bytes != $contentLength) {
-                Log::write("写入的文件大小与目标 content-length: {$contentLength} 不符");
-                return false;
+            if ($shouldCheckComplete) {
+                $response = Curl::get($url, [
+                    CURLOPT_NOBODY => true,
+                    CURLOPT_HEADER => true,
+                    CURLOPT_HTTPHEADER => [
+                        'Referer: https://www.pixiv.net/ranking.php?mode=daily',
+                    ],
+                ]);
+                $contentLength = Response::getContentLength($response);
+                if ($bytes != $contentLength) {
+                    Log::write("写入的文件大小与目标 content-length: {$contentLength} 不符");
+                    return false;
+                }
             }
 
             return $bytes > 0 ? $file : false;

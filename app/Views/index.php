@@ -1,134 +1,325 @@
-<?php
-  use app\Libs\Config;
-?>
 <!-- 来自 mokeyjay 的 Pixiv每日排行榜小挂件 -->
 <!-- 博客：https://www.mokeyjay.com -->
-<!-- 这个博客将会集技术、ACG、日常、分享于一身，如果你喜欢，常来玩哦 -->
-<!DOCTYPE html>
+<!-- 这个博客将会集技术、ACG、日常、分享于一身。如果你喜欢，常来玩哦 -->
+
+<!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta name="referrer" content="no-referrer">
-  <title>Pixiv 每日排行榜 Top<?=Config::$limit?> 小挂件</title>
+  <title>Pixiv 每日排行榜 Top<?= app\Libs\Config::$limit ?> 小挂件</title>
 
-  <link rel="stylesheet" href="<?=Config::$static_cdn_url['bootstrap-css']?>">
   <style>
-    body { background: <?=Config::$background_color?>; }
+    * { margin: 0; padding: 0; outline: none; }
 
-    html, body, #carouselExampleControls, .carousel-inner, .carousel-item, .carousel-item a, .carousel-item a div { height: 100%; }
-
-    /* 图片样式 */
-    .carousel-item a div {
-      background-position : center;
-      background-repeat : no-repeat;
-      background-size: contain;
+    .carousel {
+      overflow: hidden;
+    }
+    .list {
+      height: 100vh;
+      position: relative;
+    }
+    .list-item {
+      position: absolute;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      background-color: #fff;
+    }
+    img {
+      width: 100vw;
     }
 
-    /* 左右翻页箭头 */
-    .arrow {
+    .list-item.current {
+      z-index: 2;
+    }
+
+    /* 翻页动画 */
+    .current-to-prev {
+      z-index: 1;
+      animation: slide-current-to-prev .5s cubic-bezier(0.34, 0.69, 0.1, 1);
+    }
+    @keyframes slide-current-to-prev {
+      from { transform: translateX(0) }
+      to { transform: translateX(-100vw) }
+    }
+    .current-to-next {
+      z-index: 1;
+      animation: slide-current-to-next .5s cubic-bezier(0.34, 0.69, 0.1, 1);
+    }
+    @keyframes slide-current-to-next {
+      from { transform: translateX(0) }
+      to { transform: translateX(100vw) }
+    }
+    .next-to-current {
+      z-index: 1;
+      animation: slide-next-to-current .5s cubic-bezier(0.34, 0.69, 0.1, 1);
+    }
+    @keyframes slide-next-to-current {
+      from { transform: translateX(100vw) }
+      to { transform: translateX(0) }
+    }
+    .prev-to-current {
+      z-index: 1;
+      animation: slide-prev-to-current .5s cubic-bezier(0.34, 0.69, 0.1, 1);
+    }
+    @keyframes slide-prev-to-current {
+      from { transform: translateX(-100vw) }
+      to { transform: translateX(0) }
+    }
+
+    /* 左右翻页按钮 */
+    .button {
+      height: 100%;
+      width: 50px;
+      position: fixed;
+      top: 0;
+      z-index: 5;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform .3s ease-in-out, opacity .5s ease-in-out;
+      opacity: 0;
+    }
+    .button.prev {
+      left: 0;
+      transform: translateX(-70px);
+    }
+    .button.next {
+      right: 0;
+      transform: translateX(70px);
+    }
+    .button .arrow {
       transform: rotate(45deg);
+      margin-top: -16px;
+    }
+    .button i {
+      position: relative;
+    }
+    .button.prev i:before, .button.prev i:after, .button.next i:before, .button.next i:after {
+      display: block;
+      content: "";
       border: 4px solid white;
       border-radius: 2px;
+      position: absolute;
       width: 16px;
       height: 16px;
-      position: fixed;
-      transition: opacity .3s ease-in-out, left .5s, right .5s;
-      top: 50%;
-      margin-top: -9px;
-      opacity: 0;
+      box-sizing: border-box;
     }
-    .arrow.shadow {
-      border-color: #777;
-      filter: blur(2px);
-      box-shadow: none !important;
-    }
-    .arrow.left {
+    .button.prev i:before, .button.prev i:after {
       border-top: none;
       border-right: none;
-      left: -12%;
     }
-    .arrow.right {
+    .button.next i:before, .button.next i:after {
       border-bottom: none;
       border-left: none;
-      transform: rotate(45deg);
-      right: -12%;
     }
-    .carousel:hover .arrow { opacity: 1; }
-    .carousel:hover .arrow.left { left: 6%; }
-    .carousel:hover .arrow.right { right: 6%; }
-
-    /* 隐藏 bs 自带的箭头 */
-    span[class^="carousel-control-"] { background: none; }
-    button[class^="carousel-control-"] { opacity: 1; }
-
-      /* 底部信息栏 */
-    .carousel-caption {
-      opacity: 0;
-      transition-duration: .5s;
-      text-shadow: black 0.1em 0.1em 0.2em;
-      pointer-events:none;
-      bottom: 0;
-      z-index: 10;
+    .button i:before {
+      filter: blur(4px);
+      border-color: #777777 !important;
     }
-    .carousel-caption h5 {
-      font-size: 1rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .carousel:hover .button {
+      transform: translateX(0);
+      opacity: 1;
     }
-    .carousel-caption p { font-size: .75rem; }
-    .carousel:hover .carousel-caption { opacity: 1; }
 
-    /* 底部信息栏 - 阴影层 */
-    #mask {
-      width: 100%;
+    .mask {
       height: 150px;
-      bottom: -150px;
+      width: 100%;
       position: fixed;
-      pointer-events:none;
-      transition-duration: .5s;
-      background-image: linear-gradient(transparent, rgba(0,0,0,0.4));
+      bottom: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, .3), transparent);
+      transform: translateY(150px);
+      transition: transform .3s ease-in-out
     }
-    .carousel:hover #mask { bottom: 0; }
+    .carousel:hover .mask {
+      transform: translateY(0);
+    }
+
+    /* 作品 & 作者信息 */
+    .info {
+      opacity: 0;
+      text-shadow: black 0.1em 0.1em 0.2em;
+      pointer-events: none;
+      bottom: 60px;
+      position: fixed;
+      text-align: center;
+      color: white;
+      width: 80%;
+      transition: opacity .3s ease-in-out;
+      transform: translateX(10%);
+    }
+    .carousel:hover .info { opacity: 1 }
+    .title, .author {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .title {
+      font-size: 1rem;
+    }
+    .author {
+      margin-top: 5px;
+      font-size: .75rem;
+    }
+
   </style>
   <script>
-    <?= Config::$header_script ?>
+      <?= app\Libs\Config::$header_script ?>
   </script>
 </head>
 <body>
-<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-inner">
+  <div class="carousel">
+    <div class="list">
       <?php foreach ($pixivJson['data'] as $k => $data): ?>
-        <?php if ($k >= Config::$limit) break; ?>
-        <div class="carousel-item <?php if ($k == 0) echo 'active'; ?>">
-          <a href="https://www.pixiv.net/artworks/<?= $data['id'] ?>" target="_blank" style="display: block">
-            <div style="background-image: url(<?= $data['url'] ?>)"></div>
+        <div class="list-item <?= $k === 0 ? 'current' : '' ?>">
+          <a href="https://www.pixiv.net/artworks/<?= $data['id'] ?>" target="_blank">
+            <img src="<?= $k === 0 ? $data['url'] : '' ?>" data-src="<?= $data['url'] ?>" alt="<?= htmlentities($data['title']) ?>">
+            <div class="mask"></div>
+            <div class="info">
+              <div class="title"><?= htmlentities($data['title']) ?></div>
+              <div class="author"><?= htmlentities($data['user_name']) ?></div>
+            </div>
           </a>
-          <div class="carousel-caption d-md-block">
-            <h5><?= $data['title'] ?></h5>
-            <p><?= $data['user_name'] ?></p>
-          </div>
         </div>
       <?php endforeach; ?>
+    </div>
+    <div class="control">
+      <div class="button prev" onclick="carousel.prev()">
+        <div class="arrow"><i></i></div>
+      </div>
+      <div class="button next" onclick="carousel.next()">
+        <div class="arrow"><i></i></div>
+      </div>
+    </div>
   </div>
 
-  <div id="mask"></div>
+  <script>
+    const $ = document.querySelector.bind(document);
+    const $$ = document.querySelectorAll.bind(document);
 
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true">
-      <div class="arrow left shadow"></div>
-      <div class="arrow left"></div>
-    </span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true">
-      <div class="arrow right shadow"></div>
-      <div class="arrow right"></div>
-    </span>
-  </button>
-</div>
-<script src="<?=Config::$static_cdn_url['bootstrap-js']?>"></script>
+    class Carousel {
+      // 自动播放句柄
+      autoPlayInterval = 0;
+      // 滑动手势开始位置
+      startX = 0;
+
+      constructor($dom) {
+        // 轮播组件
+        this.$carousel = $dom
+        // 轮播列表
+        this.$carouselList = this.$carousel.querySelector('.list')
+        // 当前展示项
+        this.$currentItem = this.$carouselList.querySelector('.list-item.current')
+      }
+
+      init() {
+        this.loadImage(
+          this.findNextItemByDirection(this.$currentItem, 'prev'),
+          this.findNextItemByDirection(this.$currentItem, 'next')
+        )
+
+        this.registerAutoPlay()
+        this.registerMouseHoverPausePlay()
+        this.registerSlideGesture()
+      }
+
+      // 根据翻页方向获取下一个项目
+      findNextItemByDirection($item, direction) {
+        let prop = direction === 'next' ? 'next' : 'previous'
+        let nextItem = $item[`${prop}ElementSibling`]
+
+        // 对应方向找不到下一个 item，就说明滑动到尽头了，要跳到开头或结尾
+        if (nextItem === null) {
+          prop = direction === 'next' ? 'first' : 'last'
+          nextItem = this.$carouselList.querySelector(`.list-item:${prop}-child`)
+        }
+
+        return nextItem
+      }
+
+      // 翻页
+      switchPage(direction) {
+        const $nextItem = this.findNextItemByDirection(this.$currentItem, direction);
+
+        [this.$currentItem, $nextItem].map($item => {
+          $item.addEventListener('animationend', function end() {
+            if ($item.classList.contains('next-to-current') || $item.classList.contains('prev-to-current')) {
+              $item.className = 'list-item current'
+            } else {
+              $item.className = 'list-item'
+            }
+
+            $item.removeEventListener('animationend', end)
+          })
+        })
+
+        if (direction === 'next') {
+          this.$currentItem.className = 'list-item current-to-prev'
+          $nextItem.className = 'list-item next-to-current'
+        } else {
+          this.$currentItem.className = 'list-item current-to-next'
+          $nextItem.className = 'list-item prev-to-current'
+        }
+
+        // 预加载下一张图
+        this.loadImage(this.findNextItemByDirection($nextItem, direction))
+
+        this.$currentItem = $nextItem
+      }
+
+      // 加载图片
+      loadImage() {
+        for (let $item of arguments) {
+          let $img = $item.querySelector('img')
+          if ($img.getAttribute('src') === '') {
+            $img.setAttribute('src', $img.getAttribute('data-src'))
+          }
+        }
+      }
+
+      next() {
+        this.switchPage('next')
+      }
+      prev() {
+        this.switchPage('prev')
+      }
+
+      // 注册自动播放
+      registerAutoPlay() {
+        clearInterval(this.autoPlayInterval)
+        this.autoPlayInterval = setInterval(() => this.next(), 5000)
+      }
+
+      // 注册鼠标移入暂停轮播
+      registerMouseHoverPausePlay() {
+        this.$carousel.addEventListener('pointerenter', () => clearInterval(this.autoPlayInterval))
+        this.$carousel.addEventListener('pointerleave', () => this.registerAutoPlay())
+      }
+
+      // 注册左右滑动手势
+      registerSlideGesture() {
+        this.$carousel.addEventListener('touchstart', e => this.startX = e.changedTouches[0].pageX);
+        this.$carousel.addEventListener('touchend', e => {
+          let endX = e.changedTouches[0].pageX;
+          let diffX = endX - this.startX;
+
+          if (diffX > 50) {
+            this.prev()
+          } else if (diffX < -50) {
+            this.next()
+          }
+        });
+      }
+    }
+
+    const carousel = new Carousel($('.carousel'));
+    carousel.init()
+
+  </script>
 </body>
 </html>

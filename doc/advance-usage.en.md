@@ -1,6 +1,6 @@
 # Advanced usage
 ```html
-<iframe src="https://cloud.mokeyjay.com/pixiv" style="width:240px;  height:380px;  border: 0"></iframe>
+<iframe src="https://pixiv.mokeyjay.com" style="width:240px;  height:380px;  border: 0"></iframe>
 ```
 
 ## Custom width or height

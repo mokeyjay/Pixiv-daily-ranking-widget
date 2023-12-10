@@ -1,14 +1,8 @@
-# action 的名称
-name: 推送 Docker 镜像
-# 触发 action 的事件
+name: 推送开发用的 docker 镜像
 on:
   push:
-    # master 分支有推送时触发
     branches:
-      - 'master'
-    # tag 新建时触发
-    tags:
-      - '*'
+      - 'develop'
 
 env:
   REGISTRY: ghcr.io
@@ -17,8 +11,6 @@ env:
 jobs:
   push_to_registry:
     name: 构建并推送
-    # 基于指定平台构建。有 win、ubuntu、mac 可选
-    # 消耗的分钟倍数：linux 1x、win 2x、mac 10x
     runs-on: ubuntu-latest
 
     permissions:
@@ -29,6 +21,8 @@ jobs:
       # https://github.com/actions/checkout
       - name: 拉取代码
         uses: actions/checkout@v4
+        with:
+          ref: develop
 
       # https://github.com/docker/login-action
       - name: 登录到 ghcr
@@ -38,16 +32,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # 从触发此次 action 的事件中提取源数据（tag、label 什么的）
       # https://github.com/docker/metadata-action
       - name: 提取事件元数据
         id: meta
         uses: docker/metadata-action@v5
         with:
-          # 提取出来的源数据用于这个镜像
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      # 使用 buildx 作为构建器，以支持多平台构建之类的能力
       # https://github.com/docker/setup-buildx-action
       - name: 使用 buildx 作为构建器
         uses: docker/setup-buildx-action@v3
@@ -60,7 +51,6 @@ jobs:
           file: .docker/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max

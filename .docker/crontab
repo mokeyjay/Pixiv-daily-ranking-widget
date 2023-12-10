@@ -1,0 +1,2 @@
+*/30 * * * * cd /var/www/html/ && /usr/local/bin/php index.php -j=refresh
+30 1 * * * cd /var/www/html/ && /usr/local/bin/php index.php -j=clear-log

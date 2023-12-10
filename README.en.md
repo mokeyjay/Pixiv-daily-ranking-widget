@@ -3,7 +3,7 @@
     <a href="https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/README.md">中文</a>
     <br><br>
     Want to add a <span style="font-weight: bold">Pixiv Daily Ranking Widget</span> to your website? It's a matter of one line of code!
-    <a href="https://cloud.mokeyjay.com/pixiv/demo.html" target="_blank">DEMO</a>
+    <a href="https://pixiv.mokeyjay.com/demo.html" target="_blank">DEMO</a>
 </p>
 
 ## ✨ Features
@@ -17,7 +17,7 @@
 ## 🤔 How to use
 Just add the below code to your page
 ```html
-<iframe src="https://cloud.mokeyjay.com/pixiv" style="width:240px; height:380px; border: 0"></iframe>
+<iframe src="https://pixiv.mokeyjay.com" style="width:240px; height:380px; border: 0"></iframe>
 ```
 
 Taking `WordPress` as an example. On `wp-admin`, click on **Appearance** -> **Widgets**  
@@ -29,13 +29,13 @@ Then add a **Text** or **Custom HTML** widget as deemed appropriate on the right
 Wanted to customize the code yourself? Thought the service I provided is slow in speed?  
 
 You can also easily deploy your own widget!
-> Requires PHP version >= 5.6
+> Requires Docker or PHP version >= 5.6
 
 [Deployment Documentation](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/deploy.en.md)
 
 ## 🔌 APIs
-[Ranking data (images hosted privately)](https://cloud.mokeyjay.com/pixiv/?r=api/pixiv-json) (recommended)  
-[Ranking data (pixiv url)](https://cloud.mokeyjay.com/pixiv/?r=api/source-json)
+[Ranking data (images hosted privately)](https://pixiv.mokeyjay.com/?r=api/pixiv-json) (recommended)  
+[Ranking data (pixiv url)](https://pixiv.mokeyjay.com/?r=api/source-json)
 
 In which `data` is the data of the ranking table; `date` is the date of ranking (could be yesterday or the day before, as the time of refresh on Pixiv is not certain)  
 
@@ -44,33 +44,32 @@ Both APIs automatically return the respective cross-domain header according to `
 > The `image` and `url` keys are for compatibility purposes for users of 4.x or earlier versions, they can be ignored
 
 ## 🆙 Upgrading Guide
-### Upgrading From 5.1 to 5.2
+### Upgrading From 5.2 to 6.0
 1. [Download the Source Code](https://github.com/mokeyjay/pixiv-daily-ranking-widget/releases/latest)
-2. Unzip and overwrite the `app` and `index.php` to on your server
-3This version adds a new config item `header_script`, so you can customize statistics code or js script
-
-### Upgrading From 4.x to 5.x
-1. Check the code comment of `image_hosting` item in [config.php](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/config.php#L88), select the most suitable image hosting option and fill it in your `config.php`
-2. Delete all files in `storage/app` to enable the application refreshing the ranking data
+2. Unzip and overwrite the `app` and `index.php` to your server
+> **⚠️ For Docker User**
+> - Please replace all `-` in the environment variable name with `_`
+> - Docker Image migration from Docker Hub to [ghcr.io](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/pkgs/container/pixiv-daily-ranking-widget)
 
 ## 🌟 Changelog
 ### New Features
-- Support Docker (thanks to @hujingnb)
-- `header_script` configuration item, so you can customize statistics code or js script
+- Added `ranking_type` configuration option, which now allows you to select whether to fetch the overall or illustration/manga daily rankings.  
+- Added image preloading to improve the experience in poor network environments.
 ### Optimizations
-- Used the proxy service provided by pixiv.cat as a final guarantee plan
-- Riyugo image hosting changed to vip version, you need to buy a vip account before use it (free version is no longer available)
-- Improve image download integrity check mechanism
-- Removed built-in statistics code
+- Completely rewritten the frontend with more elegant animation effects.  
+- Removed the dependency on Bootstrap for faster loading.  
+- Switched to using the official PHP and Nginx packages.
+- No longer repeatedly check integrity when retrieving images from local storage.
+### Fixes
+- Some environment variables cannot be obtained normally in some cases
+- The scheduled task actually runs once every hour, not every half hour as stated in the documentation
 ### Other
-- Removed invalid JD, imgurl, imgtg and saoren image hosting
+- Removed the `static_cdn` configuration option due to the removal of the dependency on Bootstrap.
+- Removed the invalid `Pngcm` and `Tsesze` image-hosting
+- Docker image migration to [ghcr.io](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/pkgs/container/pixiv-daily-ranking-widget)
+- Docker image timezone defaults to Shanghai
 
 [History](https://github.com/mokeyjay/Pixiv-daily-ranking-widget/blob/master/doc/log.en.md)
-
-## 💖 Special Sponsor
-Many thanks to Jetbrains for providing me with an open source license for the IDE to complete development on this and other open source projects.
-
-[![](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://www.jetbrains.com/?from=https://github.com/mokeyjay)
 
 ## 👨‍💻 About author
 [mokeyjay](https://www.mokeyjay.com), IT and ACG lover

@@ -22,6 +22,8 @@ class IndexController extends Controller
         if ($pixivJson === false) {
             include APP_PATH . 'Views/loading.php';
         } else {
+            $pixivJson['data'] = array_slice($pixivJson['data'], 0, Config::$limit);
+
             require APP_PATH . 'Views/index.php';
         }
     }

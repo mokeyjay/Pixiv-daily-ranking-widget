@@ -85,7 +85,7 @@ return [
      *
      * It is recommended to fill in more than one image-hosting, if one of them fails to upload, it will continue to try other image-hosting in order
      */
-    'image_hosting' => ['tsesze', 'fifty-eight', 'chkaja', 'pngcm', 'catbox', 'local'],
+    'image_hosting' => ['fifty-eight', 'chkaja', 'catbox', 'local'],
 
     /**
      * 图床扩展配置信息
@@ -123,15 +123,6 @@ return [
     'disable_web_job' => false,
 
     /**
-     * 前端静态资源 CDN 供应商
-     * 可选：bytedance, baomitu, bootcdn, cdnjs, jsdelivr
-     *
-     * Front-end static resource CDN provider
-     * Options: jsdelivr, cdnjs, bytedance, baomitu, bootcdn
-     */
-    'static_cdn' => 'bytedance',
-
-    /**
      * 放置在页面 <header> 标签下的 js 脚本内容，通常用来放置统计代码
      * 无需 <script> 标签
      *
@@ -139,4 +130,14 @@ return [
      * Doesn't need <script> tag
      */
     'header_script' => '',
+
+    /**
+     * 排行榜类型。支持 综合、插画、漫画 三种类型
+     * 留空为综合； illust 为插画； manga 为漫画
+     *
+     * The type of ranking.
+     * Support three types: synthesis, illustration and manga.
+     * Leave '' for synthesis, 'illust' for illustration, 'manga' for manga
+     */
+    'ranking_type' => '',
 ];
