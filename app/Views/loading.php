@@ -12,7 +12,7 @@ use app\Libs\Config;
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pixiv 每日排行榜 Top<?=Config::$limit?> 小挂件</title>
   <style>
-    html, body { height : 100%; background-color : #<?=Config::$background_color?>; }
+    html, body { height : 100%; background-color : <?=Config::$background_color?>; }
     body { display: flex; align-items: center; justify-content: center; margin: 0; }
     div { text-align : center; }
 

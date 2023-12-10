@@ -12,6 +12,7 @@
   <title>Pixiv 每日排行榜 Top<?= app\Libs\Config::$limit ?> 小挂件</title>
 
   <style>
+    body { background-color : <?= app\Libs\Config::$background_color ?>; }
     * { margin: 0; padding: 0; outline: none; }
 
     .carousel {
@@ -27,7 +28,7 @@
       display: flex;
       align-items: center;
       height: 100%;
-      background-color: #fff;
+      visibility: hidden;
     }
     img {
       width: 100vw;
@@ -35,11 +36,15 @@
 
     .list-item.current {
       z-index: 2;
+      visibility: visible;
     }
 
     /* 翻页动画 */
-    .current-to-prev {
+    .current-to-prev, .current-to-next, .next-to-current, .prev-to-current {
       z-index: 1;
+      visibility: visible;
+    }
+    .current-to-prev {
       animation: slide-current-to-prev .5s cubic-bezier(0.34, 0.69, 0.1, 1);
     }
     @keyframes slide-current-to-prev {
@@ -47,7 +52,6 @@
       to { transform: translateX(-100vw) }
     }
     .current-to-next {
-      z-index: 1;
       animation: slide-current-to-next .5s cubic-bezier(0.34, 0.69, 0.1, 1);
     }
     @keyframes slide-current-to-next {
@@ -55,7 +59,6 @@
       to { transform: translateX(100vw) }
     }
     .next-to-current {
-      z-index: 1;
       animation: slide-next-to-current .5s cubic-bezier(0.34, 0.69, 0.1, 1);
     }
     @keyframes slide-next-to-current {
@@ -63,7 +66,6 @@
       to { transform: translateX(0) }
     }
     .prev-to-current {
-      z-index: 1;
       animation: slide-prev-to-current .5s cubic-bezier(0.34, 0.69, 0.1, 1);
     }
     @keyframes slide-prev-to-current {
