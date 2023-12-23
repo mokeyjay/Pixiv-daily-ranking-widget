@@ -1,6 +1,6 @@
 FROM ghcr.io/mokeyjay/pixiv-widget-image:main
 
-COPY . /var/www/html
+COPY --chown=www-data:www-data . /var/www/html
 COPY .docker/config.php /var/www/html/config.php
 COPY .docker/nginx-site.conf /etc/nginx/conf.d/default.conf
 COPY .docker/start.sh /root/start.sh

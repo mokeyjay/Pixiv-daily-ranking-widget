@@ -15,7 +15,7 @@ do
   echo "$var=\"$value\"" >> $file
 done
 
-chown -R www-data:www-data /var/www/html
+php index.php -j=refresh
 
 php-fpm -D
 nginx -g 'daemon off;'
