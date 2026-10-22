@@ -14,8 +14,14 @@ do
   value="${value//\"/\\\"}"
   echo "$var=\"$value\"" >> $file
 done
-
-chown -R www-data:www-data /var/www/html
+chown www-data:www-data $file
 
 php-fpm -D
+
+rm -f /run/nginx.pid
+(
+  until [ -s /run/nginx.pid ]; do sleep 1; done
+  runuser -u www-data -- php index.php -j=refresh
+) &
+
 nginx -g 'daemon off;'
